@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use common\modules\resources\ResourceAsset;
 
 $this->title = $model->title;
-\dsx90\launcher\AssetsBundle::register($this);
+\dsx90\launcher\assets\AssetsBundle::register($this);
 ?>
 
 <div class="lb-document-module-post">

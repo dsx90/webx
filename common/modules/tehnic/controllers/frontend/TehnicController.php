@@ -2,7 +2,7 @@
 
 namespace common\modules\tehnic\controllers\frontend;
 
-use common\models\Launch;
+use dsx90\launcher\models\Launch;
 use common\models\UserProfile;
 use common\modules\tehnic\models\Tehnic;
 use common\modules\tehnic\models\TehnicCat;
@@ -74,8 +74,7 @@ class TehnicController extends Controller
     {
         $launch = Launch::find()->andWhere(['slug' => $slug])->one();
         $model  = Tehnic::find()->where(['launch_id' => $launch->id])->one();
-        $options = $model->options;
-
+        
         $query = Launch::find()->joinWith('parent_id')->andWhere(['not', ['launch.slug' => $slug]]);
 
         $dataProvider = new ActiveDataProvider([
@@ -98,7 +97,6 @@ class TehnicController extends Controller
         }
         return $this->render('update', [
             'model' => $model,
-            'options' => !$options ? [new TehnicOptionValue] : $options,
             'launch' => $launch,
             'autor' => UserProfile::find()->all(),
             'dataProvider' => $dataProvider,
@@ -177,13 +175,13 @@ class TehnicController extends Controller
     {
         $items = [];
         if ($models === null) {
-            $models = Launch::find()->where(['parent_id' => null])->with('launches')->orderBy(['id' => SORT_ASC])->all();
+            $models = Launch::find()->where(['parent_id' => null])->with('children')->orderBy(['id' => SORT_ASC])->all();
         }
         foreach ($models as $model) {
             $items[] = [
                 'url' => ['tehnic/category', 'slug' => $model->slug],
                 'label' => $model->title,
-                'items' => self::getMenuItems($model->launches),
+                'items' => self::getMenuItems($model->children),
             ];
         }
 

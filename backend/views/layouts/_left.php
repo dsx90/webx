@@ -150,8 +150,8 @@ use common\modules\resources\models\Resources;
                             'visible' => Yii::$app->user->can('administrator'),
                         ],
                         [
-                            'label' => Yii::t('backend', 'Chain'),
-                            'url' => ['/chain'],
+                            'label' => Yii::t('backend', 'Module'),
+                            'url' => ['/module'],
                             'icon' => '<i class="fa fa-angle-double-right"></i>',
                             'visible' => Yii::$app->user->can('administrator'),
                         ],

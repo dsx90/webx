@@ -21,6 +21,13 @@ $config = [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+//        'launch' => [
+//            'class' => 'dsx90\launcher\models\Launch',
+//            'asdf' => [
+//                'id' => 1
+//            ],
+//
+//        ],
         'assetManager' => [
             'class' => 'yii\web\AssetManager',
             'linkAssets' => env('LINK_ASSETS'),

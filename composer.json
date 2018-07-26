@@ -11,7 +11,7 @@
     ],
     "type": "project",
     "license": "BSD-3-Clause",
-    "minimum-stability": "alpha",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.4.0",
         "ext-intl": "*",
@@ -52,12 +52,24 @@
         "kartik-v/yii2-widget-select2": "@dev",
         "dsx90/yii2-metrika": "dev-master",
         "dsx90/yii2-launch": "dev-master",
-        "trntv/yii2-aceeditor": "*"
+        "dsx90/yii2-parser": "dev-master",
+        "trntv/yii2-aceeditor": "^2.0.0",
+        "guzzlehttp/guzzle": "~6.0",
+        "electrolinux/phpquery": "^0.9.6",
+        "keltstr/yii2-simplehtmldom": "dev-master"
     },
     "repositories": [
         {
             "type": "path",
             "url": "../dsx90/yii2-launch"
+        },
+        {
+            "type": "path",
+            "url": "../dsx90/yii2-metrika"
+        },
+        {
+            "type": "path",
+            "url": "../dsx90/yii2-parser"
         }
     ],
     "require-dev": {

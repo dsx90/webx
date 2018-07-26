@@ -39,14 +39,14 @@ $config = [
     ],
     'components' => [
         'view' => [
-            'as YandexMetrika' => [
-                'class' => \hiqdev\yii2\YandexMetrika\Behavior::class,
-                'builder' => [
-                    'class' => \hiqdev\yii2\YandexMetrika\CodeBuilder::class,
-                    'id' => $params['yandexMetrika.id'],
-                    'params' => $params['yandexMetrika.params'],
-                ],
-            ],
+//            'as YandexMetrika' => [
+//                'class' => \hiqdev\yii2\YandexMetrika\Behavior::class,
+//                'builder' => [
+//                    'class' => \hiqdev\yii2\YandexMetrika\CodeBuilder::class,
+//                    'id' => $params['yandexMetrika.id'],
+//                    'params' => $params['yandexMetrika.params'],
+//                ],
+//            ],
         ],
         'fileStorage' => [
             'class' => 'fbalabanov\filekit\Storage',

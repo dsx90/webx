@@ -25,19 +25,16 @@ use lo\modules\noty\Wrapper;
         <?php } ?>
 
         <?= Breadcrumbs::widget(['links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : []]) ?>
+
+        <?= (isset($this->blocks['control-panel'])) ? $this->blocks['control-panel'] : '' ?>
+
     </section>
 
     <section class="content">
-        <?= Wrapper::widget() ?>
+        <div class="container-fluid"><?= Wrapper::widget() ?></div>
         <div class="box">
            <div class="box-body">
                <div class="row">
-
-                   <?php if (isset($this->blocks['control-panel'])): ?>
-                       <div class="col-xs-12 control">
-                           <?= $this->blocks['control-panel'] ?>
-                       </div>
-                   <?php endif; ?>
 
                    <?php if (isset($this->blocks['image-panel'])): ?>
                    <div class="col-md-4">

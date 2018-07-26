@@ -3,7 +3,7 @@
 namespace common\modules\construction\models;
 
 use common\fields\Attachment;
-use common\models\Launch;
+use dsx90\launcher\models\Launch;
 use fbalabanov\filekit\behaviors\UploadBehavior;
 use Yii;
 

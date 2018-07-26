@@ -2,10 +2,8 @@
 
 namespace common\widget\coreCase;
 
-use common\models\Launch;
-use yii\base\Exception;
+use dsx90\launcher\models\Launch;
 use yii\base\Widget;
-use common\widget\coreCase\getCase;
 
 class Menu extends Widget
 {
@@ -25,7 +23,7 @@ class Menu extends Widget
     public $select = ['id', 'parent_id', 'title', 'slug'];
     //
     public $query;
-    public $//troller;
+    public $controller;
     public $id;//'id' => $launch->id
 
     public $link;

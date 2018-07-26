@@ -107,6 +107,9 @@ class Tehnic extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getOptionForm(){
+        return !$this->options ? [new TehnicOptionValue] : $this->options;
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

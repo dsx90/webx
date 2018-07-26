@@ -26,15 +26,15 @@ $this->params['category'] = $model->category;
     <div class="col-md-3">
         <ul class="catalog category-products">
             <?php
-            echo \common\widget\coreCase\Menu::widget([
-                //'parents' => $launch->parent_id,
-                'limit' => 10,
-                'select' => ['id', 'parent_id', 'title', 'slug', 'status'],
-                //'resources' => 16,
-                'tpl' => 'menu',
-                'controller' => 'frontend/tehnic/view',
-                //'last' => false,
-            ])
+//            echo \common\widget\coreCase\Menu::widget([
+//                //'parents' => $launch->parent_id,
+//                'limit' => 10,
+//                'select' => ['id', 'parent_id', 'title', 'slug', 'status'],
+//                //'resources' => 16,
+//                'tpl' => 'menu',
+//                'controller' => 'frontend/tehnic/view',
+//                //'last' => false,
+//            ])
             ?>
         </ul>
     </div>
@@ -99,16 +99,16 @@ $this->params['category'] = $model->category;
 <?= $orderUrl =  Url::current([], true);?>
 <pre>
             <?
-                echo \common\widget\coreCase\Menu::widget([
-                    //'parents' => $launch->parent_id,
-                    'limit' => 10,
-                    'select' => ['id', 'parent_id', 'title', 'slug', 'status'],
-                    //'resources' => 16,
-                    'tpl' => 'menu',
-                    'controller' => 'frontend/tehnic',
-                    'debug' => true,
-                    //'last' => false,
-                ]);
+//                echo \common\widget\coreCase\Menu::widget([
+//                    //'parents' => $launch->parent_id,
+//                    'limit' => 10,
+//                    'select' => ['id', 'parent_id', 'title', 'slug', 'status'],
+//                    //'resources' => 16,
+//                    'tpl' => 'menu',
+//                    'controller' => 'frontend/tehnic',
+//                    'debug' => true,
+//                    //'last' => false,
+//                ]);
 
                 /*echo \common\widget\coreCase\Menu::widget([
                     //'parents' => $launch->parent_id,

@@ -1,11 +1,10 @@
 <?php
 $this->title = $model->title;
-\dsx90\launcher\AssetsBundle::register($this);
 ?>
 
 <p class="hint">
-    <span class="glyphicon glyphicon-eye-open"></span> <?//=$views ?>
-    <?= \yii\helpers\Html::button('<span class="glyphicon glyphicon-heart"></span> '/*. $likes*/, ['class' => 'btn btn-default like', 'id' => $model->id])?>
+    <span class="fa fa-eye"></span> <?=$views ?>
+    <?= \yii\helpers\Html::button('<span class="fa fa-star"></span> '. $likes, ['class' => 'btn btn-default like', 'id' => $model->id])?>
 </p>
 <?=$this->registerJs('
 $(".like").click(function(){

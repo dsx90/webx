@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = Yii::t('backend', 'Update');
     <div class="col-md-9">
     <?= $this->render('_form', [
         'model' => $model,
-        'models' => $options,
         'launch' => $launch,
     ]) ?>
     </div>

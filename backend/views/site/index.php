@@ -18,7 +18,7 @@ use common\Module;
     <?php } ?>
 
     <div class="col-md-12">
-        <?= \common\widget\Yandex\YandexMetrikaApi::widget([
+        <?/*= \common\widget\Yandex\YandexMetrikaApi::widget([
             'ids' => [
                 Yii::$app->keyStorage->get('yandexMetrika.id'),
                 39679200
@@ -39,7 +39,7 @@ use common\Module;
                 //'ym:pv:URL'
             ]
 
-        ]) ?>
+        ]) */?>
     </div>
 
 

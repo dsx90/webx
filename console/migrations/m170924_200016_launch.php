@@ -22,7 +22,7 @@ class m170924_200016_launch extends Migration
             'status'        => $this->smallInteger()->notNull(),
             'is_folder'     => $this->smallInteger(),
             'position'      => $this->integer(11),
-            'chain_id'      => $this->integer(11),
+            'module_id'      => $this->integer(11),
             'parent_id'     => $this->integer(11),
             'template_id'   => $this->integer(11),
             'author_id'     => $this->integer(11),
@@ -33,9 +33,12 @@ class m170924_200016_launch extends Migration
         ], $tableOptions);
 
         //Таблица связывающих
-        $this->createTable('{{%chain}}', [
+        $this->createTable('{{%module}}', [
             'id' => $this->primaryKey(),
             'title' => $this->string(),
+            'name' => $this->string(),
+            'icon' => $this->string(20),
+            'status' => $this->boolean(),
             'model' => $this->string(),
             'controller' => $this->string(),
             'form' => $this->string(),
@@ -144,10 +147,10 @@ class m170924_200016_launch extends Migration
             'CASCADE'
         );
         $this->addForeignKey(
-            'fk_chain_launch',
+            'fk_module_launch',
             '{{%launch}}',
-            'chain_id',
-            '{{%chain}}',
+            'module_id',
+            '{{%module}}',
             'id',
             'RESTRICT',
             'RESTRICT'
@@ -169,7 +172,7 @@ class m170924_200016_launch extends Migration
         $this->dropForeignKey('fk_launch_updater', '{{%launch}}');
         $this->dropForeignKey('fk_launch_category', '{{%launch}}');
         $this->dropForeignKey('fk_template_launch', '{{%launch}}');
-        $this->dropForeignKey('fk_chain_launch', '{{%launch}}');
+        $this->dropForeignKey('fk_module_launch', '{{%launch}}');
         $this->dropForeignKey('fk_launch_parent', '{{%launch}}');
         $this->dropForeignKey('fk_launch_like', '{{%launch}}');
         $this->dropForeignKey('fk_launch_visit', '{{%launch}}');
@@ -178,7 +181,7 @@ class m170924_200016_launch extends Migration
         $this->dropTable('{{%like}}');
         $this->dropTable('{{%visit}}');
         $this->dropTable('{{%template}}');
-        $this->dropTable('{{%chain}}');
+        $this->dropTable('{{%module}}');
     }
 
 }

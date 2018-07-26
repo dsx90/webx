@@ -2,7 +2,7 @@
 
 namespace common\widget\coreCase;
 
-use common\models\Launch;
+use dsx90\launcher\models\Launch;
 use yii\base\Widget;
 
 class Breadcrumps extends Widget
