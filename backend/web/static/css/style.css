@@ -135,6 +135,20 @@ div.required label:after {
 .bk-content .control{
     margin-bottom: 20px;
 }
+.nav-tabs-custom{
+    background: none;
+    margin: 5px 0;
+}
+.nav-tabs-custom li a{
+    padding: 3px 5px;
+    margin-bottom: 2px !important;
+    border: 0;
+}
+.nav-tabs-custom>.nav-tabs>li.active>a, .nav-tabs-custom>.nav-tabs>li.active:hover>a {
+    background-color: #3d4b52;
+    color: #fff;
+    border: 0;
+}
 .nav-tabs-left li a{
     position: relative;
     display: block;

@@ -3,8 +3,8 @@
 use backend\models\Log;
 use backend\widgets\Menu;
 
-use common\modules\resources\components\TreeWidget;
-use common\modules\resources\models\Resources;
+use \dsx90\launcher\components\tree\TreeWidget;
+use \dsx90\launcher\models\Launch;
 
 /* @var $this \yii\web\View */
 ?>
@@ -19,7 +19,7 @@ use common\modules\resources\models\Resources;
         </div>
         <div class="tab-content">
             <div id="left-resources" class="tab-pane fade in active">
-                <?= \dsx90\launcher\components\tree\TreeWidget::widget(['data' => \dsx90\launcher\models\Launch::find()->orderBy(['position' => SORT_ASC])->all()]) ?>
+                <?//php try {echo TreeWidget::widget(['data' => Launch::find()->orderBy(['position' => SORT_ASC])->all()]);} catch(Error $e){}?>
             </div>
             <div id="left-main" class="tab-pane fade">
                 <?= Menu::widget([
