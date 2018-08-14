@@ -155,18 +155,24 @@ class m170924_211339_tehnic extends Migration
             'RESTRICT'
         );
 
-        $this->insert('{{%chain}}', [
+        $this->insert('{{%module}}', [
             'title'         => 'Tehnic',
+            'name'          => 'Спецтехника',
+            'icon'          => 'fa fa-car',
+            'status'        => '1',
             'model'         => 'common\modules\tehnic\models\Tehnic',
             'controller'    => 'common\modules\tehnic\controllers\admin\TehnicController',
             'form'          => '@common/modules/tehnic/views/admin/tehnic/cform',
         ]);
 
-        $this->insert('{{%chain}}', [
+        $this->insert('{{%module}}', [
             'title'         => 'Tehnic Category',
-            'model'         => 'common\modules\tehnic_cat\models\TehnicCat',
-            'controller'    => 'common\modules\tehnic_cat\controllers\admin\TehnicCatController',
-            'form'          => '@common/modules/tehnic_cat/views/admin/tehnic-cat/cform',
+            'name'          => 'Категория техники',
+            'icon'          => 'fa fa-cogs',
+            'status'        => '1',
+            'model'         => 'common\modules\tehnic\models\TehnicCat',
+            'controller'    => 'common\modules\tehnic\controllers\admin\TehnicCatController',
+            'form'          => '@common/modules/tehnic/views/admin/tehnic-cat/cform',
         ]);
     }
 
@@ -189,11 +195,11 @@ class m170924_211339_tehnic extends Migration
         $this->dropTable('{{%tehnic_option_value}}');
         $this->dropTable('{{%tehnic_customer}}');
 
-        $this->delete('{{%chain}}', [
+        $this->delete('{{%module}}', [
             'title' => 'Tehnic',
         ]);
 
-        $this->delete('{{%chain}}', [
+        $this->delete('{{%module}}', [
             'title' => 'Tehnic Category',
         ]);
     }

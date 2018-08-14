@@ -2,9 +2,10 @@
 
 namespace common\components\dispatcher;
 
-use yii\base\Object;
+use yii\base\BaseObject;
+//use yii\base\Object;
 
-class Dispatcher extends Object
+class Dispatcher extends BaseObject/*Object*/
 {
     /**
      * @var \common\components\dispatcher\Module

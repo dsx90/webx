@@ -19,7 +19,7 @@ use \dsx90\launcher\models\Launch;
         </div>
         <div class="tab-content">
             <div id="left-resources" class="tab-pane fade in active">
-                <?//php try {echo TreeWidget::widget(['data' => Launch::find()->orderBy(['position' => SORT_ASC])->all()]);} catch(Error $e){}?>
+                <?= TreeWidget::widget(['data' => Launch::find()->orderBy(['position' => SORT_ASC])->all()]) ?>
             </div>
             <div id="left-main" class="tab-pane fade">
                 <?= Menu::widget([

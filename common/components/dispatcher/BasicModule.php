@@ -12,10 +12,10 @@ use backend\models\LayoutModule;
  */
 class BasicModule extends \yii\base\Module
 {
-    const POSITION_HEADER = 'header';
-    const POSITION_FOOTER = 'footer';
-    const POSITION_LEFT = 'left';
-    const POSITION_RIGHT = 'right';
+    const POSITION_HEADER   = 'header';
+    const POSITION_FOOTER   = 'footer';
+    const POSITION_LEFT     = 'left';
+    const POSITION_RIGHT    = 'right';
 
     /**
      * @var array of positions
@@ -83,7 +83,6 @@ class BasicModule extends \yii\base\Module
                 ];
             }
         }
-
         closedir($handle);
     }
 

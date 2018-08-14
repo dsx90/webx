@@ -27,8 +27,11 @@ class m170924_211336_construction extends Migration
           'RESTRICT'
         );
 
-        $this->insert('{{%chain}}', [
+        $this->insert('{{%module}}', [
             'title'         => 'Construction',
+            'name'          => 'Выполнение работ',
+            'icon'          => 'fa fa-cogs',
+            'status'        => '1',
             'model'         => 'common\modules\construction\models\Construction',
             'controller'    => 'common\modules\construction\controllers\admin\ConstructionController',
             'form'          => '@common/modules/construction/views/admin/construction/cform',
@@ -39,7 +42,7 @@ class m170924_211336_construction extends Migration
     {
         $this->dropTable('{{%construction}}');
 
-        $this->delete('{{%chain}}', [
+        $this->delete('{{%module}}', [
             'title' => 'Construction',
         ]);
     }
