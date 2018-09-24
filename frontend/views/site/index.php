@@ -10,7 +10,7 @@ $this->title = Yii::$app->name;
 
         <p class="lead">You have successfully created your Yii-powered application.</p>
 
-        <?= Yii::getAlias('@dsx90/metrika'); ?>
+        <?//= Yii::getAlias('@dsx90/metrika'); ?>
         <p>
             <a href="http://www.yiiframework.com" class="btn btn-lg btn-success">Get started with Yii</a>
             <a href="https://github.com/Beaten-Sect0r/yii2-core" class="btn btn-lg btn-primary">Yii2 Core on GitHub</a>
