@@ -15,6 +15,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     libjpeg-dev \
     libmagickwand-dev \
     imagemagick \
+    mc \
   && pecl install \
     imagick \
   && docker-php-ext-enable \

@@ -1,41 +1,35 @@
 <?php
 
-namespace common\models\query;
+namespace common\models\queries;
 
-use common\models\Launch;
-use yii\db\ActiveQuery;
 
 /**
- * This is the ActiveQuery class for [[\common\models\PostCategory]].
+ * This is the ActiveQuery class for [[common\models\Launch]].
  *
- * @see \common\models\PostCategory
+ * @see common\models\Launch
  */
-class LaunchQuery extends ActiveQuery
+class LaunchQuery extends \yii\db\ActiveQuery
 {
-    /**
-     * @return $this
-     */
     public function active()
     {
-        $this->andWhere(['status' => Launch::STATUS_ACTIVE]);
-
-        return $this;
+        return $this->andWhere('[[status]]=1');
     }
 
     /**
-     * @return $this
+     * @inheritdoc
+     * @return common\models\Launch[]|array
      */
-    public function noParents()
+    public function all($db = null)
     {
-        $this->andWhere('{{%launch}}.parent_id IS NULL');
-
-        return $this;
+        return parent::all($db);
     }
 
-    public function Parents()
+    /**
+     * @inheritdoc
+     * @return common\models\Launch|array|null
+     */
+    public function one($db = null)
     {
-        $this->andWhere('{{%launch}}.parent_id IS NOT NULL');
-
-        return $this;
+        return parent::one($db);
     }
 }

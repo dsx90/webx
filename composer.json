@@ -48,13 +48,11 @@
         "kartik-v/yii2-widget-switchinput": "*",
         "kartik-v/yii2-widgets": "*",
         "hiqdev/composer-config-plugin": "*",
-        "hiqdev/yii2-yandex-metrika": "^0.2.0",
         "kartik-v/yii2-widget-select2": "@dev",
         "trntv/yii2-aceeditor": "^2.0.0",
         "guzzlehttp/guzzle": "~6.0",
         "electrolinux/phpquery": "^0.9.6",
-        "keltstr/yii2-simplehtmldom": "dev-master",
-        "dsx90/yii2-launch": "dev-master"
+        "keltstr/yii2-simplehtmldom": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",
@@ -78,10 +76,6 @@
         {
             "type": "composer",
             "url": "https://asset-packagist.org"
-        },
-        {
-            "type": "path",
-            "url": "../dsx90/yii2-launch"
         }
     ]
 }
