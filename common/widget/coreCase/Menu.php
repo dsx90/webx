@@ -2,7 +2,7 @@
 
 namespace common\widget\coreCase;
 
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 use yii\base\Widget;
 
 class Menu extends Widget

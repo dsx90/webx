@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models\queries;
+namespace common\models\query;
 
 
 /**

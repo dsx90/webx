@@ -1,5 +1,5 @@
 <?php
-namespace common\components\tree;
+namespace backend\components\tree;
 
 use yii\base\Widget;
 

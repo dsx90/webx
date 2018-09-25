@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use bupy7\dynafields\DynaFields;
 use \unclead\multipleinput\MultipleInput;
+use common\models\Launch;
 
 
 /* @var $this yii\web\View */
@@ -21,7 +22,7 @@ use \unclead\multipleinput\MultipleInput;
 
     <div class="col-sm-6 pull-right row">
 
-        <?= $form->field($launch, 'parent_id')->dropDownList(\dsx90\launcher\models\Launch::getAll(13)) ?>
+        <?= $form->field($launch, 'parent_id')->dropDownList(Launch::getAll(13)) ?>
 
         <?= $form->field($launch, 'title')->textInput(['maxlength' => true]) ?>
 

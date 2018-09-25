@@ -3,8 +3,8 @@
 use backend\models\Log;
 use backend\widgets\Menu;
 
-use \dsx90\launcher\components\tree\TreeWidget;
-use \dsx90\launcher\models\Launch;
+use backend\components\tree\TreeWidget;
+use common\models\Launch;
 
 /* @var $this \yii\web\View */
 ?>

@@ -2,7 +2,7 @@
 
 namespace common\fields;
 
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 use Yii;
 
 /**

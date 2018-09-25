@@ -2,7 +2,7 @@
 
 namespace common\modules\construction\controllers\admin;
 
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 use dsx90\launcher\search\LaunchSearch;
 use Yii;
 use common\modules\construction\models\Construction;

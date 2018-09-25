@@ -5,7 +5,7 @@ namespace common\modules\tehnic\models;
 use common\models\query\CustomerQuery;
 use fbalabanov\filekit\behaviors\UploadBehavior;
 use Yii;
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 

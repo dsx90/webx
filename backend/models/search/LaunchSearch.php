@@ -1,12 +1,12 @@
 <?php
 
-namespace backend\search;
+namespace backend\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 
 /**
  * LaunchSearch represents the model behind the search form about `common\models\Launch`.

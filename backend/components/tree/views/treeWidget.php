@@ -2,7 +2,7 @@
 
 use yii\helpers\Url;
 
-common\components\tree\TreeAsset::register($this);
+\backend\components\tree\TreeAsset::register($this);
 
 ?>
 <div class="sidebar-form">

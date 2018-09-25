@@ -1,5 +1,5 @@
 <?php
-namespace common\components\tree;
+namespace backend\components\tree;
 
 use yii\web\AssetBundle;
 
@@ -10,7 +10,7 @@ use yii\web\AssetBundle;
  */
 class TreeAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/dsx90/yii2-launch/src/components/tree/assets';
+    public $sourcePath = '@backend/components/tree/assets';
 
     public $css = [
         'css/themes/default/style.css',

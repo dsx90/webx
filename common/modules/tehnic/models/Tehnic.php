@@ -7,7 +7,7 @@ use common\models\query\CustomerQuery;
 use common\modules\tehnic\models\query\TehnicQuery;
 use fbalabanov\filekit\behaviors\UploadBehavior;
 use Yii;
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 use common\components\Model;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\BlameableBehavior;

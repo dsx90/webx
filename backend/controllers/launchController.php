@@ -1,13 +1,12 @@
 <?php
 namespace backend\controllers;
 
-use dsx90\launcher\models\Module;
 use Yii;
 use common\models\Launch;
 use common\models\Visit;
 use common\models\Like;
 
-use backend\search\LaunchSearch;
+use backend\models\search\LaunchSearch;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

@@ -2,7 +2,7 @@
 
 namespace common\modules\tehnic\controllers\admin;
 
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 use Yii;
 use common\modules\tehnic\models\TehnicCat;
 use common\modules\tehnic\search\TehnicCatSearch;

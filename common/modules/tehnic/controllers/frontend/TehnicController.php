@@ -2,7 +2,7 @@
 
 namespace common\modules\tehnic\controllers\frontend;
 
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 use common\models\UserProfile;
 use common\modules\tehnic\models\Tehnic;
 use common\modules\tehnic\models\TehnicCat;

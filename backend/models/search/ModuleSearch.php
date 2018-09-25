@@ -1,7 +1,7 @@
 <?php
-namespace backend\search;
+namespace backend\models\search;
 
-use dsx90\launcher\models\Module;
+use common\models\Module;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;

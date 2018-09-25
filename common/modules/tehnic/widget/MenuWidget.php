@@ -2,7 +2,7 @@
 
 namespace common\modules\tehnic\widget;
 
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 use yii\base\Widget;
 use Yii;
 

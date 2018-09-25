@@ -2,14 +2,11 @@
 
 namespace common\models;
 
-use common\models\queries\LaunchQuery;
+use common\models\query\LaunchQuery;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
-
-use dsx90\launcher\models\Module;
-use dsx90\launcher\models\Template;
 /**
  * This is the model class for table "{{%launch}}".
  *

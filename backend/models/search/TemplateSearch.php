@@ -1,10 +1,10 @@
 <?php
-namespace backend\search;
+namespace backend\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use dsx90\launcher\models\Template;
+use common\models\Template;
 
 /**
  * Поиск среди шаблоново документов

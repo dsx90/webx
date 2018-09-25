@@ -19,7 +19,7 @@ class AppAsset extends AssetBundle
         'static/js/system.js',
         'static/js/analytics.js',
         'static/js/daterangepicker.js',
-        'static/js/demo.js',
+        //'static/js/demo.js',
         'static/js/fastclick.js',
         'static/js/jquery.knob.min.js',
         'static/js/jquery.slimscroll.min.js',
@@ -31,9 +31,10 @@ class AppAsset extends AssetBundle
         'static/js/raphael.min.js',
         'static/js/bootstrap3-wysihtml5.all.min.js',
         'static/js/bootstrap-datepicker.min.js',
-        'static/js/adminlte.min.js',
+        //'static/js/adminlte.min.js',
         'static/js/jquery-ui.min.js',
         'static/js/jquery.cookie.js',
+        'static/js/translate.js' // launch
         //'static/js/dashboard.js'
     ];
     public $depends = [

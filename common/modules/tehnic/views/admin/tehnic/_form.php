@@ -2,9 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use vova07\imperavi\Widget;
-use yii\helpers\Url;
 use unclead\multipleinput\MultipleInput;
+use common\models\Launch
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\tehnic\models\Tehnic */
@@ -120,7 +119,7 @@ use unclead\multipleinput\MultipleInput;
         </div>
         <div class="col-md-3">
 
-            <?= $form->field($launch, 'parent_id')->dropDownList(\dsx90\launcher\models\Launch::getAll(13), ['prompt' => 'Тип документа:']) ?>
+            <?= $form->field($launch, 'parent_id')->dropDownList(Launch::getAll(13), ['prompt' => 'Тип документа:']) ?>
 
 
             <?= $form->field($launch, 'slug')->textInput() ?>

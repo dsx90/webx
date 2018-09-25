@@ -5,7 +5,7 @@ use yii\bootstrap\ActiveForm;
 use vova07\imperavi\Widget;
 use yii\helpers\Url;
 use fbalabanov\filekit\widget\Upload;
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\tehnic\models\TehnicCat */

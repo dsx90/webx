@@ -9,7 +9,7 @@ use common\modules\tehnic\search\TehnicSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use dsx90\launcher\models\Launch;
+use common\models\Launch;
 
 /**
  * TehnicController implements the CRUD actions for Tehnic model.
