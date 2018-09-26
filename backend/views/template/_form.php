@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use conquer\codemirror\CodemirrorWidget;
 
 /* @var $this yii\web\View */
 /* @var $model \common\models\Template */
@@ -47,12 +46,12 @@ use conquer\codemirror\CodemirrorWidget;
 
     <div class="row">
         <div class="col-lg-12">
-            <?= $form->field($model, 'code', ['enableClientValidation'=>false])
-            ->widget(
-                'trntv\aceeditor\Widget',
+            <?= $form->field($model, 'code')->widget(
+                'trntv\aceeditor\AceEditor',
                 [
-                    'mode' => 'php',
-                    'theme'=>'github', // editor theme. Default "github"
+                    'mode'=>'html',      // programing language mode. Default "html"
+                    'theme'=>'monokai',  // editor theme. Default "github" ace/theme/
+                    'readOnly'=>'false'  // Read-only mode on/off = true/false. Default "false"
                 ]
             ) ?>
         </div>

@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use unclead\multipleinput\MultipleInput;
-use common\models\Launch
+use common\models\Launch;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\tehnic\models\Tehnic */

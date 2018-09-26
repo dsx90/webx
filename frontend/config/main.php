@@ -31,6 +31,14 @@ $config = [
                 return new League\Flysystem\Filesystem($adapter);
             },
         ],
+        'view' => [
+            'renderers' => [
+                'tpl' => [
+                    'class' => 'yii\smarty\ViewRenderer',
+                    //'cachePath' => '@runtime/Smarty/cache', //TODO: Включить кеширование
+                ],
+            ],
+        ],
         'request' => [
             'cookieValidationKey' => env('BACKEND_COOKIE_VALIDATION_KEY'),
             'csrfParam' => '_csrf-frontend',

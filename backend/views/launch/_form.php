@@ -74,7 +74,7 @@ use yii\widgets\Pjax;
                     </div>
                 </div>
                 <div id="launch-right" class="col-md-3">
-                    <?= $form->field($model, 'parent_id')->dropDownList(\dsx90\launcher\models\Launch::getAll(),
+                    <?= $form->field($model, 'parent_id')->dropDownList(\common\models\Launch::getAll(),
                         ['prompt' => 'Нет']) ?>
 
                     <?= $form->field($model, 'menutitle', [
@@ -111,7 +111,7 @@ use yii\widgets\Pjax;
                         ]
                     ]); ?>
 
-                    <?= $form->field($model, 'author_id')->dropDownList(\yii\helpers\ArrayHelper::map($model->author, 'username', $model->author_id))?> <!--TODO: Вывести Автора-->
+                    <?//= $form->field($model, 'author_id')->dropDownList(\yii\helpers\ArrayHelper::map($model->author, 'username', $model->author_id))?> <!--TODO: Вывести Автора-->
 
                     <?//= $form->field($model, 'published_at')->widget(DateTimeWidget::className(), ['phpDatetimeFormat' => 'dd.MM.yyyy, HH:mm:ss']) ?>
 

@@ -4,12 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\document\models\Template */
+/* @var $model \common\models\Template */
 
 $this->title = Yii::t('document', 'Просмотр шаблона');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('document', 'Шаблоны'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-DocumentAsset::register($this);
 ?>
 
 <div class="template-view">
@@ -35,14 +34,14 @@ DocumentAsset::register($this);
     </p>
 
     <?php
-    $html = null;
-    if ($model->fields) {
-        $html .= '<ul>';
-        foreach ($model->fields as $field) {
-            $html .= '<li>' . Html::a($field->title, ['field/update', 'id' => $field->id]) . ' (' . Field::getTypes()[$field->type].')</li>';
-        }
-        $html .= '</ul>';
-    }
+//    $html = null;
+//    if ($model->fields) {
+//        $html .= '<ul>';
+//        foreach ($model->fields as $field) {
+//            $html .= '<li>' . Html::a($field->title, ['field/update', 'id' => $field->id]) . ' (' . Field::getTypes()[$field->type].')</li>';
+//        }
+//        $html .= '</ul>';
+//    }
     ?>
 
     <?= DetailView::widget([
@@ -52,11 +51,11 @@ DocumentAsset::register($this);
             'title',
             'description:ntext',
             'path',
-            [
-                'attribute' => Yii::t('document', 'Дополнительные поля'),
-                'format' => 'raw',
-                'value' => $html,
-            ],
+//            [
+//                'attribute' => Yii::t('document', 'Дополнительные поля'),
+//                'format' => 'raw',
+//                'value' => $html,
+//            ],
         ],
     ]) ?>
 

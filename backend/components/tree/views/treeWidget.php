@@ -42,7 +42,7 @@ $('#jstree_div').jstree({
             new_inst.set_icon(data.old_parent,'glyphicon glyphicon-file');
         }
         $.ajax({
-            url: '".Url::to(['/launcher/launch/move'])."',
+            url: '".Url::to(['/launch/move'])."',
             type: 'POST',
             data: {
                 'id' : data.node.id,

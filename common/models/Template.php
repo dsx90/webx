@@ -54,10 +54,10 @@ class Template extends \yii\db\ActiveRecord
     {
         return [
             'id'            => Yii::t('document', 'ID'),
-            'title'          => Yii::t('document', 'Наименование'),
+            'title'         => Yii::t('document', 'Наименование'),
             'description'   => Yii::t('document', 'Описание'),
             'path'          => Yii::t('document', 'Путь к файлу'),
-            'code' => $this->title.'.php',
+            'code' => Yii::getAlias('@template').'\\'.$this->title.'.tpl',
         ];
     }
 
@@ -80,7 +80,7 @@ class Template extends \yii\db\ActiveRecord
     }
 
     public function openFile(){
-        $file = fopen(Yii::getAlias('@template').'/'.$this->title.'.php', "w+");
+        $file = fopen(Yii::getAlias('@template').'/'.$this->title.'.tpl', "w+");
         fwrite($file, $this->code);
         fclose($file);
     }
@@ -92,7 +92,7 @@ class Template extends \yii\db\ActiveRecord
     }
 
     public function loadFile(){
-        $this->code = file_get_contents(Yii::getAlias('@template').'/'.$this->title.'.php');
+        $this->code = file_get_contents(Yii::getAlias('@template').'/'.$this->title.'.tpl');
     }
 
     /**
@@ -102,7 +102,7 @@ class Template extends \yii\db\ActiveRecord
     {
         // Определяем расширение файла
         $ext = substr($this->path, -4);
-        $file = ($ext === '.php') ? $this->path : $this->path.'.php';
+        $file = ($ext === '.tpl') ? $this->path : $this->path.'.tpl';
         if ($this->path && !file_exists(Yii::getAlias($file))) {
             // Выводим ошибку если файл не найден
             $this->addError('path', Yii::t('document', 'Файл шаблона не найден.'));

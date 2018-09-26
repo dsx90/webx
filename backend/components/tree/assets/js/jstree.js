@@ -5686,7 +5686,7 @@
                         var inst = $.jstree.reference(data.reference),
                             obj = inst.get_node(data.reference);
                         var id = getid(obj.text);
-                        window.location.href = "/launcher/launch/view?id="+id;   // Редирект на страницу просмотра при нажатии
+                        window.location.href = "/launch/view?id="+id;   // Редирект на страницу просмотра при нажатии
                     }
 				},
 				"edit" : {
@@ -5708,7 +5708,7 @@
                         var inst = $.jstree.reference(data.reference),
                             obj = inst.get_node(data.reference);
                         var id = getid(obj.text);
-                        window.location.href = "/launcher/launch/update?id=" + id;   // Редирект на страницу редактирования документа
+                        window.location.href = "/launch/update?id=" + id;   // Редирект на страницу редактирования документа
                     }
 				},
 				"create" : {
@@ -5729,7 +5729,7 @@
                         var inst = $.jstree.reference(data.reference),
                             obj = inst.get_node(data.reference);
                         var id = getid(obj.text);
-                        window.location.href = "/launcher/launch/create?parent_id=" + id;    // Редирект на страницу создания документа с предустановленным родителем
+                        window.location.href = "/launch/create?parent_id=" + id;    // Редирект на страницу создания документа с предустановленным родителем
                     }
 				},
 				"remove" : {
@@ -5749,7 +5749,7 @@
                             }
                             else {
                                 $.ajax({
-                                    url: "/launcher/launch/delete?id="+id,
+                                    url: "/launch/delete?id="+id,
                                     success: function(data){
                                         inst.delete_node(inst.get_selected());
                                         var isparent = inst.is_parent(parent);

@@ -52,7 +52,8 @@
         "trntv/yii2-aceeditor": "^2.0.0",
         "guzzlehttp/guzzle": "~6.0",
         "electrolinux/phpquery": "^0.9.6",
-        "keltstr/yii2-simplehtmldom": "dev-master"
+        "keltstr/yii2-simplehtmldom": "dev-master",
+        "yiisoft/yii2-smarty": "^2.0@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",
