@@ -39,6 +39,12 @@ $config = [
     ],
     'components' => [
         'view' => [
+            'renderers' => [
+                'tpl' => [
+                    'class' => 'yii\smarty\ViewRenderer',
+                    //'cachePath' => '@runtime/Smarty/cache',
+                ],
+            ],
 //            'as YandexMetrika' => [
 //                'class' => \hiqdev\yii2\YandexMetrika\Behavior::class,
 //                'builder' => [

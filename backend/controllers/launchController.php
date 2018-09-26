@@ -74,7 +74,7 @@ class LaunchController extends Controller
         $likes = Like::getAll($model->id, true);  // Считаем лайки
 
         // Если задан шаблон отображения, то отображаем согласно нему, иначе стандартное отображение статьи
-        $template = (isset($model->template)) ? '@template/'.$model->template->title : 'view';
+        $template = (isset($model->template)) ? '@template/'.$model->template->title.'.tpl' : 'view';
         return $this->render($template, [
             'model' => $model,
             'views' => ($views) ?  $views[0]->count : 0,

@@ -25,6 +25,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $published_at
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $template_id
  *
  * @property User $author
  * @property self $parent

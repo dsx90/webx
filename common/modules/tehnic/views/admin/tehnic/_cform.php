@@ -48,11 +48,11 @@ use common\modules\tehnic\models\TehnicOptionValue;
         \fbalabanov\filekit\widget\Upload::className(),
         [
             'url' => ['/site/upload'],
-            'targetDir' => 'tehnic/'.$model->launch->parent->slug.'/'.$model->launch_id,
+            'targetDir' => $model->isNewRecord ? '' : 'tehnic/'.$model->launch->parent->slug.'/'.$model->launch_id, //TODO: продумать способ сохранения нового документа
             'sortable' => true,
             'maxFileSize' => 10000000, // 10 MiB
             'maxNumberOfFiles' => 10,
-        ])->hint('/tehnic/'.$model->launch->parent->slug.'/'.$model->launch_id) ?>
+        ])->hint($model->isNewRecord ? '' : '/tehnic/'.$model->launch->parent->slug.'/'.$model->launch_id) ?>
 </div>
 <?= $form->field($model, 'price')->textInput() ?>
 

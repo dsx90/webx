@@ -75,7 +75,13 @@ use yii\widgets\Pjax;
                 </div>
                 <div id="launch-right" class="col-md-3">
                     <?= $form->field($model, 'parent_id')->dropDownList(\common\models\Launch::getAll(),
-                        ['prompt' => 'Нет']) ?>
+                        ['prompt' => 'Нет'])
+                        ->label(
+                            $model->template_id ?
+                                Yii::t('common', 'Parent ID').'  '.Html::a('<i class="fa fa-external-link" aria-hidden="true"></i>', '/launch/update?id='.$model->template_id) :
+                                Yii::t('common', 'Parent ID')
+                        )
+                    ?>
 
                     <?= $form->field($model, 'menutitle', [
                         'addon' => [
@@ -119,7 +125,13 @@ use yii\widgets\Pjax;
                         ['prompt' => 'Без типа:']) ?>
 
                     <?= $form->field($model, 'template_id')->dropDownList(Template::getAll(),
-                        ['prompt' => 'Пустой шаблон:']) ?>
+                        ['prompt' => 'Пустой шаблон:'])
+                        ->label(
+                            $model->template_id ?
+                            Yii::t('common', 'Template Id').'  '.Html::a('<i class="fa fa-external-link" aria-hidden="true"></i>', '/template/update?id='.$model->template_id) :
+                            Yii::t('common', 'Template Id')
+                        )
+                    ?>
                 </div>
             </div>
         </div>
@@ -161,10 +173,6 @@ $this->registerJs(<<<JS
     $('#launch-module_id').on('change', function(){
         $.pjax.reload('#module', {
             'url': window.location.href.replace(/&module=[0-9]+/g, '') + '&module=' + $(this).val(),
-            'replace': false
-        })
-        $.pjax.reload('#module', {
-            'url': window.location + '&module=' + $(this).val(),
             'replace': false
         })
     });
