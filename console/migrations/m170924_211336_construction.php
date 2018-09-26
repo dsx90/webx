@@ -30,11 +30,11 @@ class m170924_211336_construction extends Migration
         $this->insert('{{%module}}', [
             'title'         => 'Construction',
             'name'          => 'Выполнение работ',
-            'icon'          => 'fa fa-cogs',
+            'icon'          => 'fa fa-wrench',
             'status'        => '1',
             'model'         => 'common\modules\construction\models\Construction',
             'controller'    => 'common\modules\construction\controllers\admin\ConstructionController',
-            'form'          => '@common/modules/construction/views/admin/construction/cform',
+            'form'          => '@common/modules/construction/views/admin/construction/_cform',
         ]);
     }
 

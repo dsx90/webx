@@ -163,6 +163,10 @@ $this->registerJs(<<<JS
             'url': window.location.href.replace(/&module=[0-9]+/g, '') + '&module=' + $(this).val(),
             'replace': false
         })
+        $.pjax.reload('#module', {
+            'url': window.location + '&module=' + $(this).val(),
+            'replace': false
+        })
     });
     $('#launch-title').keyup(function() {
       $('#adver-title')[0].innerHTML = $(this)[0].value

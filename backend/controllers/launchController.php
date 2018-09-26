@@ -143,7 +143,6 @@ class LaunchController extends Controller
             $model = new $launch->module->model();
         }
         $render = $launch->module->form;
-        return 'TEST';
         return $this->renderAjax($render, [
             'model' => $model,
         ]);

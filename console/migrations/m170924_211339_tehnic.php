@@ -162,7 +162,7 @@ class m170924_211339_tehnic extends Migration
             'status'        => '1',
             'model'         => 'common\modules\tehnic\models\Tehnic',
             'controller'    => 'common\modules\tehnic\controllers\admin\TehnicController',
-            'form'          => '@common/modules/tehnic/views/admin/tehnic/cform',
+            'form'          => '@common/modules/tehnic/views/admin/tehnic/_cform',
         ]);
 
         $this->insert('{{%module}}', [
@@ -172,7 +172,7 @@ class m170924_211339_tehnic extends Migration
             'status'        => '1',
             'model'         => 'common\modules\tehnic\models\TehnicCat',
             'controller'    => 'common\modules\tehnic\controllers\admin\TehnicCatController',
-            'form'          => '@common/modules/tehnic/views/admin/tehnic-cat/cform',
+            'form'          => '@common/modules/tehnic/views/admin/tehnic-cat/_cform',
         ]);
     }
 

@@ -87,8 +87,8 @@ class Launch extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'], // Обязательные значения
-            ['slug', 'unique'], // Уникальное значение
+            [['title'], 'required'],
+            ['slug', 'unique'],
             [['parent_id', 'is_folder', 'position', 'status', 'author_id', 'updater_id', 'published_at', 'created_at', 'updated_at', 'module_id'], 'integer'],
             ['published_at', 'default', 'value' => time()],
 
@@ -132,6 +132,7 @@ class Launch extends \yii\db\ActiveRecord
             'published_at'  => Yii::t('common', 'Published At'),
             'created_at'    => Yii::t('common', 'Created At'),
             'updated_at'    => Yii::t('common', 'Updated At'),
+            'template_id'   => Yii::t('common', 'Template Id'),
         ];
     }
 

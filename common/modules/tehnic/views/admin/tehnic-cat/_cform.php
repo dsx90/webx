@@ -3,7 +3,6 @@
 use vova07\imperavi\Widget;
 use yii\helpers\Url;
 use fbalabanov\filekit\widget\Upload;
-use common\models\Launch;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\tehnic\models\TehnicCat */
@@ -40,7 +39,7 @@ use common\models\Launch;
     <?= $form->field($model, 'option')->widget(\kartik\select2\Select2::classname(), [
         'data' => \yii\helpers\ArrayHelper::map(\common\modules\tehnic\models\TehnicOption::find()->all(),'option','option'),
         'language' => 'ru',
-        'options' => ['placeholder' => 'Select a state ...', 'multiple' => true],
+        'options' => ['placeholder' => Yii::t('backend', 'Select a value ...'), 'multiple' => true],
         'pluginOptions' => [
             'allowClear' => true,
             'tags' => true,
@@ -50,7 +49,7 @@ use common\models\Launch;
 </div>
 
 
-<?= $form->field($model, 'category')->checkboxList(Launch::getAll(13), ['prompt' => 'Тип документа:']) ?>
+<?//= $form->field($model, 'category')->checkboxList(Launch::getAll(13), ['prompt' => 'Тип документа:']) ?>
 
 
 <?php
