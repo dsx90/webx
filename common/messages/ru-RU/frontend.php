@@ -46,6 +46,7 @@ return [
     'Password' => 'Пароль',
     'Password reset for {name}' => 'Сброс пароля для {name}',
     'Password reset token cannot be blank.' => 'Маркер восстановление пароля не может быть пустым.',
+    'Registration is disabled.' => 'Регистрация отключена.',
     'Request password reset' => 'Запрос сброса пароля',
     'Reset password' => 'Сброс пароля',
     'Save' => 'Сохранить',

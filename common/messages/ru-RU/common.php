@@ -18,6 +18,7 @@
  */
 return [
     'Active' => '',
+    'Attachments' => 'Изображение',
     'Author' => 'Автор',
     'Avatar' => 'Аватар',
     'Banned' => '',
@@ -49,11 +50,24 @@ return [
     'Status' => 'Статус',
     'Tags' => 'Теги',
     'Text' => 'Текст',
-    'Title' => 'Название',
     'Updated at' => 'Время обновления',
     'Updater' => 'Обновивший',
     'Username' => 'Имя пользователя',
     'Username or email' => 'Имя пользователя или email',
     'Value' => 'Значение',
     'Website' => 'Веб-сайт',
+
+    'Title' => 'Заголовок',
+    'Update' => 'Редактировать',
+    'Price' => 'Стоимость',
+    'Parent ID' => 'Родитель',
+    'Views' => 'Просмотры',
+    'Attachment' => 'Изображения',
+    'Content' => 'Контент',
+    'Options' => 'Опция',
+    'Menutitle' => 'Пункт меню',
+    'Module' => 'Модуль',
+    'Longtitle' => 'Краткое описание',
+    'Thumbnail' => 'Изображение',
+    'Template Id' => 'Шаблон'
 ];

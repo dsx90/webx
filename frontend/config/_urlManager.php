@@ -8,6 +8,11 @@ return [
         // Index page
         '' => 'site/index',
         // Pages
+        //'tehnic/<slug:[\w\-]+>' => 'tehnic/frontend/tehnic/category',
+        //'tehnic/<slug>'                 => 'tehnic/frontend/tehnic/view',
+        //'tehnic/<slug>/<_a:\[\w-]+>'    => 'tehnic/frontend/tehnic/<_a>',
+        '<module:\w+>/<controller:\w+>/<action:(\w|-)+>' => '<module>/<controller>/<action>',
+        '<module:\w+>/<controller:\w+>/<action:(\w|-)+>/<id:\d+>' => '<module>/<controller>/<action>',
         'page/<slug>' => 'page/view',
         // Articles
         'article/page/<page>' => 'article/index',

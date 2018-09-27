@@ -25,9 +25,25 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
             ],
             'fileapi-upload' => [
-                'class' => FileAPIUpload::class,
+                'class' => FileAPIUpload::className(),
                 'path' => '@storage/tmp',
             ],
+
+            'upload' => [
+                'class' => 'trntv\filekit\actions\UploadAction',
+                'deleteRoute' => 'upload-delete',
+                'fileparam' => 'file',
+            ],
+            'upload-delete' => [
+                'class' => 'trntv\filekit\actions\DeleteAction'
+            ],
+            'upload-imperavi' => [
+                'class' => 'trntv\filekit\actions\UploadAction',
+                'fileparam' => 'file',
+                'responseUrlParam'=> 'filelink',
+                'multiple' => false,
+                'disableCsrf' => true
+            ]
         ];
     }
 

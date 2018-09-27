@@ -61,19 +61,62 @@ class SignInController extends Controller
      *
      * @return mixed
      */
+//    public function actionLogin()
+//    {
+//        $model = new LoginForm();
+//        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+//            $model = Yii::$app->user->identity;
+//            $model->ip = Yii::$app->request->userIP;
+//            $model->save();
+//
+//            return $this->goBack();
+//        } else {
+//            $model->password = '';
+//
+//            return $this->render('login', ['model' => $model]);
+//        }
+//    }
+
     public function actionLogin()
     {
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            $model = Yii::$app->user->identity;
-            $model->ip = Yii::$app->request->userIP;
-            $model->save();
+        if (Yii::$app->keyStorage->get('frontend.registration')) {
+            $signup = new SignupForm();
+            if ($signup->load(Yii::$app->request->post())) {
+                if ($user = $signup->signup()) {
+                    if (Yii::$app->keyStorage->get('frontend.email-confirm')) {
+                        // подтверждение email
+                        if ($signup->sendEmail()) {
+                            Yii::$app->session->setFlash('success', Yii::t('frontend', 'Your account has been successfully created. Check your email for further instructions.'));
+                        } else {
+                            Yii::$app->session->setFlash('error', Yii::t('frontend', 'There was an error sending your message.'));
+                        }
+
+                        return $this->refresh();
+                    } else {
+                        // автологин
+                        if (Yii::$app->getUser()->login($user)) {
+                            return $this->goHome();
+                        }
+                    }
+                }
+            }
+        } else {
+            Yii::$app->session->setFlash('info', Yii::t('frontend', 'Registration is disabled.'));
+        }
+
+        $login = new LoginForm();
+
+        if ($login->load(Yii::$app->request->post()) && $login->login()) {
+            $login = Yii::$app->user->identity;
+            $login->ip = Yii::$app->request->userIP;
+            $login->save();
 
             return $this->goBack();
         } else {
-            $model->password = '';
-
-            return $this->render('login', ['model' => $model]);
+            return $this->render('login', [
+                'login' => $login,
+                'signup' => $signup
+            ]);
         }
     }
 
@@ -118,8 +161,10 @@ class SignInController extends Controller
                 }
             }
 
-            return $this->render('signup', ['model' => $model]);
+            return $this->render('signup',
+                ['model' => $model]);
         } else {
+            Yii::$app->session->setFlash('info', Yii::t('frontend', 'Registration is disabled.'));
             return $this->goHome();
         }
     }

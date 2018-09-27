@@ -38,6 +38,33 @@ $config = [
         ],
     ],
     'components' => [
+        'view' => [
+            'renderers' => [
+                'tpl' => [
+                    'class' => 'yii\smarty\ViewRenderer',
+                    //'cachePath' => '@runtime/Smarty/cache',
+                ],
+            ],
+//            'as YandexMetrika' => [
+//                'class' => \hiqdev\yii2\YandexMetrika\Behavior::class,
+//                'builder' => [
+//                    'class' => \hiqdev\yii2\YandexMetrika\CodeBuilder::class,
+//                    'id' => $params['yandexMetrika.id'],
+//                    'params' => $params['yandexMetrika.params'],
+//                ],
+//            ],
+        ],
+        'fileStorage' => [
+            'class' => 'fbalabanov\filekit\Storage',
+            'baseUrl' => env('STORAGE_URL').'/images',
+            'filesystem' => function() {
+                $adapter = new \League\Flysystem\Adapter\Local(Yii::getAlias('@storage/images'));
+                return new League\Flysystem\Filesystem($adapter);
+            },
+        ],
+        'dispatcher' => [
+            'class' => 'common\components\dispatcher\Dispatcher',
+        ],
         'request' => [
             'cookieValidationKey' => env('BACKEND_COOKIE_VALIDATION_KEY'),
             'csrfParam' => '_csrf-backend',
@@ -58,6 +85,22 @@ $config = [
         'frontendCache' => require Yii::getAlias('@frontend/config/_cache.php'),
     ],
     'modules' => [
+        'metrica' => [
+            'class' => 'common\modules\metrica\YandexMetricaWidget',
+        ],
+        'tehnic' => [
+            'class' => 'common\modules\tehnic\Module',
+        ],
+        'construction' => [
+            'class' => 'common\modules\construction\Module',
+        ],
+
+        'dispatcher' => [
+            'class' => 'common\Module',
+        ],
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+        ],
         'db-manager' => [
             'class' => 'bs\dbManager\Module',
             // path to directory for the dumps
@@ -74,8 +117,8 @@ $config = [
                 ],
             ],
         ],
-        'phpsysinfo' => [
-            'class' => 'bs\phpSysInfo\Module',
+        'rbac' => [
+            'class' => 'developeruz\db_rbac\Yii2DbRbac',
             'as access' => [
                 'class' => 'common\behaviors\GlobalAccessBehavior',
                 'rules' => [
@@ -86,8 +129,22 @@ $config = [
                 ],
             ],
         ],
-        'rbac' => [
-            'class' => 'developeruz\db_rbac\Yii2DbRbac',
+        'webshell' => [
+            'class' => 'samdark\webshell\Module',
+            'yiiScript' => '@root/yii', // adjust path to point to your ./yii script
+            'allowedIPs' => ['*'],
+            'as access' => [
+                'class' => 'common\behaviors\GlobalAccessBehavior',
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['administrator'],
+                    ],
+                ],
+            ],
+        ],
+        'phpsysinfo' => [
+            'class' => 'bs\phpSysInfo\Module',
             'as access' => [
                 'class' => 'common\behaviors\GlobalAccessBehavior',
                 'rules' => [

@@ -28,6 +28,15 @@
         "2amigos/yii2-tinymce-widget": "*",
         "2amigos/yii2-selectize-widget": "*",
         "mihaildev/yii2-elfinder": "*",
+        "samdark/sitemap": "*",
+        "developeruz/yii2-db-rbac": "*",
+        "vova07/yii2-imperavi-widget": "*",
+        "vova07/yii2-fileapi-widget": "*",
+        "creocoder/yii2-taggable": "*",
+        "2amigos/yii2-selectize-widget": "*",
+        "2amigos/yii2-disqus-widget": "*",
+        "mihaildev/yii2-elfinder": "*",
+        "trntv/yii2-datetime-widget": "*",
         "loveorigami/yii2-notification-wrapper": "*",
         "bower-asset/admin-lte": "^2.0",
         "bower-asset/font-awesome": "^4.0",
@@ -35,12 +44,28 @@
         "bower-asset/html5shiv": "^3.0",
         "bower-asset/open-sans-fontface": "*",
         "bower-asset/highlightjs": "*",
-        "bower-asset/timecircles": "*"
+        "bower-asset/timecircles": "*",
+        "fbalabanov/yii2-file-kit": "*",
+        "yiisoft/yii2-imagine": "~2.1.0",
+        "2amigos/yii2-switch-widget": "~1.0",
+        "unclead/yii2-multiple-input": "*",
+        "kartik-v/yii2-builder": "*",
+        "kartik-v/yii2-widget-activeform": "*",
+        "kartik-v/yii2-widget-switchinput": "*",
+        "kartik-v/yii2-widgets": "*",
+        "hiqdev/composer-config-plugin": "*",
+        "kartik-v/yii2-widget-select2": "@dev",
+        "trntv/yii2-aceeditor": "^2.0.0",
+        "guzzlehttp/guzzle": "~6.0",
+        "electrolinux/phpquery": "^0.9.6",
+        "keltstr/yii2-simplehtmldom": "dev-master",
+        "yiisoft/yii2-smarty": "^2.0@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
-        "friendsofphp/php-cs-fixer": "*"
+        "friendsofphp/php-cs-fixer": "*",
+        "samdark/yii2-webshell": "*"
     },
     "scripts": {
         "post-update-cmd": [

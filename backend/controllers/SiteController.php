@@ -8,6 +8,9 @@ use yii\web\Controller;
 use common\components\keyStorage\FormModel;
 use common\models\LoginForm;
 use vova07\fileapi\actions\UploadAction as FileAPIUpload;
+use vova07\imperavi\actions\GetFilesAction;
+use vova07\imperavi\actions\GetImagesAction;
+use vova07\imperavi\actions\UploadFileAction;
 
 /**
  * Class SiteController.
@@ -39,10 +42,59 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
             'fileapi-upload' => [
-                'class' => FileAPIUpload::class,
+                'class' => FileAPIUpload::className(),
                 'path' => '@storage/tmp',
             ],
+            'images-get' => [
+                'class' => GetImagesAction::className(),
+                'url' => Yii::getAlias('@storageUrl/images'),
+                'path' => '@storage/images',
+            ],
+            'files-get' => [
+                'class' => GetFilesAction::className(),
+                'url' => Yii::getAlias('@storageUrl/files'),
+                'path' => '@storage/files',
+            ],
+            'image-upload' => [
+                'class' => UploadFileAction::className(),
+                'url' => Yii::getAlias('@storageUrl/images/' . date('m.y')),
+                'path' => '@storage/images/' . date('m.y'),
+            ],
+            'file-upload' => [
+                'class' => UploadFileAction::className(),
+                'url' => Yii::getAlias('@storageUrl/files/' . date('m.y')),
+                'path' => '@storage/files/' . date('m.y'),
+                'uploadOnlyImage' => false,
+            ],
+
+            'upload'=>[
+                'class'=>'fbalabanov\filekit\actions\UploadAction',
+                'deleteRoute' => 'upload-delete',
+                'fileparam' => 'file',
+            ],
+            'upload-delete' => [
+                'class' => 'fbalabanov\filekit\actions\DeleteAction'
+            ],
+            'upload-imperavi' => [
+                'class' => 'fbalabanov\filekit\actions\UploadAction',
+                'fileparam' => 'file',
+                'responseUrlParam'=> 'filelink',
+                'multiple' => false,
+                'disableCsrf' => true
+            ],
+            'view'=>[
+                'class'=>'fbalabanov\filekit\actions\ViewAction',
+            ]
         ];
+    }
+
+    public function actionIndex()
+    {
+        $this->layout = 'layout';
+
+        $modules = \Yii::$app->dispatcher->modules(1);
+
+        return $this->render('index', compact('modules'));
     }
 
     public function beforeAction($action)
@@ -89,6 +141,14 @@ class SiteController extends Controller
                 ],
                 'frontend.email-confirm' => [
                     'label' => Yii::t('backend', 'Email confirm'),
+                    'type' => FormModel::TYPE_DROPDOWN,
+                    'items' => [
+                        false => Yii::t('backend', 'Disabled'),
+                        true => Yii::t('backend', 'Enabled'),
+                    ],
+                ],
+                'frontend.maintenance' => [
+                    'label' => Yii::t('backend', 'Frontend maintenance mode'),
                     'type' => FormModel::TYPE_DROPDOWN,
                     'items' => [
                         false => Yii::t('backend', 'Disabled'),

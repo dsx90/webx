@@ -11,6 +11,9 @@ $config = [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
+        'tehnic' => [
+            'class' => 'common\modules\tehnic\Module',
+        ],
         'account' => [
             'class' => 'frontend\modules\account\Module',
         ],
@@ -19,6 +22,22 @@ $config = [
         ],
     ],
     'components' => [
+        'fileStorage' => [
+            'class' => 'fbalabanov\filekit\Storage',
+            'baseUrl' => env('STORAGE_URL').'/images',
+            'filesystem' => function() {
+                $adapter = new \League\Flysystem\Adapter\Local(Yii::getAlias('@storage/images'));
+                return new League\Flysystem\Filesystem($adapter);
+            },
+        ],
+        'view' => [
+            'renderers' => [
+                'tpl' => [
+                    'class' => 'yii\smarty\ViewRenderer',
+                    //'cachePath' => '@runtime/Smarty/cache', //TODO: Включить кеширование
+                ],
+            ],
+        ],
         'request' => [
             'cookieValidationKey' => env('BACKEND_COOKIE_VALIDATION_KEY'),
             'csrfParam' => '_csrf-frontend',
