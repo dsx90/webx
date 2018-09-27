@@ -15,7 +15,7 @@ use common\modules\tehnic\models\TehnicOptionValue;
 </div>
 <div id="tehnic-content">
     <?php if (isset($model->category)) : ?>
-        <?= $form->field($model->optionform[0], 'option')->widget(MultipleInput::className(), [
+        <?= $form->field($model->optionform[0], 'option')->widget(MultipleInput::class, [
             'model' => $model->optionform[0],
             'data' => $model->optionform,
             'max' => count($model->category->options),
@@ -45,7 +45,7 @@ use common\modules\tehnic\models\TehnicOptionValue;
 </div>
 <div id="tehnic-attachment">
     <?= $form->field($model, 'attachment')->widget(
-        \fbalabanov\filekit\widget\Upload::className(),
+        \fbalabanov\filekit\widget\Upload::class,
         [
             'url' => ['/site/upload'],
             'targetDir' => $model->isNewRecord ? '' : 'tehnic/'.$model->launch->parent->slug.'/'.$model->launch_id, //TODO: продумать способ сохранения нового документа

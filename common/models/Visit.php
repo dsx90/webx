@@ -29,7 +29,7 @@ class Visit extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => TimestampBehavior::className(),
+                'class' => TimestampBehavior::class,
                 'createdAtAttribute' => 'created_at',
                 'updatedAtAttribute' => null,
             ]];
@@ -55,7 +55,7 @@ class Visit extends \yii\db\ActiveRecord
             [['launch_id', 'user_id', 'count', 'created_at'], 'integer'],   // Целочисленные значения
             [['user_agent'], 'string'], // Текстовое значение
             [['ip'], 'string', 'max' => 20],    // Строка (максимум 20 символов)
-            [['launch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::className(), 'targetAttribute' => ['launch_id' => 'id']],
+            [['launch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::class, 'targetAttribute' => ['launch_id' => 'id']],
         ];
     }
 
@@ -81,7 +81,7 @@ class Visit extends \yii\db\ActiveRecord
      */
     public function getLaunch()
     {
-        return $this->hasOne(Launch::className(), ['id' => 'launch_id']);
+        return $this->hasOne(Launch::class, ['id' => 'launch_id']);
     }
 
     /**

@@ -42,26 +42,26 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
             'fileapi-upload' => [
-                'class' => FileAPIUpload::className(),
+                'class' => FileAPIUpload::class,
                 'path' => '@storage/tmp',
             ],
             'images-get' => [
-                'class' => GetImagesAction::className(),
+                'class' => GetImagesAction::class,
                 'url' => Yii::getAlias('@storageUrl/images'),
                 'path' => '@storage/images',
             ],
             'files-get' => [
-                'class' => GetFilesAction::className(),
+                'class' => GetFilesAction::class,
                 'url' => Yii::getAlias('@storageUrl/files'),
                 'path' => '@storage/files',
             ],
             'image-upload' => [
-                'class' => UploadFileAction::className(),
+                'class' => UploadFileAction::class,
                 'url' => Yii::getAlias('@storageUrl/images/' . date('m.y')),
                 'path' => '@storage/images/' . date('m.y'),
             ],
             'file-upload' => [
-                'class' => UploadFileAction::className(),
+                'class' => UploadFileAction::class,
                 'url' => Yii::getAlias('@storageUrl/files/' . date('m.y')),
                 'path' => '@storage/files/' . date('m.y'),
                 'uploadOnlyImage' => false,

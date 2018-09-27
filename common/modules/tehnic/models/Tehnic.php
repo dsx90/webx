@@ -60,7 +60,7 @@ class Tehnic extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => UploadBehavior::className(),
+                'class' => UploadBehavior::class,
                 'attribute' => 'attachment',
                 'multiple' => true,
                 'uploadRelation' => 'attachments',
@@ -84,7 +84,7 @@ class Tehnic extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['launch_id'], 'unique'],
             ['status', 'default', 'value' => self::TEHNIC_ACTIVE],
-            [['launch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::className(), 'targetAttribute' => ['launch_id' => 'id']],
+            [['launch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::class, 'targetAttribute' => ['launch_id' => 'id']],
             [['attachment'], 'safe'],
         ];
     }
@@ -112,14 +112,14 @@ class Tehnic extends \yii\db\ActiveRecord
      */
     public function getLaunch()
     {
-        return $this->hasOne(Launch::className(), ['id' => 'launch_id']);
+        return $this->hasOne(Launch::class, ['id' => 'launch_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getCategory() {
-        return $this->hasOne(TehnicCat::className(), ['launch_id' => 'parent_id'])->via('launch');
+        return $this->hasOne(TehnicCat::class, ['launch_id' => 'parent_id'])->via('launch');
             //->viaTable('post_options_value', ['post_id' => 'id']);
     }
 
@@ -127,7 +127,7 @@ class Tehnic extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
     public function getOptions() {
-        return $this->hasMany(TehnicOptionValue::className(), ['tehnic_id' => 'launch_id']);
+        return $this->hasMany(TehnicOptionValue::class, ['tehnic_id' => 'launch_id']);
     }
 
     public function getFetchOptions() {
@@ -138,7 +138,7 @@ class Tehnic extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
     public function getAttachments() {
-        return $this->hasMany(Attachment::className(), ['launch_id' => 'launch_id']);
+        return $this->hasMany(Attachment::class, ['launch_id' => 'launch_id']);
     }
 
     public function getImage($width ,$height ) {
@@ -167,7 +167,7 @@ class Tehnic extends \yii\db\ActiveRecord
             /** @var TehnicOptionValue[] $options */
             $options = $this->options;
             $oldIDs = ArrayHelper::map($options, 'id', 'id');
-            $options = Model::createMultiple(TehnicOptionValue::className(), $options, 'option');
+            $options = Model::createMultiple(TehnicOptionValue::class, $options, 'option');
             $post = Yii::$app->request->post('TehnicOptionValue');
             Model::loadMultiple($options, $post['option']);
 
@@ -210,7 +210,7 @@ class Tehnic extends \yii\db\ActiveRecord
      */
     public function getTehnicCustomers()
     {
-        return $this->hasMany(TehnicCustomer::className(), ['order_id' => 'launch_id']);
+        return $this->hasMany(TehnicCustomer::class, ['order_id' => 'launch_id']);
     }
 
     /**

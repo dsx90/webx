@@ -17,7 +17,7 @@ use yii\bootstrap\ActiveForm;
         </h5>
 
         <?= $form->field($model, 'attachment')->widget(
-            \fbalabanov\filekit\widget\Upload::className(),
+            \fbalabanov\filekit\widget\Upload::class,
             [
                 'url' => ['/site/upload'],
                 'targetDir' => 'tehnic/'.$model->category->launch->slug.'/'.$model->launch_id,
@@ -27,7 +27,7 @@ use yii\bootstrap\ActiveForm;
             ]) ?>
 
         <?php if (isset($model->category)) : ?>
-            <?= $form->field($model->fetchoptions[0], 'option')->widget(MultipleInput::className(), [
+            <?= $form->field($model->fetchoptions[0], 'option')->widget(MultipleInput::class, [
                 'model' => $model->fetchoptions[0],
                 'data' => $model->fetchoptions,
                 'max' => count($model->category->options),

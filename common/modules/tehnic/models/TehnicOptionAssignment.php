@@ -33,8 +33,8 @@ class TehnicOptionAssignment extends \yii\db\ActiveRecord
         return [
             [['category_id', 'option_id'], 'required'],
             [['category_id', 'option_id'], 'integer'],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::className(), 'targetAttribute' => ['category_id' => 'id']],
-            [['option_id'], 'exist', 'skipOnError' => true, 'targetClass' => TehnicOption::className(), 'targetAttribute' => ['option_id' => 'option_id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::class, 'targetAttribute' => ['category_id' => 'id']],
+            [['option_id'], 'exist', 'skipOnError' => true, 'targetClass' => TehnicOption::class, 'targetAttribute' => ['option_id' => 'option_id']],
         ];
     }
 
@@ -55,7 +55,7 @@ class TehnicOptionAssignment extends \yii\db\ActiveRecord
      */
     public function getCategory()
     {
-        return $this->hasOne(Launch::className(), ['id' => 'category_id']);
+        return $this->hasOne(Launch::class, ['id' => 'category_id']);
     }
 
     /**
@@ -63,7 +63,7 @@ class TehnicOptionAssignment extends \yii\db\ActiveRecord
      */
     public function getOption()
     {
-        return $this->hasOne(TehnicOption::className(), ['option_id' => 'option_id']);
+        return $this->hasOne(TehnicOption::class, ['option_id' => 'option_id']);
     }
 
     /**

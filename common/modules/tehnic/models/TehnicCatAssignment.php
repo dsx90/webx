@@ -32,8 +32,8 @@ class TehnicCatAssignment extends \yii\db\ActiveRecord
         return [
             [['category', 'subcategory'], 'required'],
             [['category', 'subcategory'], 'integer'],
-            [['category'], 'exist', 'skipOnError' => true, 'targetClass' => TehnicCat::className(), 'targetAttribute' => ['category' => 'launch_id']],
-            [['category'], 'exist', 'skipOnError' => true, 'targetClass' => TehnicCat::className(), 'targetAttribute' => ['category' => 'launch_id']],
+            [['category'], 'exist', 'skipOnError' => true, 'targetClass' => TehnicCat::class, 'targetAttribute' => ['category' => 'launch_id']],
+            [['category'], 'exist', 'skipOnError' => true, 'targetClass' => TehnicCat::class, 'targetAttribute' => ['category' => 'launch_id']],
         ];
     }
 
@@ -54,7 +54,7 @@ class TehnicCatAssignment extends \yii\db\ActiveRecord
      */
     public function getCategory()
     {
-        return $this->hasOne(TehnicCat::className(), ['launch_id' => 'category']);
+        return $this->hasOne(TehnicCat::class, ['launch_id' => 'category']);
     }
 
     /**
@@ -62,6 +62,6 @@ class TehnicCatAssignment extends \yii\db\ActiveRecord
      */
     public function getCategory1()
     {
-        return $this->hasOne(TehnicCat::className(), ['launch_id' => 'category']);
+        return $this->hasOne(TehnicCat::class, ['launch_id' => 'category']);
     }
 }

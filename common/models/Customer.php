@@ -52,8 +52,8 @@ class Customer extends \yii\db\ActiveRecord
             [['name', 'email'], 'string', 'max' => 50],
             [['phone'], 'string', 'max' => 18],
             [['passport', 'company', 'thumbnail', 'thumbnail_base_url', 'thumbnail_path'], 'string', 'max' => 255],
-            [['manager_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['manager_id' => 'id']],
-            [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['owner_id' => 'id']],
+            [['manager_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['manager_id' => 'id']],
+            [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['owner_id' => 'id']],
         ];
     }
 
@@ -88,7 +88,7 @@ class Customer extends \yii\db\ActiveRecord
      */
     public function getManager()
     {
-        return $this->hasOne(User::className(), ['id' => 'manager_id']);
+        return $this->hasOne(User::class, ['id' => 'manager_id']);
     }
 
     /**
@@ -96,7 +96,7 @@ class Customer extends \yii\db\ActiveRecord
      */
     public function getOwner()
     {
-        return $this->hasOne(User::className(), ['id' => 'owner_id']);
+        return $this->hasOne(User::class, ['id' => 'owner_id']);
     }
 
     /**
@@ -104,7 +104,7 @@ class Customer extends \yii\db\ActiveRecord
      */
     public function getTehnicCustomers()
     {
-        return $this->hasMany(TehnicCustomer::className(), ['customer_id' => 'id']);
+        return $this->hasMany(TehnicCustomer::class, ['customer_id' => 'id']);
     }
 
     /**

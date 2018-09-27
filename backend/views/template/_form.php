@@ -15,13 +15,13 @@ use yii\widgets\ActiveForm;
     <div class="row">
         <div class="col-lg-12">
             <p>
-                <?= Html::submitButton('<i class="glyphicon glyphicon-floppy-disk"></i> '.Yii::t('document', 'Сохранить'), ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton('<i class="glyphicon glyphicon-floppy-disk"></i> '.Yii::t('backend', 'Save'), ['class' => 'btn btn-primary']) ?>
                 <?php
                 if (!$model->isNewRecord) {
-                    echo Html::a('<i class="glyphicon glyphicon-trash"></i> '.Yii::t('document', 'Удалить'), ['delete', 'id' => $model->id], [
+                    echo Html::a('<i class="glyphicon glyphicon-trash"></i> '.Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
                         'class' => 'btn btn-danger',
                         'data' => [
-                            'confirm' => Yii::t('document', 'Вы уверены, что хотите удалить шаблон?'),
+                            'confirm' => Yii::t('backend', 'Are you sure you want to delete this template?'),
                             'method' => 'post',
                         ],
                     ]);
@@ -40,7 +40,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-lg-6">
-            <?//= $form->field($model, 'path')->dropDownList(\dsx90\launcher\models\Template::getFile()) ?>
+            <?//= $form->field($model, 'path')->dropDownList(\common\models\Template::getFile()) ?>
         </div>
     </div>
 
@@ -53,7 +53,7 @@ use yii\widgets\ActiveForm;
                     'theme'=>'monokai',  // editor theme. Default "github" ace/theme/
                     'readOnly'=>'false'  // Read-only mode on/off = true/false. Default "false"
                 ]
-            ) ?>
+            )->hint(Yii::getAlias('@template').'\\'.$model->title.'.tpl') ?>
         </div>
     </div>
 

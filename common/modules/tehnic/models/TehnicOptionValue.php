@@ -40,8 +40,8 @@ class TehnicOptionValue extends \yii\db\ActiveRecord
             [['tehnic_id', 'option_id'], 'integer'],
             [['value'], 'required'],
             [['value'], 'string', 'max' => 255],
-            [['tehnic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tehnic::className(), 'targetAttribute' => ['tehnic_id' => 'launch_id']],
-            [['tehnic_id'], 'exist', 'skipOnError' => true, 'targetClass' => TehnicOption::className(), 'targetAttribute' => ['tehnic_id' => 'option_id']],
+            [['tehnic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tehnic::class, 'targetAttribute' => ['tehnic_id' => 'launch_id']],
+            [['tehnic_id'], 'exist', 'skipOnError' => true, 'targetClass' => TehnicOption::class, 'targetAttribute' => ['tehnic_id' => 'option_id']],
         ];
     }
 
@@ -63,7 +63,7 @@ class TehnicOptionValue extends \yii\db\ActiveRecord
      */
     public function getTehnic()
     {
-        return $this->hasOne(Tehnic::className(), ['launch_id' => 'tehnic_id']);
+        return $this->hasOne(Tehnic::class, ['launch_id' => 'tehnic_id']);
     }
 
     /**
@@ -71,7 +71,7 @@ class TehnicOptionValue extends \yii\db\ActiveRecord
      */
     public function getOptions()
     {
-        return $this->hasOne(TehnicOption::className(), ['option_id' => 'option_id']);
+        return $this->hasOne(TehnicOption::class, ['option_id' => 'option_id']);
     }
 
     /**

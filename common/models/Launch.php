@@ -59,14 +59,14 @@ class Launch extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            TimestampBehavior::class,
             [
-                'class' => BlameableBehavior::className(),
+                'class' => BlameableBehavior::class,
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'updater_id',
             ],
             [
-                'class' => SluggableBehavior::className(),
+                'class' => SluggableBehavior::class,
                 'attribute' => 'title',
                 'ensureUnique' => true,
                 'immutable' => true,
@@ -105,10 +105,10 @@ class Launch extends \yii\db\ActiveRecord
             [['is_folder'], 'default', 'value' => 0],                           // По умолчанию не папка, а документ
             [['status'], 'default', 'value' => self::STATUS_DRAFT],             // По умолчанию статус "Опубликован"
 
-            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass'   => self::className(), 'targetAttribute' => ['parent_id' => 'id']],
-            [['template_id'], 'exist', 'skipOnError' => true, 'targetClass' => Template::className(), 'targetAttribute' => ['template_id' => 'id']],
-            [['author_id'], 'exist', 'skipOnError' => true, 'targetClass'   => User::className(), 'targetAttribute' => ['author_id' => 'id']],
-            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass'  => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
+            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass'   => self::class, 'targetAttribute' => ['parent_id' => 'id']],
+            [['template_id'], 'exist', 'skipOnError' => true, 'targetClass' => Template::class, 'targetAttribute' => ['template_id' => 'id']],
+            [['author_id'], 'exist', 'skipOnError' => true, 'targetClass'   => User::class, 'targetAttribute' => ['author_id' => 'id']],
+            [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass'  => User::class, 'targetAttribute' => ['updater_id' => 'id']],
         ];
     }
 
@@ -142,7 +142,7 @@ class Launch extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
     public function getModule(){
-        return $this->hasOne(Module::className(), ['id' => 'module_id']);
+        return $this->hasOne(Module::class, ['id' => 'module_id']);
     }
 
     /**
@@ -151,7 +151,7 @@ class Launch extends \yii\db\ActiveRecord
      */
     public function getTemplate()
     {
-        return $this->hasOne(Template::className(), ['id' => 'template_id']);
+        return $this->hasOne(Template::class, ['id' => 'template_id']);
     }
 
     /**
@@ -160,7 +160,7 @@ class Launch extends \yii\db\ActiveRecord
      */
     public function getLikes()
     {
-        return $this->hasOne(Like::className(), ['id' => 'template_id']);
+        return $this->hasOne(Like::class, ['id' => 'template_id']);
     }
 
     public function getModels(){
@@ -195,7 +195,7 @@ class Launch extends \yii\db\ActiveRecord
      */
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'author_id']);
+        return $this->hasOne(User::class, ['id' => 'author_id']);
     }
 
     /**
@@ -204,7 +204,7 @@ class Launch extends \yii\db\ActiveRecord
      */
     public function getParent()
     {
-        return $this->hasOne(self::className(), ['id' => 'parent_id']);
+        return $this->hasOne(self::class, ['id' => 'parent_id']);
     }
 
     /**
@@ -213,7 +213,7 @@ class Launch extends \yii\db\ActiveRecord
      */
     public function getChildren()
     {
-        return $this->hasMany(self::className(), ['parent_id' => 'id'])->orderBy(['position' => SORT_ASC]);
+        return $this->hasMany(self::class, ['parent_id' => 'id'])->orderBy(['position' => SORT_ASC]);
     }
 
     /**
@@ -222,7 +222,7 @@ class Launch extends \yii\db\ActiveRecord
      */
     public function getVisits()
     {
-        return $this->hasMany(Visit::className(), ['launch_id' => 'id']);
+        return $this->hasMany(Visit::class, ['launch_id' => 'id']);
     }
 
     /**
@@ -230,7 +230,7 @@ class Launch extends \yii\db\ActiveRecord
      */
     public function getUpdater()
     {
-        return $this->hasOne(User::className(), ['id' => 'updater_id']);
+        return $this->hasOne(User::class, ['id' => 'updater_id']);
     }
 
     /**

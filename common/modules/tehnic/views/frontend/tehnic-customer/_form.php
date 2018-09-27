@@ -15,14 +15,14 @@ use yii\helpers\Url;
 
         <?= $form->field($model, 'name')->label(false)->textInput(array('maxlength' => true, 'placeholder' => 'Ваше имя', 'class'=>'form-control')); ?>
 
-        <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '+7 (999) 999 99 99',])->label(false)->textInput(array('placeholder' => 'Номер телефона', 'class'=>'form-control')) ?>
+        <?= $form->field($model, 'phone')->widget(\yii\widgets\MaskedInput::class, ['mask' => '+7 (999) 999 99 99',])->label(false)->textInput(array('placeholder' => 'Номер телефона', 'class'=>'form-control')) ?>
 
         <?= $form->field($model, 'email')->label(false)->textInput(array('maxlength' => true, 'placeholder' => 'Email почта', 'class'=>'form-control')); ?>
 
         <?= $form->field($customer, 'address')->label(false)->textInput(array('maxlength' => true, 'placeholder' => 'Адрес куда подать технику', 'class'=>'form-control')); ?>
 
         <?/*= $form->field($model, 'order_on_time')->widget(
-            \trntv\yii\datetime\DateTimeWidget::className(),
+            \trntv\yii\datetime\DateTimeWidget::class,
             [
                 'phpDatetimeFormat' => 'yyyy-MM-dd\'T\'HH:mm:ssZZZZZ'
             ]

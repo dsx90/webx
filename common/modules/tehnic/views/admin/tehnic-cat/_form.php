@@ -34,7 +34,7 @@ use common\models\Launch;
                 <h5><span id="description"><?= $launch->description ? $launch->description : 'Обьявление' ?></span></h5>
             </div>
 
-            <?= $form->field($model, 'content')->widget(Widget::className(), [
+            <?= $form->field($model, 'content')->widget(Widget::class, [
                 'settings' => [
                     'minHeight' => 200,
                     'plugins' => [
@@ -56,7 +56,7 @@ use common\models\Launch;
         <div class="col-md-3">
 
             <?= $form->field($model, 'thumbnail')->widget(
-                Upload::className(),
+                Upload::class,
                 [
                     'url' => ['/site/upload'],
                     'maxFileSize' => 5000000, // 5 MiB
@@ -70,7 +70,7 @@ use common\models\Launch;
 
             <?= $form->field($model, 'category')->checkboxList(Launch::getAll(13), ['prompt' => 'Тип документа:']) ?>
 
-            <?= $form->field($model, 'option')->widget(\kartik\select2\Select2::classname(), [
+            <?= $form->field($model, 'option')->widget(\kartik\select2\Select2::class, [
                 'data' => \yii\helpers\ArrayHelper::map(\common\modules\tehnic\models\TehnicOption::find()->all(),'option','option'),
                 'language' => 'ru',
                 'options' => ['placeholder' => 'Select a state ...', 'multiple' => true],
@@ -82,7 +82,7 @@ use common\models\Launch;
             ]); ?>
 
             <div class="form-group pull-left">
-                <?= $form->field($launch, 'status')->widget(\dosamigos\switchinput\SwitchBox::className(),[
+                <?= $form->field($launch, 'status')->widget(\dosamigos\switchinput\SwitchBox::class,[
                     'clientOptions' => [
                         'size' => 'normal',
                         'onColor' => 'success',

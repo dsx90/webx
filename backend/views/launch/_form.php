@@ -21,7 +21,7 @@ use yii\widgets\Pjax;
             <div class="col-sm-12">
                 <?//php $this->beginBlock('control-panel') ?>
                     <div class="control-panel pull-right">
-                        <?= $form->field($model, 'status')->widget(\dosamigos\switchinput\SwitchBox::className(),[
+                        <?= $form->field($model, 'status')->widget(\dosamigos\switchinput\SwitchBox::class,[
                             'clientOptions' => [
                                 'size' => 'normal',
                                 'onColor' => 'success',
@@ -57,7 +57,7 @@ use yii\widgets\Pjax;
                 <div id="launch-left" class="col-md-9">
                     <div class="border-field">
 
-                        <?= $form->field($model, 'title')->textInput(['maxlength' => true])/*->hint('Длинна пароля не меньше 70 символов.')*/ ?>
+                        <?= $form->field($model, 'title')->textInput(['maxlength' => true])->hint('Длинна пароля не более 70 символов.') ?>
 
                         <?= $form->field($model, 'longtitle')->textInput(['maxlength' => true]) ?>
 
@@ -119,7 +119,7 @@ use yii\widgets\Pjax;
 
                     <?//= $form->field($model, 'author_id')->dropDownList(\yii\helpers\ArrayHelper::map($model->author, 'username', $model->author_id))?> <!--TODO: Вывести Автора-->
 
-                    <?//= $form->field($model, 'published_at')->widget(DateTimeWidget::className(), ['phpDatetimeFormat' => 'dd.MM.yyyy, HH:mm:ss']) ?>
+                    <?//= $form->field($model, 'published_at')->widget(DateTimeWidget::class, ['phpDatetimeFormat' => 'dd.MM.yyyy, HH:mm:ss']) ?>
 
                     <?= $form->field($model, 'module_id')->dropDownList(Module::getAll(),
                         ['prompt' => 'Без типа:']) ?>

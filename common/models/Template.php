@@ -53,11 +53,11 @@ class Template extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'            => Yii::t('document', 'ID'),
-            'title'         => Yii::t('document', 'Наименование'),
-            'description'   => Yii::t('document', 'Описание'),
-            'path'          => Yii::t('document', 'Путь к файлу'),
-            'code' => Yii::getAlias('@template').'\\'.$this->title.'.tpl',
+            'id'            => Yii::t('backend', 'ID'),
+            'title'         => Yii::t('backend', 'Title'),
+            'description'   => Yii::t('backend', 'Description'),
+            'path'          => Yii::t('backend', 'Path'),
+            'code'          => '',
         ];
     }
 
@@ -67,7 +67,7 @@ class Template extends \yii\db\ActiveRecord
      */
     public function getLaunch()
     {
-        return $this->hasMany(Launch::className(), ['template_id' => 'id']);
+        return $this->hasMany(Launch::class, ['template_id' => 'id']);
     }
 
     public function beforeSave($insert)

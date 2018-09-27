@@ -9,7 +9,7 @@ use fbalabanov\filekit\widget\Upload;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <div id="tehnic_cat-content">
-    <?= $form->field($model, 'content')->widget(Widget::className(), [
+    <?= $form->field($model, 'content')->widget(Widget::class, [
         'settings' => [
             'minHeight' => 200,
             'plugins' => [
@@ -30,13 +30,13 @@ use fbalabanov\filekit\widget\Upload;
 
 <div id="tehnic_cat-right">
     <?= $form->field($model, 'thumbnail')->widget(
-        Upload::className(),
+        Upload::class,
         [
             'url' => ['/site/upload'],
             'maxFileSize' => 5000000, // 5 MiB
         ]);
     ?>
-    <?= $form->field($model, 'option')->widget(\kartik\select2\Select2::classname(), [
+    <?= $form->field($model, 'option')->widget(\kartik\select2\Select2::class, [
         'data' => \yii\helpers\ArrayHelper::map(\common\modules\tehnic\models\TehnicOption::find()->all(),'option','option'),
         'language' => 'ru',
         'options' => ['placeholder' => Yii::t('backend', 'Select a value ...'), 'multiple' => true],

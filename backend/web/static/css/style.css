@@ -213,6 +213,12 @@ div.required label:after {
     margin: 0 3px;
     float: left;
 }
+.hint-block{
+    color: gray;
+    font-style: italic;
+    font-size: 12px;
+    text-align: right;
+}
 
 /*.border-field{
     border: 1px solid #E4E4E4;

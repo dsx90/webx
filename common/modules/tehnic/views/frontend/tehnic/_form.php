@@ -27,7 +27,7 @@ use common\models\Launch;
         <?= $form->field($launch, 'title')->textInput(['maxlength' => true]) ?>
 
         <?php if (isset($model->category)) : ?>
-            <?= $form->field($model->fetchoptions[0], 'option')->widget(MultipleInput::className(), [
+            <?= $form->field($model->fetchoptions[0], 'option')->widget(MultipleInput::class, [
                 'model' => $model->fetchoptions[0],
                 'data' => $model->fetchoptions,
                 'max' => count($model->category->options),
@@ -78,7 +78,7 @@ use common\models\Launch;
     <div id="tehnic-attachment" class="col-sm-6">
 
         <?= $form->field($model, 'attachment')->widget(
-            \fbalabanov\filekit\widget\Upload::className(),
+            \fbalabanov\filekit\widget\Upload::class,
             [
                 'url' => ['/site/upload'],
                 'targetDir' => 'tehnic/'.$model->launch->parent->slug.'/'.$model->launch_id,

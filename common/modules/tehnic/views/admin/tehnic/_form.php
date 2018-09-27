@@ -15,7 +15,7 @@ use common\models\Launch;
     <?php $form = ActiveForm::begin(); ?>
         <div class="col-md-12 control">
             <div class="pull-right">
-                <?= $form->field($launch, 'status')->widget(\dosamigos\switchinput\SwitchBox::className(),[
+                <?= $form->field($launch, 'status')->widget(\dosamigos\switchinput\SwitchBox::class,[
                     'clientOptions' => [
                         'size' => 'normal',
                         'onColor' => 'success',
@@ -53,7 +53,7 @@ use common\models\Launch;
                 <div class="col-sm-5">
 
                     <?//= $form->field($model, 'attachment')->widget(
-                      //  \fbalabanov\filekit\widget\Upload::className(),
+                      //  \fbalabanov\filekit\widget\Upload::class,
                       //  [
                       //      'url' => ['/site/upload'],
                       //      'targetDir' => 'tehnic/'.$model->category->launch->slug.'/'.$model->launch_id,
@@ -77,7 +77,7 @@ use common\models\Launch;
                     </div>
 
                     <?php if (isset($model->category)) : ?>
-                        <?= $form->field($models[0], 'option')->widget(MultipleInput::className(), [
+                        <?= $form->field($models[0], 'option')->widget(MultipleInput::class, [
                             'model' => $models[0],
                             'data' => $models,
                             'max' => count($model->category->options),

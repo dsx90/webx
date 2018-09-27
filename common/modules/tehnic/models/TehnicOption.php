@@ -57,7 +57,7 @@ class TehnicOption extends \yii\db\ActiveRecord
      */
     public function getTehnicOptionAssignments()
     {
-        return $this->hasMany(TehnicOptionAssignment::className(), ['option_id' => 'option_id']);
+        return $this->hasMany(TehnicOptionAssignment::class, ['option_id' => 'option_id']);
     }
 
     /**
@@ -65,7 +65,7 @@ class TehnicOption extends \yii\db\ActiveRecord
      */
     public function getTehnicOptionValues()
     {
-        return $this->hasMany(TehnicOptionValue::className(), ['tehnic_id' => 'option_id']);
+        return $this->hasMany(TehnicOptionValue::class, ['tehnic_id' => 'option_id']);
     }
     public function getFormAttribs() {
         return [

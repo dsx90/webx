@@ -50,7 +50,7 @@ use yii\widgets\ActiveForm;
                 </div>
                 <div class="col-md-4">
                     <?= $form->field($customer, 'thumbnail')->widget(
-                        \trntv\filekit\widget\Upload::className(),
+                        \trntv\filekit\widget\Upload::class,
                         [
                             'url' => ['/site/upload'],
                             'maxFileSize' => 5000000, // 5 MiB

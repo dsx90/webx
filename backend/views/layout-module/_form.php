@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'sort_order')->textInput() ?>
 
     <div class="form-group pull-left">
-        <?= $form->field($model, 'status')->widget(\dosamigos\switchinput\SwitchBox::className(),[
+        <?= $form->field($model, 'status')->widget(\dosamigos\switchinput\SwitchBox::class,[
             'clientOptions' => [
                 'size' => 'normal',
                 'onColor' => 'success',
