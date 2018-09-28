@@ -26,6 +26,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $template_id
+ * @property integer $position
  *
  * @property integer $children
  * @property boolean is_folder
