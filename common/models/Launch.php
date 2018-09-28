@@ -27,6 +27,9 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  * @property integer $template_id
  *
+ * @property integer $children
+ * @property boolean is_folder
+ *
  * @property User $author
  * @property self $parent
  * @property self[] $launches
@@ -163,6 +166,10 @@ class Launch extends \yii\db\ActiveRecord
         return $this->hasOne(Like::class, ['id' => 'template_id']);
     }
 
+    /**
+     * Подключение модели выбранного модуля
+     * @return null|\yii\db\ActiveQuery
+     */
     public function getModels(){
         if (!$this->module_id) return null;
         return $this->hasOne($this->module->model::className(), ['launch_id' => 'id']);
@@ -171,6 +178,7 @@ class Launch extends \yii\db\ActiveRecord
 
     /**
      * Поллучить ссыки на предидущий | следуюший ресурс
+     * @return mixed|null
      */
     public function getNext() {
         $next = $this->find()->where('parent_id=parent_id')->andWhere(['>', 'id', $this->id])->orderBy('id asc')->one();
@@ -209,7 +217,7 @@ class Launch extends \yii\db\ActiveRecord
 
     /**
      * Дочерние документы
-     * @return $this
+     * @return \yii\db\ActiveQuery
      */
     public function getChildren()
     {
@@ -271,7 +279,7 @@ class Launch extends \yii\db\ActiveRecord
      * Пометка или снятие документа как папки
      * @param $id - ID документа
      * @param bool $child_delete - дочерние документы удаляются?
-     * @return bool
+     * @throws \yii\db\Exception
      */
     public static function folder($id, $child_delete = false)
     {
@@ -292,7 +300,8 @@ class Launch extends \yii\db\ActiveRecord
     /**
      * @param bool $insert
      * @param array $changedAttributes
-     * @return bool
+     * @return bool|void
+     * @throws \yii\db\Exception
      */
     public function afterSave($insert, $changedAttributes)
     {
@@ -312,7 +321,9 @@ class Launch extends \yii\db\ActiveRecord
      * документов у родительского документа.
      * Если это был единственный документ, то у родителя
      * снимаем значение "Папка"
+     *
      * @return bool
+     * @throws \yii\db\Exception
      */
     public function beforeDelete()
     {

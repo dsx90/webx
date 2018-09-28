@@ -101,20 +101,20 @@ class Article extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'title' => Yii::t('common', 'Title'),
-            'slug' => Yii::t('common', 'Slug'),
-            'description' => Yii::t('common', 'Description'),
-            'keywords' => Yii::t('common', 'Keywords'),
-            'preview' => Yii::t('common', 'Preview'),
-            'body' => Yii::t('common', 'Text'),
-            'status' => Yii::t('common', 'Status'),
-            'category_id' => Yii::t('common', 'Category'),
-            'author_id' => Yii::t('common', 'Author'),
-            'updater_id' => Yii::t('common', 'Updater'),
-            'published_at' => Yii::t('common', 'Published at'),
-            'created_at' => Yii::t('common', 'Created at'),
-            'updated_at' => Yii::t('common', 'Updated at'),
-            'tagValues' => Yii::t('common', 'Tags'),
+            'title'         => Yii::t('common', 'Title'),
+            'slug'          => Yii::t('common', 'Slug'),
+            'description'   => Yii::t('common', 'Description'),
+            'keywords'      => Yii::t('common', 'Keywords'),
+            'preview'       => Yii::t('common', 'Preview'),
+            'body'          => Yii::t('common', 'Text'),
+            'status'        => Yii::t('common', 'Status'),
+            'category_id'   => Yii::t('common', 'Category'),
+            'author_id'     => Yii::t('common', 'Author'),
+            'updater_id'    => Yii::t('common', 'Updater'),
+            'published_at'  => Yii::t('common', 'Published at'),
+            'created_at'    => Yii::t('common', 'Created at'),
+            'updated_at'    => Yii::t('common', 'Updated at'),
+            'tagValues'     => Yii::t('common', 'Tags'),
         ];
     }
 
