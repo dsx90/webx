@@ -41,30 +41,37 @@ class m160101_000007_data extends Migration
         ]);
 
         $this->insert('{{%key_storage_item}}', [
+            'namespace' => 'site.setting',
             'key' => 'frontend.registration',
             'value' => 1,
         ]);
         $this->insert('{{%key_storage_item}}', [
+            'namespace' => 'site.setting',
             'key' => 'frontend.email-confirm',
             'value' => 1,
         ]);
         $this->insert('{{%key_storage_item}}', [
+            'namespace' => 'admin.panel',
             'key' => 'backend.theme-skin',
             'value' => 'skin-blue',
         ]);
         $this->insert('{{%key_storage_item}}', [
+            'namespace' => 'admin.panel',
             'key' => 'backend.layout-fixed',
             'value' => 0,
         ]);
         $this->insert('{{%key_storage_item}}', [
+            'namespace' => 'admin.panel',
             'key' => 'backend.layout-boxed',
             'value' => 0,
         ]);
         $this->insert('{{%key_storage_item}}', [
+            'namespace' => 'admin.panel',
             'key' => 'backend.layout-collapsed-sidebar',
             'value' => 0,
         ]);
         $this->insert('{{%key_storage_item}}', [
+            'namespace' => 'admin.panel',
             'key' => 'backend.layout-mini-sidebar',
             'value' => 0,
         ]);

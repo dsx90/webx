@@ -2,8 +2,14 @@
 
 namespace common\models;
 
+use backend\models\Chunk;
+use backend\models\Snippet;
 use common\models\query\LaunchQuery;
+use hiqdev\composer\config\configs\Params;
 use Yii;
+use yii\base\View;
+use yii\base\ViewEvent;
+use yii\base\ViewRenderer;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -13,13 +19,13 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $id
  * @property integer $parent_id
  * @property string $title
- * @property string $longtitle
+ * @property string $long_title
  * @property string $description
  * @property string $keywords
  * @property string $menutitle
  * @property string $slug
  * @property integer $status
- * @property string $module_id
+ * @property string $content_type_id
  * @property integer $author_id
  * @property integer $updater_id
  * @property integer $published_at
@@ -32,16 +38,11 @@ use yii\behaviors\TimestampBehavior;
  * @property boolean is_folder
  *
  * @property User $author
- * @property self $parent
- * @property self[] $launches
  * @property User $updater
  */
 class Launch extends \yii\db\ActiveRecord
 {
-//    public $asdf = [];
-    public $class;
-
-    const STATUS_DRAFT      = 0; //  Скрыт
+    const STATUS_DRAFT      = 0; // Скрыт
     const STATUS_ACTIVE     = 1; // Активен
     const STATUS_WAIT       = 3; // На модерации
 
@@ -94,17 +95,18 @@ class Launch extends \yii\db\ActiveRecord
         return [
             [['title'], 'required'],
             ['slug', 'unique'],
-            [['parent_id', 'is_folder', 'position', 'status', 'author_id', 'updater_id', 'published_at', 'created_at', 'updated_at', 'module_id'], 'integer'],
+            [['parent_id', 'is_folder', 'position', 'status', 'author_id', 'updater_id', 'published_at', 'created_at', 'updated_at', 'content_type_id'], 'integer'],
             ['published_at', 'default', 'value' => time()],
 
-            [['title', 'longtitle'], 'string', 'max' => 70],
-            [['description'], 'string', 'max' => 150],
-            [['keywords'], 'string', 'max' => 255],
-            [['menutitle'], 'string', 'max' => 20],
-            [['slug'], 'string', 'max' => 80],
+            ['title', 'string', 'max' => 35],
+            ['long_title', 'string', 'max' => 81],
+            ['description', 'string', 'max' => 150],
+            ['keywords', 'string', 'max' => 255],
+            ['menutitle', 'string', 'max' => 20],
+            ['slug', 'string', 'max' => 80],
 
-            [['title', 'longtitle', 'description', 'keywords', 'slug'], 'filter', 'filter' => 'trim'],  // Обрезаем строки по краям
-            [['longtitle', 'longtitle', 'description', 'keywords', 'parent_id', 'template_id', 'position'], 'default', 'value' => null], // По умолчанию = null
+            [['title', 'long_title', 'description', 'keywords', 'slug'], 'filter', 'filter' => 'trim'],  // Обрезаем строки по краям
+            [['long_title', 'description', 'keywords', 'parent_id', 'template_id', 'position'], 'default', 'value' => null], // По умолчанию = null
             ['status', 'in', 'range' => array_keys(self::getStatusArray())],    // Статус должен быть из списка статусов
             [['is_folder'], 'default', 'value' => 0],                           // По умолчанию не папка, а документ
             [['status'], 'default', 'value' => self::STATUS_DRAFT],             // По умолчанию статус "Опубликован"
@@ -122,31 +124,31 @@ class Launch extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'            => Yii::t('common', 'ID'),
-            'parent_id'     => Yii::t('common', 'Parent ID'),
-            'title'         => Yii::t('common', 'Title'),
-            'longtitle'     => Yii::t('common', 'Longtitle'),
-            'description'   => Yii::t('common', 'Description'),
-            'keywords'      => Yii::t('common', 'Keywords'),
-            'menutitle'     => Yii::t('common', 'Menutitle'),
-            'slug'          => Yii::t('common', 'Slug'),
-            'status'        => Yii::t('common', 'Status'),
-            'module_id'     => Yii::t('common', 'Module'),
-            'author_id'     => Yii::t('common', 'Author ID'),
-            'updater_id'    => Yii::t('common', 'Updater ID'),
-            'published_at'  => Yii::t('common', 'Published At'),
-            'created_at'    => Yii::t('common', 'Created At'),
-            'updated_at'    => Yii::t('common', 'Updated At'),
-            'template_id'   => Yii::t('common', 'Template Id'),
+            'id'                => Yii::t('common', 'ID'),
+            'parent_id'         => Yii::t('common', 'Parent ID'),
+            'title'             => Yii::t('common', 'Title'),
+            'long_title'        => Yii::t('common', 'Long title'),
+            'description'       => Yii::t('common', 'Description'),
+            'keywords'          => Yii::t('common', 'Keywords'),
+            'menutitle'         => Yii::t('common', 'Menutitle'),
+            'slug'              => Yii::t('common', 'Slug'),
+            'status'            => Yii::t('common', 'Status'),
+            'content_type_id'   => Yii::t('common', 'Content type'),
+            'author_id'         => Yii::t('common', 'Author ID'),
+            'updater_id'        => Yii::t('common', 'Updater ID'),
+            'published_at'      => Yii::t('common', 'Published At'),
+            'created_at'        => Yii::t('common', 'Created At'),
+            'updated_at'        => Yii::t('common', 'Updated At'),
+            'template_id'       => Yii::t('common', 'Template Id'),
         ];
     }
 
     /**
-     * Tип документа
+     * Tип контента
      * @return \yii\db\ActiveQuery
      */
-    public function getModule(){
-        return $this->hasOne(Module::class, ['id' => 'module_id']);
+    public function getContenttype(){
+        return $this->hasOne(ContentType::class, ['id' => 'content_type_id']);
     }
 
     /**
@@ -159,22 +161,54 @@ class Launch extends \yii\db\ActiveRecord
     }
 
     /**
-     * Шаблон документа
+     * Лайки
      * @return \yii\db\ActiveQuery
      */
-    public function getLikes()
+    public function getVisit()
     {
-        return $this->hasOne(Like::class, ['id' => 'template_id']);
+        return $this->hasOne(Visit::class, ['launch_id' => 'id'])->count();
+    }
+
+    /**
+     * Лайки
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLike()
+    {
+        return $this->hasOne(Like::class, ['launch_id' => 'id'])->count();
     }
 
     /**
      * Подключение модели выбранного модуля
      * @return null|\yii\db\ActiveQuery
      */
-    public function getModels(){
-        if (!$this->module_id) return null;
-        return $this->hasOne($this->module->model::className(), ['launch_id' => 'id']);
+    public function getModels()
+    {
+        if (!$this->content_type_id) return null;
+        return $this->hasOne($this->contenttype->model::className(), ['launch_id' => 'id']);
 
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function getChunk($name)
+    {
+        // TODO: Не работает Smarty
+        return Chunk::find()->where(['name' => $name])->one()  ;
+    }
+
+    /**
+     * @param $name
+     * @param array $params
+     * @return string
+     */
+    public function getSnippet($name, $params = [])
+    {
+        extract($params, EXTR_OVERWRITE);
+        $snippet = Snippet::find()->where(['name' => $name])->one()->code;
+        return \Yii::$app->view->renderDynamic($snippet);
     }
 
     /**
@@ -182,7 +216,12 @@ class Launch extends \yii\db\ActiveRecord
      * @return mixed|null
      */
     public function getNext() {
-        $next = $this->find()->where('parent_id=parent_id')->andWhere(['>', 'id', $this->id])->orderBy('id asc')->one();
+        $next = $this->find()
+            ->where(['parent_id' => $this->parent_id])
+            ->andWhere(['>', 'id', $this->id])
+            ->orderBy('id asc')
+            ->one();
+
         if (isset($next))
             return $next->id;
         else return null;
@@ -192,7 +231,12 @@ class Launch extends \yii\db\ActiveRecord
         if($this->id == '1') return null;
         else
         {
-            $prev = $this->find()->where('parent_id=parent_id')->andWhere(['<', 'id', $this->id])->orderBy('id desc')->one();
+            $prev = $this->find()
+                ->where(['parent_id' => $this->parent_id])
+                ->andWhere(['<', 'id', $this->id])
+                ->orderBy('id desc')
+                ->one();
+
             if (isset($prev)) {
                 return $prev->id;
             } else {return null;}

@@ -3,7 +3,7 @@ namespace common\models;
 
 use yii\db\ActiveRecord;
 /**
- * This is the model class for table "{{%tie_type}}".
+ * This is the model class for table "{{%content_type}}".
  *
  * @property integer $id
  * @property string $title
@@ -11,18 +11,18 @@ use yii\db\ActiveRecord;
  * @property string $controller
  * @property string $form
  */
-class Module extends ActiveRecord
+class ContentType extends ActiveRecord
 {
     const STATUS_OFF= 0;
     const STATUS_ON = 1;
 
-    const CACHE_KEY = 'launch_modules';
+    const CACHE_KEY = 'launch_content_type';
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%module}}';
+        return '{{%content_type}}';
     }
 
     /**

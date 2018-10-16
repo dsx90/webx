@@ -30,6 +30,7 @@ class KeyStorageItem extends ActiveRecord
             [['key', 'value'], 'required'],
             ['key', 'unique'],
             ['key', 'string', 'max' => 128],
+            ['namespace', 'string', 'max' => 50],
             ['comment', 'string'],
         ];
     }
@@ -40,9 +41,10 @@ class KeyStorageItem extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'key' => Yii::t('common', 'Key'),
-            'value' => Yii::t('common', 'Value'),
-            'comment' => Yii::t('common', 'Comment'),
+            'key'       => Yii::t('common', 'Key'),
+            'value'     => Yii::t('common', 'Value'),
+            'comment'   => Yii::t('common', 'Comment'),
+            'namespace' => Yii::t('common', 'Namespace'),
         ];
     }
 }

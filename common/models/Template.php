@@ -19,6 +19,21 @@ class Template extends \yii\db\ActiveRecord
 {
     public $code;
 
+    const SHOW_TEMPLATE = 0;
+    const SHOW_PARTIAL = 1;
+
+    /**
+     * Способ вывода шаблона
+     * @return array
+     */
+    public static function getDisplayArray()
+    {
+        return [
+            self::SHOW_TEMPLATE => Yii::t('backend', 'Show Template'),
+            self::SHOW_PARTIAL  => Yii::t('backend', 'Show Partial'),
+        ];
+    }
+
     /**
      * Наименование таблицы
      * @return string
@@ -42,7 +57,8 @@ class Template extends \yii\db\ActiveRecord
             [['title', 'path'], 'string', 'max' => 255], // Строковое значение (максимум 255 символов)
             [['title', 'description', 'path'], 'filter', 'filter' => 'trim'],    // Обрезаем строки по краям
             [['path', 'description'], 'default', 'value' => null],  // По умолчанию = null
-            ['code', 'safe']
+            ['code', 'safe'],
+            ['display', 'integer']
         ];
     }
 
@@ -57,6 +73,7 @@ class Template extends \yii\db\ActiveRecord
             'title'         => Yii::t('backend', 'Title'),
             'description'   => Yii::t('backend', 'Description'),
             'path'          => Yii::t('backend', 'Path'),
+            'display'       => Yii::t('backend', 'Display'),
             'code'          => '',
         ];
     }

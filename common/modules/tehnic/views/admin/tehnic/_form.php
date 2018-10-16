@@ -108,7 +108,7 @@ use common\models\Launch;
 
                     <div class="adver-view">
                         <i>Видимость в поисковиках</i>
-                        <h2><span id="title"><?= isset($model->category->launch->title) ? $model->category->launch->title : null ?> <?= $launch->title ? $launch->title : 'Титул' ?></span>: <span id="longtitle"><?= $model->price ? $model->price.'р/час' : 'Краткое описание' ?></span></h2>
+                        <h2><span id="title"><?= isset($model->category->launch->title) ? $model->category->launch->title : null ?> <?= $launch->title ? $launch->title : 'Титул' ?></span>: <span id="long_title"><?= $model->price ? $model->price.'р/час' : 'Краткое описание' ?></span></h2>
                         <h4><?= env('FRONTEND_URL')?> › <span id="url"><?= $launch->slug ? $launch->slug : 'url ссылка' ?></span></h4>
                         <h5><span id="description"><?= strip_tags($model->content) ? $model->cut(strip_tags($model->content), 140).'...' : 'Обьявление' ?> <br> <b><?= $model->getAttribut(', ') ?></b></span></h5>
                     </div>

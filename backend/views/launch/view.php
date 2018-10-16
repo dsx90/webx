@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model \common\models\Launch */
@@ -12,48 +13,55 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="launch-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <p class="pull-right">
+            <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                    'method' => 'post',
+                ],
+            ]) ?>
+        </p>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+        <?= \yii\bootstrap\Tabs::widget([
+            'items' => [
+                [
+                    'label' => 'Рендер шаблона',
+                    'visible'   => !empty($template),
+                    'content'   => empty($template) ?: $this->render(
+                            '@template/'.$model->template->title.'.tpl',
+                            ['model' => $model]
+                        )
+                ],
+                [
+                    'label' => 'Таблица полей',
+                    'content' => DetailView::widget([
+                        'model' => $model,
+                        'attributes' => [
+                            'id',
+                            'parent_id',
+                            'title',
+                            'long_title',
+                            'description',
+                            'keywords',
+                            'menutitle',
+                            'slug',
+                            'status',
+                            'content_type_id',
+                            'author_id',
+                            'updater_id',
+                            'published_at',
+                            'created_at',
+                            'updated_at',
+                            'visit',
+                            'like'
+                        ],
+                    ]),
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'parent_id',
-            'title',
-            'longtitle',
-            'description',
-            'keywords',
-            'menutitle',
-            'slug',
-            'status',
-            'module_id',
-            'author_id',
-            'updater_id',
-            'published_at',
-            'created_at',
-            'updated_at',
-            [
-                'attribute' => Yii::t('common', 'Views'),
-                'format' => 'raw',
-                'value' =>  $views,
-            ],
-            [
-                'attribute' => Yii::t('common', 'Likes'),
-                'format' => 'raw',
-                'value' =>  $likes,
+                ],
+
             ]
-        ],
-    ]) ?>
-
+        ]);
+        ?>
 </div>

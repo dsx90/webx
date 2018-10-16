@@ -43,7 +43,7 @@ class Like extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'like';
+        return '{{%like}}';
     }
 
     /**
@@ -103,7 +103,7 @@ class Like extends \yii\db\ActiveRecord
         ])->count();
         // Сохраняем запись
         if (!$model) {
-            $visit = new Like();
+            $visit = new self();
             $visit->launch_id = $launch_id;
             $visit->ip = $ip;
             $visit->user_id = (Yii::$app->user->isGuest) ? null : Yii::$app->user->id;
@@ -111,7 +111,11 @@ class Like extends \yii\db\ActiveRecord
             $visit->save();
             return true;
         } else {
-            return false;
+            self::deleteAll('launch_id=:launch_id && ip=:ip',[
+                ':launch_id' => $launch_id,
+                ':ip' => $ip
+            ]);
+            return true;
         }
     }
 
@@ -125,16 +129,13 @@ class Like extends \yii\db\ActiveRecord
      */
     public static function getAll($launch_ids = null, $shedule = false)
     {
-        $table = self::tableName();
-        $group_by = ($shedule) ? 'DATE(created_at)' : 'launch_id';
+        $sql = self::find()
+            ->select(['created_at' => 'DATE(created_at)', 'launch_id', 'count' => 'COUNT(launch_id)'])
+            ->groupBy($shedule ? 'created_at' : ['created_at', 'launch_id']); //TODO Проверить
+
         if ($launch_ids) {
-            $ids = (is_array($launch_ids)) ? implode(',', $launch_ids) : $launch_ids;
-            // TODO: Переписать
-            $sql = 'SELECT date(created_at) as created_at , launch_id, count(launch_id) as count FROM `' . $table . '` where launch_id IN ('.$ids.') GROUP BY ' . $group_by;
-        } else {
-            $sql = 'SELECT date(created_at) as created_at , launch_id, count(launch_id) as count FROM `' . $table . '` GROUP BY ' . $group_by;
+            $sql->where(['in', 'launch_id', ((is_array($launch_ids)) ? implode(',', $launch_ids) : $launch_ids)]);
         }
-        $model = self::findBySql($sql)->all();
-        return $model;
+        return $sql->all();
     }
 }

@@ -40,7 +40,11 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-lg-6">
+            <?= $form->field($model, 'display')->dropDownList(\common\models\Template::getDisplayArray()) ?>
             <?//= $form->field($model, 'path')->dropDownList(\common\models\Template::getFile()) ?>
+        </div>
+        <div class="col-lg-12">
+            <?= $form->field($model, 'description')->textarea() ?>
         </div>
     </div>
 

@@ -75,7 +75,7 @@ use common\modules\tehnic\models\TehnicOptionValue;
 $js = <<< JS
     $('.field-launch-title').addClass('col-md-9').wrap( "<div id='title-price' class='row'></div>" );
     $('.field-tehnic-price').addClass('col-md-3').appendTo( $('#title-price') );
-    $('.field-launch-longtitle,.field-launch-description,.field-launch-keywords,.field-launch-slug,.field-launch-menutitle').detach();
+    $('.field-launch-long_title,.field-launch-description,.field-launch-keywords,.field-launch-slug,.field-launch-menutitle').detach();
     $('#launch-left').removeClass('col-md-9').addClass('col-md-6');
     $('#tehnic-attachment').prependTo( $('#launch-row') ).addClass('col-md-3');
     $('#tehnic-right').prependTo( $('#launch-right') );

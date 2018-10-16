@@ -37,10 +37,11 @@ class m170924_211339_tehnic extends Migration
         ], $tableOptions);
 
         //Таблица свойсв техники
-        // id | Обьем ковша | м³
+        // id | Обьем ковша | int | м³
         $this->createTable('{{%tehnic_option}}', [
             'option_id'             => $this->primaryKey(),
             'option'                => $this->string()->notNull(),
+            //'type'                  => $this->smallInteger(), //Тип поля для валидации
             'scale'                 => $this->string()->notNull(),
         ], $tableOptions);
 
@@ -155,7 +156,7 @@ class m170924_211339_tehnic extends Migration
             'RESTRICT'
         );
 
-        $this->insert('{{%module}}', [
+        $this->insert('{{%content_type}}', [
             'title'         => 'Tehnic',
             'name'          => 'Спецтехника',
             'icon'          => 'fa fa-car',
@@ -165,7 +166,7 @@ class m170924_211339_tehnic extends Migration
             'form'          => '@common/modules/tehnic/views/admin/tehnic/_cform',
         ]);
 
-        $this->insert('{{%module}}', [
+        $this->insert('{{%content_type}}', [
             'title'         => 'Tehnic Category',
             'name'          => 'Категория техники',
             'icon'          => 'fa fa-cogs',
@@ -195,11 +196,11 @@ class m170924_211339_tehnic extends Migration
         $this->dropTable('{{%tehnic_option_value}}');
         $this->dropTable('{{%tehnic_customer}}');
 
-        $this->delete('{{%module}}', [
+        $this->delete('{{%content_type}}', [
             'title' => 'Tehnic',
         ]);
 
-        $this->delete('{{%module}}', [
+        $this->delete('{{%content_type}}', [
             'title' => 'Tehnic Category',
         ]);
     }

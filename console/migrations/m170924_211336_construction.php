@@ -27,7 +27,7 @@ class m170924_211336_construction extends Migration
           'RESTRICT'
         );
 
-        $this->insert('{{%module}}', [
+        $this->insert('{{%content_type}}', [
             'title'         => 'Construction',
             'name'          => 'Выполнение работ',
             'icon'          => 'fa fa-wrench',
@@ -42,7 +42,7 @@ class m170924_211336_construction extends Migration
     {
         $this->dropTable('{{%construction}}');
 
-        $this->delete('{{%module}}', [
+        $this->delete('{{%content_type}}', [
             'title' => 'Construction',
         ]);
     }

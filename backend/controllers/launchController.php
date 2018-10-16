@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use common\models\Template;
 use Yii;
 use common\models\Launch;
 use common\models\Visit;
@@ -70,16 +71,26 @@ class LaunchController extends Controller
     {
         $model =  $this->findModel($id);
         Visit::check($model->id);           // Фиксируем просмотр
-        $views = Visit::getAll($model->id, true); // Считаем просмотры
-        $likes = Like::getAll($model->id, true);  // Считаем лайки
 
-        // Если задан шаблон отображения, то отображаем согласно нему, иначе стандартное отображение статьи
-        $template = (isset($model->template)) ? '@template/'.$model->template->title.'.tpl' : 'view';
-        return $this->render($template, [
-            'model' => $model,
-            'views' => ($views) ?  $views[0]->count : 0,
-            'likes' => ($likes) ?  $likes[0]->count : 0
-        ]);
+        if ($model->template){
+            $template = Template::find()->where(['id' => $model->template_id])->one();
+            if ($template->load(Yii::$app->request->post()) && $template->save()) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('document', 'Шаблон отредактирован.'));
+            }
+            if($model->template->display == Template::SHOW_PARTIAL){
+                return $this->renderPartial('@template/'.$model->template->title.'.tpl', [
+                    'model' => $model,
+                ]);
+            }
+            return $this->render('view', [
+                'model' => $model,
+                'template' => $template
+            ]);
+        } else {
+            return $this->render('view', [
+                'model' => $model,
+            ]);
+        }
     }
 
     /**
@@ -96,13 +107,13 @@ class LaunchController extends Controller
             throw new NotFoundHttpException(Yii::t('backend', 'Requested page was not found.'));
         }
         Visit::check($model->id);           // Фиксируем просмотр
-        $views = Visit::getAll($model->id); // Считаем просмотры
+        $visit = Visit::getAll($model->id); // Считаем просмотры
         $likes = Like::getAll($model->id);  // Считаем лайки
         // Если задан шаблон отображения, то отображаем согласно нему, иначе стандартное отображение статьи
         $template = (isset($model->template) && $model->template->path) ? $model->template->path : '@vendor/lowbase/yii2-document/views/document/template/default';
         return $this->render($template, [
             'model' => $model,
-            'views' => ($views) ?  $views[0]->count : 0,
+            'visit' => ($visit) ?  $visit[0]->count : 0,
             'likes' => ($likes) ?  $likes[0]->count : 0
         ]);
     }
@@ -134,7 +145,7 @@ class LaunchController extends Controller
     {
         $launch = $this->findModel($id);
         if( Yii::$app->request->isAjax){
-            $launch->module_id = Yii::$app->request->post('module_id');
+            $launch->content_type_id = Yii::$app->request->post('content_type_id');
             $launch->save();
         }
         if(($id) && $launch->module->model::findOne($id) !== null){
@@ -154,23 +165,38 @@ class LaunchController extends Controller
 
         $request = Yii::$app->request;
         if ($request->isPjax && ($module = $request->get('module')) !== null) {
-            $model->module_id = $module;
+            $model->content_type_id = $module;
         }
 
         $searchModel = new LaunchSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataProvider->query->andWhere(['parent_id' => $model->id]);
 
-        if ($request->isPost && $this->save($model)) {
-            Yii::$app->getSession()->setFlash('success', Yii::t('backend', 'Document edited.'));
-            return $this->redirect(['update', 'id' => $model->id]);
-        };
+        if ($model->template){
+            $template = Template::find()->where(['id' => $model->template_id])->one();
+            if ($template->load(Yii::$app->request->post()) && $template->save()) {
+                if ($request->isPost && $this->save($model)) {
+                    Yii::$app->getSession()->setFlash('success', Yii::t('backend', 'Document edited.'));
+                }
+            }
+            return $this->render('update', [
+                'model' => $model,
+                'template' => $template,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            if ($request->isPost && $this->save($model)) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('backend', 'Document edited.'));
+                return $this->redirect(['update', 'id' => $model->id]);
+            };
 
-        return $this->render('update', [
-            'model' => $model,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('update', [
+                'model' => $model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
     }
 
     protected function save(Launch &$model)
@@ -181,16 +207,16 @@ class LaunchController extends Controller
 
             try {
                 $transaction = $model::getDb()->beginTransaction();
-                $module_old = $model->getOldAttribute('module_id');
+                $module_old = $model->getOldAttribute('content_type_id');
                 $model->save();
 
-                if ($mod && $module_old != $model->module_id) {
+                if ($mod && $module_old != $model->content_type_id) {
                     $mod->delete();
                     $mod = null;
                 }
                 $model->refresh();
 
-                if ($model->module_id && !$mod) {
+                if ($model->content_type_id && !$mod) {
                     $mod = new $model->module->model;
                 }
 
@@ -246,14 +272,15 @@ class LaunchController extends Controller
 
     /**
      * Лайк документа
-     * @param $id - ID документа
      * Отображает количество лайков статьи
+     * @param $id - ID документа
+     * @return int|mixed
      */
-    public function actionLike($id)
+    public function actionLike(int $id)
     {
         Like::check($id);
         $likes = Like::getAll($id);
-        echo ($likes) ? $likes[0]->count : 0;
+        return ($likes) ? $likes[0]->count : 0;
     }
 
     /**

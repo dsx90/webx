@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function ($model) {
                     return  '<h5><b>'.$model->launch->title.'</b></h5>'.
-                        '<h5>'.$model->launch->longtitle.'</h5>'.
+                        '<h5>'.$model->launch->long_title.'</h5>'.
                         '<h6>'.$model->launch->description.'</h6>';
                 },
             ],

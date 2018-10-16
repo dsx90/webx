@@ -51,6 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'description:ntext',
             'path',
+            'display',
 //            [
 //                'attribute' => Yii::t('document', 'Дополнительные поля'),
 //                'format' => 'raw',

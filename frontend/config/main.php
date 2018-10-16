@@ -10,7 +10,10 @@ $config = [
     'homeUrl' => Yii::getAlias('@frontendUrl'),
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'frontend\controllers',
-    'modules' => [
+    'modules' => [ //TODO: Получать циклом все модули
+        'construction' => [
+            'class' => 'common\modules\construction\Module',
+        ],
         'tehnic' => [
             'class' => 'common\modules\tehnic\Module',
         ],

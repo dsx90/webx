@@ -12,6 +12,8 @@ use yii\bootstrap\Html;
 
     <?php $form = ActiveForm::begin() ?>
 
+    <?= $form->field($model, 'namespace')->textInput() ?>
+
     <?= $form->field($model, 'key')->textInput() ?>
 
     <?= $form->field($model, 'value')->textInput() ?>

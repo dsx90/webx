@@ -66,8 +66,8 @@ return [
     'Content' => 'Контент',
     'Options' => 'Опция',
     'Menutitle' => 'Пункт меню',
-    'Module' => 'Модуль',
-    'Longtitle' => 'Краткое описание',
+    'Content type' => 'Тип контента',
+    'Long title' => 'Краткое описание',
     'Thumbnail' => 'Изображение',
     'Template Id' => 'Шаблон'
 ];

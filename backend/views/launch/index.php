@@ -39,11 +39,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function ($model) {
                     return  '<h5><b>'.$model->title.'</b></h5>'.
-                            '<h5>'.$model->longtitle.'</h5>'.
+                            '<h5>'.$model->long_title.'</h5>'.
                             '<h6>'.$model->description.'</h6>';
                 },
             ],
-            //'longtitle',
+            //'long_title',
             //'description',
             // 'keywords',
             // 'menutitle',
@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => ['width' => '200']
             ],
             [
-                'attribute' => 'module_id',
+                'attribute' => 'content_type_id',
                 'format' => 'html',
                 'value' => 'module.title',
                 'options' => ['width' => '200']

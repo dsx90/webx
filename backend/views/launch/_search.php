@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title') ?>
 
-    <?= $form->field($model, 'longtitle') ?>
+    <?= $form->field($model, 'long_title') ?>
 
     <?= $form->field($model, 'description') ?>
 

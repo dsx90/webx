@@ -1,7 +1,7 @@
 <?php
 
 use common\models\Template;
-use common\models\Module;
+use common\models\ContentType;
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
@@ -18,58 +18,26 @@ use yii\widgets\Pjax;
     <?php $form = ActiveForm::begin(); ?>
 
         <div class="row">
-            <div class="col-sm-12">
-                <?//php $this->beginBlock('control-panel') ?>
-                    <div class="control-panel pull-right">
-                        <?= $form->field($model, 'status')->widget(\dosamigos\switchinput\SwitchBox::class,[
-                            'clientOptions' => [
-                                'size' => 'normal',
-                                'onColor' => 'success',
-                                'offColor' => 'danger',
-                            ],
-                            'inlineLabel' => false
-                        ])->label(false);?>
-                        <?= Html::submitButton('<i class="glyphicon glyphicon-floppy-disk"></i> '.Yii::t('backend', 'Save'), ['class' => 'btn btn-primary']) ?>
-                        <?php if (!$model->isNewRecord) {
-                            echo Html::a('<i class="glyphicon glyphicon-eye-open"></i> '.Yii::t('backend', 'View'), ['view', 'id' => $model->id], [
-                                    'class' => 'btn btn-success',
-                                ])." ";
-                            echo Html::a('<i class="glyphicon glyphicon-trash"></i> '.Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
-                                    'class' => 'btn btn-danger',
-                                    'data' => [
-                                        'confirm' => Yii::t('backend', 'Are you sure you want to delete the resources?'),
-                                        'method' => 'post',
-                                    ],
-                                ])." ";
-                            echo Html::a('<i class="glyphicon glyphicon-level-up"></i> '.Yii::t('backend', 'Create child'), ['create', 'parent_id' => $model->parent_id], [
-                                    'class' => 'btn btn-default',
-                                ])." ";
-                        }
-                        ?>
-                        <?= Html::a('<i class="fa fa-chevron-left"></i>',['update', 'id' => $model->getPrev()], ['class' => 'btn btn-default',]) ?>
-                        <?= Html::a('<i class="fa fa-arrow-up"></i>',['index'], ['class' => 'btn btn-default',]) ?>
-                        <?= Html::a('<i class="fa fa-chevron-right"></i>',['update', 'id' => $model->getNext()], ['class' => 'btn btn-default',]) ?>
-                    </div>
-                <?//php $this->endBlock() ?>
-
-            </div>
             <div id="launch-row">
                 <div id="launch-left" class="col-md-9">
                     <div class="border-field">
 
-                        <?= $form->field($model, 'title')->textInput(['maxlength' => true])->hint('Длинна пароля не более 70 символов.') ?>
+                        <?= $form->field($model, 'title')->textInput(['maxlength' => true])->hint('Длинна пароля должна быть не более 35 символов.') ?>
 
-                        <?= $form->field($model, 'longtitle')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'long_title')->textInput(['maxlength' => true])->hint('Длинна пароля должна быть не более 81 символов.') ?>
 
                         <?= $form->field($model, 'description')->textarea(['rows' => 5]) ?>
 
                         <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
 
                     </div>
+
                     <div class="adver-view">
                         <i>Видимость в поисковиках</i>
-                        <h2><span id="adver-title"><?= $model->title ? $model->title : 'Титул' ?></span>: <span id="adver-longtitle"><?= $model->longtitle ?: 'Краткое описание' ?></span></h2>
-                        <h4><?= env('FRONTEND_URL')?>›<span id="url"><?= $model->slug ?: 'url ссылка' ?></span></h4>
+                        <a href="<?= env('FRONTEND_URL').Yii::$app->urlManager->createUrl(['launch/view', 'id'=>$model->id])?>" >
+                            <h2><span id="adver-title"><?= $model->title ? $model->title : 'Титул' ?></span>: <span id="adver-long_title"><?= $model->long_title ?: 'Краткое описание' ?></span></h2>
+                            <h4><?= env('FRONTEND_URL')?>›<span id="url"><?= Yii::$app->urlManager->createUrl(['launch/view', 'id'=>$model->id]) /*$model->slug ?: 'url ссылка'*/ ?></span></h4>
+                        </a>
                         <h5><span id="adver-description"><?= $model->description ?: 'Обьявление' ?></span></h5>
                     </div>
                 </div>
@@ -115,13 +83,17 @@ use yii\widgets\Pjax;
                                 'id' => 'alias-btn'
                             ]
                         ]
-                    ]); ?>
+                    ])->label(
+                        $model->template_id ?
+                            Yii::t('common', 'Slug').'  '.Html::a('<i class="fa fa-external-link" aria-hidden="true"></i>', Yii::$app->urlManager->createUrl(['launch/view', 'id'=>$model->id])) :
+                            Yii::t('common', 'Slug')
+                    ); ?>
 
                     <?//= $form->field($model, 'author_id')->dropDownList(\yii\helpers\ArrayHelper::map($model->author, 'username', $model->author_id))?> <!--TODO: Вывести Автора-->
 
                     <?//= $form->field($model, 'published_at')->widget(DateTimeWidget::class, ['phpDatetimeFormat' => 'dd.MM.yyyy, HH:mm:ss']) ?>
 
-                    <?= $form->field($model, 'module_id')->dropDownList(Module::getAll(),
+                    <?= $form->field($model, 'content_type_id')->dropDownList(ContentType::getAll(),
                         ['prompt' => 'Без типа:']) ?>
 
                     <?= $form->field($model, 'template_id')->dropDownList(Template::getAll(),
@@ -136,12 +108,12 @@ use yii\widgets\Pjax;
             </div>
         </div>
 
-        <?php Pjax::begin(['linkSelector' => false, 'formSelector' => false, 'id' => 'module']) ?>
+        <?php Pjax::begin(['linkSelector' => false, 'formSelector' => false, 'id' => 'content_type']) ?>
             <div id="fields" class="forms">
-                <?if ($model->module) {
-                    echo $this->renderAjax($model->module->form, [
+                <?if ($model->content_type_id) {
+                    echo $this->renderAjax($model->contenttype->form, [
                         'form' => $form,
-                        'model' => $model->models ?: (new $model->module->model)
+                        'model' => $model->models ?: (new $model->contenttype->model)
                     ]);
                 }?>
             </div>
@@ -170,17 +142,17 @@ $this->registerJs(<<<JS
         result = translit(text);
         $('#launch-slug').val(result);
     });
-    $('#launch-module_id').on('change', function(){
-        $.pjax.reload('#module', {
-            'url': window.location.href.replace(/&module=[0-9]+/g, '') + '&module=' + $(this).val(),
+    $('#launch-content_type_id').on('change', function(){
+        $.pjax.reload('#content_type', {
+            'url': window.location.href.replace(/&content_type=[0-9]+/g, '') + '&content_type=' + $(this).val(),
             'replace': false
         })
     });
     $('#launch-title').keyup(function() {
       $('#adver-title')[0].innerHTML = $(this)[0].value
     })
-    $('#launch-longtitle').keyup(function() {
-      $('#adver-longtitle')[0].innerHTML = $(this)[0].value
+    $('#launch-long_title').keyup(function() {
+      $('#adver-long_title')[0].innerHTML = $(this)[0].value
     })
     $('#launch-description').keyup(function() {
       $('#adver-description')[0].innerHTML = $(this)[0].value

@@ -4,12 +4,10 @@ namespace common\modules\tehnic\controllers\frontend;
 
 use common\models\Customer;
 use common\models\Launch;
-use common\models\Post;
 use common\modules\tehnic\models\Tehnic;
 use Yii;
 use common\modules\tehnic\models\TehnicCustomer;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Url;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -48,7 +46,6 @@ class TehnicCustomerController extends Controller
 
         $model = new Customer();
         $customer = new TehnicCustomer();
-        //$model = Post::find()->andWhere(['slug' => $slug])->published()->one();
 
         $customer->order_id = $launch->id;
         $model->owner_id = $launch->author_id;

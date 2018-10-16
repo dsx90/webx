@@ -11,8 +11,8 @@ $('.translate-title').click(function(){
 $('input#title').keyup(function(){
     $('span#title').text($(this).val());
 });
-$('input#longtitle').keyup(function(){
-    $('span#longtitle').text($(this).val());
+$('input#long_title').keyup(function(){
+    $('span#long_title').text($(this).val());
 });
 $('input#url').keyup(function(){
     $('span#url').text($(this).val());

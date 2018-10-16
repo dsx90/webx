@@ -15,6 +15,7 @@ class m160101_000002_key_storage_item extends Migration
             'key' => $this->string(128)->notNull(),
             'value' => $this->text()->notNull(),
             'comment' => $this->text(),
+            'namespace' => $this->string(),
         ], $tableOptions);
 
         $this->addPrimaryKey('pk_key_storage_item_key', '{{%key_storage_item}}', 'key');

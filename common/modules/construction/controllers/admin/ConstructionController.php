@@ -3,7 +3,6 @@
 namespace common\modules\construction\controllers\admin;
 
 use common\models\Launch;
-use dsx90\launcher\search\LaunchSearch;
 use Yii;
 use common\modules\construction\models\Construction;
 use common\modules\construction\search\ConstructionSearch;

@@ -27,7 +27,7 @@ use yii\helpers\Url;
             </div>
 
 
-            <?= $form->field($launch, 'longtitle')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($launch, 'long_title')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($launch, 'description')->textarea(['rows' => 5]) ?>
 
@@ -35,7 +35,7 @@ use yii\helpers\Url;
 
             <div class="adver-view">
                 <i>Видимость в поисковиках</i>
-                <h2><span id="title"><?= $launch->title ? $launch->title : 'Титул' ?></span>: <span id="longtitle"><?= $launch->longtitle ? $launch->longtitle : 'Краткое описание' ?></span></h2>
+                <h2><span id="title"><?= $launch->title ? $launch->title : 'Титул' ?></span>: <span id="long_title"><?= $launch->long_title ? $launch->long_title : 'Краткое описание' ?></span></h2>
                 <h4><?= env('FRONTEND_URL')?>›<span id="url"><?= $launch->slug ? $launch->slug : 'url ссылка' ?></span></h4>
                 <h5><span id="description"><?= $launch->description ? $launch->description : 'Обьявление' ?></span></h5>
             </div>

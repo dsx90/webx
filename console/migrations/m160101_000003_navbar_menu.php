@@ -20,7 +20,15 @@ class m160101_000003_navbar_menu extends Migration
             'sort_index' => $this->integer(),
         ], $tableOptions);
 
-        $this->addForeignKey('parent', '{{%navbar_menu}}', 'parent_id', '{{%navbar_menu}}', 'id', 'cascade', 'cascade');
+        $this->addForeignKey(
+            'parent',
+            '{{%navbar_menu}}',
+            'parent_id',
+            '{{%navbar_menu}}',
+            'id',
+            'cascade',
+            'cascade'
+        );
     }
 
     public function down()

@@ -20,7 +20,7 @@ class LaunchSearch extends Launch
     {
         return [
             [['id', 'parent_id', 'status', 'author_id', 'updater_id', 'published_at', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'longtitle', 'description', 'keywords', 'menutitle', 'slug', 'module_id'], 'safe'],
+            [['title', 'long_title', 'description', 'keywords', 'menutitle', 'slug', 'content_type_id'], 'safe'],
         ];
     }
 
@@ -71,12 +71,12 @@ class LaunchSearch extends Launch
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'longtitle', $this->longtitle])
+            ->andFilterWhere(['like', 'long_title', $this->long_title])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'keywords', $this->keywords])
             ->andFilterWhere(['like', 'menutitle', $this->menutitle])
             ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'module_id', $this->module_id]);
+            ->andFilterWhere(['like', 'content_type_id', $this->content_type_id]);
 
         return $dataProvider;
     }

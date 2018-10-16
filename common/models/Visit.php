@@ -124,17 +124,13 @@ class Visit extends \yii\db\ActiveRecord
      */
     public static function getAll($launch_ids = null, $shedule = false)
     {
-        $table = self::tableName();
-        $group_by = ($shedule) ? 'DATE(created_at)' : 'launch_id';
-        if ($launch_ids) {
-            $ids = (is_array($launch_ids)) ? implode(',', $launch_ids) : $launch_ids;
-            // TODO: Переписать
-            $sql = 'SELECT date(created_at) as created_at , launch_id, count(launch_id) as count FROM ' . $table . ' where launch_id IN ('.$ids.') GROUP BY ' . $group_by;
-        } else {
-            $sql = 'SELECT date(created_at) as created_at , launch_id, count(launch_id) as count FROM ' . $table . ' GROUP BY ' . $group_by;
-        }
-        $model = Visit::findBySql($sql)->all();
+        $sql = self::find()
+            ->select(['created_at' => 'DATE(created_at)', 'launch_id', 'count' => 'COUNT(launch_id)'])
+            ->groupBy(($shedule) ? 'DATE(created_at)' : 'launch_id');
 
-        return $model;
+        if ($launch_ids) {
+            $sql->where(['launch_id' => (is_array($launch_ids)) ? implode(',', $launch_ids) : $launch_ids]);
+        }
+        return $sql->all();
     }
 }

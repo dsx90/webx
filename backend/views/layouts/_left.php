@@ -145,8 +145,26 @@ use common\models\Launch;
                                     'visible' => Yii::$app->user->can('administrator'),
                                 ],
                                 [
+                                    'label' => Yii::t('backend', 'Group'),
+                                    'url' => ['/group'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                [
                                     'label' => Yii::t('backend', 'Template'),
                                     'url' => ['/template'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                [
+                                    'label' => Yii::t('backend', 'Chunk'),
+                                    'url' => ['/chunk'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                [
+                                    'label' => Yii::t('backend', 'Snippet'),
+                                    'url' => ['/snippet'],
                                     'icon' => '<i class="fa fa-angle-double-right"></i>',
                                     'visible' => Yii::$app->user->can('administrator'),
                                 ],
