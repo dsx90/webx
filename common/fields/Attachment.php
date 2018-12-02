@@ -37,7 +37,7 @@ class Attachment extends \yii\db\ActiveRecord
         return [
             [['launch_id', 'size', 'create_at', 'sequence'], 'integer'],
             [['path', 'base_url', 'type', 'name'], 'string', 'max' => 255],
-            [['launch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::className(), 'targetAttribute' => ['launch_id' => 'id']],
+            [['launch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::class, 'targetAttribute' => ['launch_id' => 'id']],
         ];
     }
 
@@ -64,6 +64,6 @@ class Attachment extends \yii\db\ActiveRecord
      */
     public function getLaunch()
     {
-        return $this->hasOne(Launch::className(), ['id' => 'launch_id']);
+        return $this->hasOne(Launch::class, ['id' => 'launch_id']);
     }
 }

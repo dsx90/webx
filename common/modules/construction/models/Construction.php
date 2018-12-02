@@ -30,7 +30,7 @@ class Construction extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => UploadBehavior::className(),
+                'class' => UploadBehavior::class,
                 'attribute' => 'attachment',
                 'multiple' => true,
                 'uploadRelation' => 'attachments',
@@ -62,7 +62,7 @@ class Construction extends \yii\db\ActiveRecord
             [['content'], 'string'],
             ['class', 'default', 'value' => get_class($this)],
             [['launch_id'], 'unique'],
-            [['launch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::className(), 'targetAttribute' => ['launch_id' => 'id']],
+            [['launch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::class, 'targetAttribute' => ['launch_id' => 'id']],
             [['attachment','class'], 'safe'],
         ];
     }
@@ -87,7 +87,7 @@ class Construction extends \yii\db\ActiveRecord
      */
     public function getAttachments()
     {
-        return $this->hasMany(Attachment::className(), ['launch_id' => 'launch_id']);
+        return $this->hasMany(Attachment::class, ['launch_id' => 'launch_id']);
     }
 
     /**
@@ -95,7 +95,7 @@ class Construction extends \yii\db\ActiveRecord
      */
     public function getLaunch()
     {
-        return $this->hasOne(Launch::className(), ['id' => 'launch_id']);
+        return $this->hasOne(Launch::class, ['id' => 'launch_id']);
     }
 
     /**

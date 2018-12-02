@@ -3,7 +3,7 @@
 namespace common\modules\tehnic\models;
 
 use common\models\Launch;
-use Yii;
+use common\modules\tehnic\models\query\TehnicOptionAssignmentQuery;
 
 /**
  * This is the model class for table "{{%tehnic_option_assignment}}".
@@ -72,6 +72,6 @@ class TehnicOptionAssignment extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        return new \common\modules\tehnic\models\query\TehnicOptionAssignmentQuery(get_called_class());
+        return new TehnicOptionAssignmentQuery(get_called_class());
     }
 }

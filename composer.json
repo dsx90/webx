@@ -60,7 +60,9 @@
         "electrolinux/phpquery": "^0.9.6",
         "keltstr/yii2-simplehtmldom": "dev-master",
         "yiisoft/yii2-smarty": "^2.0@dev",
-        "yii2tech/config": "^1.0@dev"
+        "yii2tech/config": "^1.0@dev",
+        "execut/yii2-widget-bootstraptreeview": "dev-master",
+        "mirocow/yii2-eav": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

@@ -38,8 +38,8 @@ class TehnicCustomer extends \yii\db\ActiveRecord
         return [
             [['customer_id', 'order_id', 'work_time', 'order_time', 'order_on_time', 'value_work', 'percent'], 'integer'],
             [['address'], 'string', 'max' => 255],
-            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
-            [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tehnic::className(), 'targetAttribute' => ['order_id' => 'launch_id']],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' => ['customer_id' => 'id']],
+            [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Tehnic::class, 'targetAttribute' => ['order_id' => 'launch_id']],
         ];
     }
 
@@ -65,7 +65,7 @@ class TehnicCustomer extends \yii\db\ActiveRecord
      */
     public function getCustomer()
     {
-        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
+        return $this->hasOne(Customer::class, ['id' => 'customer_id']);
     }
 
     /**
@@ -73,7 +73,7 @@ class TehnicCustomer extends \yii\db\ActiveRecord
      */
     public function getOrder()
     {
-        return $this->hasOne(Tehnic::className(), ['launch_id' => 'order_id']);
+        return $this->hasOne(Tehnic::class, ['launch_id' => 'order_id']);
     }
 
     /**

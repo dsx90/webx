@@ -22,7 +22,7 @@ class TehnicCatController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -37,11 +37,11 @@ class TehnicCatController extends Controller
     public function actionIndex()
     {
         $searchModel = new TehnicCatSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            //'dataProvider' => $dataProvider,
         ]);
     }
 

@@ -2,9 +2,8 @@
 
 namespace common\modules\tehnic\models;
 
+use common\modules\tehnic\models\query\TehnicOptionQuery;
 use kartik\builder\TabularForm;
-use Yii;
-
 /**
  * This is the model class for table "{{%tehnic_option}}".
  *
@@ -80,6 +79,6 @@ class TehnicOption extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        return new \common\modules\tehnic\models\query\TehnicOptionQuery(get_called_class());
+        return new TehnicOptionQuery(get_called_class());
     }
 }

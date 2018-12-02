@@ -39,7 +39,7 @@ class TehnicCat extends ActiveRecord
     {
         return [
             [
-                'class' => UploadBehavior::className(),
+                'class' => UploadBehavior::class,
                 'attribute' => 'thumbnail',
                 'pathAttribute' => 'thumbnail_path',
                 'baseUrlAttribute' => 'thumbnail_base_url'
@@ -57,7 +57,7 @@ class TehnicCat extends ActiveRecord
             [['content'], 'string'],
             [['thumbnail_base_url', 'thumbnail_path'], 'string', 'max' => 255],
             [['launch_id'], 'unique'],
-            [['launch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::className(), 'targetAttribute' => ['launch_id' => 'id']],
+            [['launch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Launch::class, 'targetAttribute' => ['launch_id' => 'id']],
             [['thumbnail', 'option', 'scale', 'category'], 'safe']
         ];
     }
@@ -83,7 +83,7 @@ class TehnicCat extends ActiveRecord
      */
     public function getLaunch()
     {
-        return $this->hasOne(Launch::className(), ['id' => 'launch_id']);
+        return $this->hasOne(Launch::class, ['id' => 'launch_id']);
     }
 
 
@@ -92,7 +92,7 @@ class TehnicCat extends ActiveRecord
      */
     public function getOptionAssignment()
     {
-        return $this->hasMany(TehnicOptionAssignment::className(), ['category_id' => 'launch_id']);
+        return $this->hasMany(TehnicOptionAssignment::class, ['category_id' => 'launch_id']);
     }
 
     /**
@@ -100,7 +100,7 @@ class TehnicCat extends ActiveRecord
      */
     public function getOptions()
     {
-        return $this->hasMany(TehnicOption::className(), ['option_id' => 'option_id'])->via('optionAssignment');
+        return $this->hasMany(TehnicOption::class, ['option_id' => 'option_id'])->via('optionAssignment');
     }
 
     /**
@@ -108,7 +108,7 @@ class TehnicCat extends ActiveRecord
      */
     public function getAssignment()
     {
-        return $this->hasMany(TehnicCatAssignment::className(), ['category' => 'launch_id']);
+        return $this->hasMany(TehnicCatAssignment::class, ['category' => 'launch_id']);
     }
 
     /**

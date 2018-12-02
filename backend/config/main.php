@@ -38,6 +38,12 @@ $config = [
         ],
     ],
     'components' => [
+        'configManager' => [
+            'class' => 'yii2tech\config\Manager',
+            'items' => [
+
+            ],
+        ],
         'view' => [
             'renderers' => [
                 'tpl' => [
@@ -85,16 +91,18 @@ $config = [
         'frontendCache' => require Yii::getAlias('@frontend/config/_cache.php'),
     ],
     'modules' => [
+        'eav' => [
+            'class' => 'common\modules\eav\Module',
+        ],
         'metrica' => [
             'class' => 'common\modules\metrica\YandexMetricaWidget',
-        ],
-        'tehnic' => [
-            'class' => 'common\modules\tehnic\Module',
         ],
         'construction' => [
             'class' => 'common\modules\construction\Module',
         ],
-
+        'shop' => [
+            'class' => 'common\modules\shop\Module',
+        ],
         'dispatcher' => [
             'class' => 'common\Module',
         ],

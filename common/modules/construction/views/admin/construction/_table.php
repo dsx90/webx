@@ -11,7 +11,7 @@ $attribs = $model->formAttribs;
 unset($attribs['attributes']['color']);
 $attribs['attributes']['status'] = [
     'type'=>TabularForm::INPUT_WIDGET,
-    'widgetClass'=>SwitchInput::classname()
+    'widgetClass'=>SwitchInput::class
 ];
 
 echo TabularForm::widget([

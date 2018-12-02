@@ -2,7 +2,6 @@
 
 namespace common\models\query;
 
-
 /**
  * This is the ActiveQuery class for [[common\models\Launch]].
  *

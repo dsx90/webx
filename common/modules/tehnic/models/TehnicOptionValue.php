@@ -2,9 +2,9 @@
 
 namespace common\modules\tehnic\models;
 
-use Yii;
-use yii\validators\RequiredValidator;
 
+use common\modules\tehnic\models\query\TehnicOptionValueQuery;
+use yii\validators\RequiredValidator;
 /**
  * This is the model class for table "{{%tehnic_option_value}}".
  *
@@ -96,6 +96,6 @@ class TehnicOptionValue extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        return new \common\modules\tehnic\models\query\TehnicOptionValueQuery(get_called_class());
+        return new TehnicOptionValueQuery(get_called_class());
     }
 }

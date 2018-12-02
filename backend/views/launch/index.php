@@ -66,18 +66,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'options' => ['width' => '200']
             ],
-            [
-                'attribute' => 'content_type_id',
-                'format' => 'html',
-                'value' => 'module.title',
-                'options' => ['width' => '200']
-            ],
-            [
-                'attribute' => 'like',
-                'format' => 'html',
-                'value' => 'likes.ip',
-                'options' => ['width' => '200']
-            ],
+//            [
+//                'attribute' => 'content_type_id',
+//                'format' => 'html',
+//                'value' => 'module.title',
+//                'options' => ['width' => '200']
+//            ],
+//            [
+//                'attribute' => 'like',
+//                'format' => 'html',
+//                'value' => 'likes.ip',
+//                'options' => ['width' => '200']
+//            ],
             [
                 'attribute' => 'status',
                 'format' => 'html',

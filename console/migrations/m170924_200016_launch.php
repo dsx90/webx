@@ -138,11 +138,15 @@ class m170924_200016_launch extends Migration
             'id'                => $this->primaryKey(),
             'parent_id'         => $this->integer(),
             'panel_id'          => $this->integer(),
+            'visible'           => $this->string(50),
             'title'             => $this->string(50)->unique(),
             'description'       => $this->string(255),
+            'icon'              => $this->string(50),
+            'url'               => $this->string(50),
+            'options'           => $this->string(255),
             'key'               => $this->string(50)->unique(),
             'slug'              => $this->string(50)->unique(),
-            'sort'              => $this->smallInteger()->unique(),
+            'sort'              => $this->smallInteger(),
             'status'            => $this->smallInteger()->defaultValue(true),
             'richtext'          => $this->text()
         ], $tableOptions);
@@ -410,26 +414,120 @@ class m170924_200016_launch extends Migration
 //        'richtext'          => $this->text()
 
         $this->insert('{{%panel_item}}', [
+            'id'                => 1,
             'panel_id'          => 3,
+            'sort'              => 1,
             'title'             => 'Main',
-            'options'           => "['class' => 'header']",
+            'options'           => "['class' => 'header treeview']",
+            'url'               => '#',
         ]);
 
         $this->insert('{{%panel_item}}', [
+            'id'                => 2,
             'panel_id'          => 3,
-            'title'             => 'Menu',
-            'url'               => '/menu/index',
+            'sort'              => 2,
+            'title'             => 'Settings',
+            'options'           => "['class' => 'header treeview']",
+            'url'               => '#',
             'icon'              => '<i class="fa fa-sitemap"></i>'
         ]);
 
         $this->insert('{{%panel_item}}', [
             'panel_id'          => 3,
-            'label'             => 'Setings',
-            'url'               => '#',
-            'icon'              => '<i class="fa fa-edit"></i>',
-            'options'           => "['class' => 'treeview']",
+            'parent_id'         => 1,
+            'sort'              => 1,
+            'title'             => 'Menu',
+            'url'               => '/menu/index',
+
         ]);
 
+        $this->insert('{{%panel_item}}', [
+            'panel_id'          => 3,
+            'parent_id'         => 2,
+            'sort'              => 1,
+            'title'             => 'Tags',
+            'url'               => '/tag/index',
+            'icon'              => '<i class="fa fa-tags"></i>'
+        ]);
+
+        $this->insert('{{%panel_item}}', [
+            'title'             => 'Layout Module',
+            'url'               => '/layout-module/index',
+            'icon'              => '<i class="fa fa-puzzle-piece"></i>',
+            'visible'           => 'administrator'
+        ]);
+
+                                /*[
+                                    'label' => Yii::t('backend', 'Launch'),
+                                    'url' => ['/launch'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                [
+                                    'label' => Yii::t('backend', 'Group'),
+                                    'url' => ['/group'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                [
+                                    'label' => Yii::t('backend', 'Template'),
+                                    'url' => ['/template'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                [
+                                    'label' => Yii::t('backend', 'Chunk'),
+                                    'url' => ['/chunk'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                [
+                                    'label' => Yii::t('backend', 'Snippet'),
+                                    'url' => ['/snippet'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                [
+                                    'label' => Yii::t('backend', 'Module'),
+                                    'url' => ['/module'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                [
+                                    'label' => 'Gii',
+                                    'url' => ['/gii'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => YII_ENV_DEV,
+                                ],
+                                [
+                                    'label' => 'Web shell',
+                                    'url' => ['/webshell'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                ['label' => Yii::t('backend', 'File manager'), 'url' => ['/file-manager/index'], 'icon' => '<i class="fa fa-angle-double-right"></i>'],
+                                [
+                                    'label' => Yii::t('backend', 'DB manager'),
+                                    'url' => ['/db-manager/default/index'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                [
+                                    'label' => Yii::t('backend', 'System information'),
+                                    'url' => ['/phpsysinfo/default/index'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'visible' => Yii::$app->user->can('administrator'),
+                                ],
+                                ['label' => Yii::t('backend', 'Key storage'), 'url' => ['/key-storage/index'], 'icon' => '<i class="fa fa-angle-double-right"></i>'],
+                                ['label' => Yii::t('backend', 'Cache'), 'url' => ['/service/cache'], 'icon' => '<i class="fa fa-angle-double-right"></i>'],
+                                ['label' => Yii::t('backend', 'Clear assets'), 'url' => ['/service/clear-assets'], 'icon' => '<i class="fa fa-angle-double-right"></i>'],
+                                [
+                                    'label' => Yii::t('backend', 'Logs'),
+                                    'url' => ['/log/index'],
+                                    'icon' => '<i class="fa fa-angle-double-right"></i>',
+                                    'badge' => Log::find()->count(),
+                                    'badgeOptions' => ['class' => 'label-danger'],
+                                ],*/
     }
 
     public function safeDown()

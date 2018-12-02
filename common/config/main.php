@@ -7,7 +7,10 @@ $config = [
     'timeZone' => env('TIMEZONE'),
     'sourceLanguage' => 'en-US',
     'language' => env('LANGUAGE'),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+//        'configManager',
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -53,13 +56,19 @@ $config = [
                     'basePath' => '@common/messages',
                 ],
                 '*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
+                    //'class' => 'yii\i18n\PhpMessageSource',
+                    //'class' => 'backend\components\PhpMessageSource::getMessageFilePath()',
+                    'class' => 'backend\components\PhpMessageSource',
                     'basePath' => '@common/messages',
                     'fileMap' => [
                         'common' => 'common.php',
                         'backend' => 'backend.php',
                         'frontend' => 'frontend.php',
                     ],
+                ],
+                'eav' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@mirocow/eav/messages',
                 ],
             ],
         ],

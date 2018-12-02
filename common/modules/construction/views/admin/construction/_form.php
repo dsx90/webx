@@ -41,7 +41,7 @@ use yii\helpers\Url;
             </div>
 
             <?= $form->field($model, 'attachment')->widget(
-                \fbalabanov\filekit\widget\Upload::className(),
+                \fbalabanov\filekit\widget\Upload::class,
                 [
                     'url' => ['/site/upload'],
                     'targetDir' => 'construction/'.$launch->slug,
@@ -51,7 +51,7 @@ use yii\helpers\Url;
                 ]);
             ?>
 
-            <?= $form->field($model, 'content')->widget(Widget::className(), [
+            <?= $form->field($model, 'content')->widget(Widget::class, [
                 'settings' => [
                     'minHeight' => 200,
                     'plugins' => [
@@ -78,7 +78,7 @@ use yii\helpers\Url;
             <?= $form->field($launch, 'slug')->textInput() ?>
 
             <div class="form-group pull-left">
-                <?= $form->field($launch, 'status')->widget(\dosamigos\switchinput\SwitchBox::className(),[
+                <?= $form->field($launch, 'status')->widget(\dosamigos\switchinput\SwitchBox::class,[
                     'clientOptions' => [
                         'size' => 'normal',
                         'onColor' => 'success',
