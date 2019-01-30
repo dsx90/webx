@@ -13,19 +13,20 @@ class m170924_200016_launch extends Migration
         //Основная связующая таблица
         $this->createTable('{{%launch}}',[
             'id'                => $this->primaryKey(),
-            'title'             => $this->string(70),
-            'long_title'        => $this->string(70),
-            'description'       => $this->string(150),
-            'keywords'          => $this->string(255),
-            'menutitle'         => $this->string(20),
-            'slug'              => $this->string(80)->unique(),
-            'status'            => $this->smallInteger()->notNull(),
+            'title'             => $this->string(70)            ->comment('Заголовок'),
+            'long_title'        => $this->string(70)            ->comment('Краткое описание'),
+            'description'       => $this->string(150)           ->comment('Описание'),
+            'keywords'          => $this->string(255)           ->comment('Ключевые слова'),
+            'menutitle'         => $this->string(20)            ->comment('Заголовок меню'),
+            'slug'              => $this->string(80)->unique()  ->comment('URL адрес'),
+            'status'            => $this->smallInteger()->notNull()    ->comment('Статус публикации'),
             'deleted'           => $this->boolean(),
             'hidemenu'          => $this->boolean(),
             'link_attributes'   => $this->string(255),
             'searchable'        => $this->boolean(),
             'richtext'          => $this->boolean(),
             'cacheable'         => $this->boolean(),
+            'icon'              => $this->string(50),
             'is_folder'         => $this->smallInteger(),
             'position'          => $this->integer(11),
             'content_type_id'   => $this->integer(11),
@@ -114,7 +115,7 @@ class m170924_200016_launch extends Migration
             'user_agent'        => $this->text(),
             'user_id'           => $this->integer(),
         ], $tableOptions);
-        //Таблица просмотров документов visit
+        //Таблица избранных документов like
         $this->createTable('{{%like}}', [
             'id'                => $this->primaryKey(),
             'created_at'        => $this->integer()->notNull(),
@@ -305,7 +306,7 @@ class m170924_200016_launch extends Migration
         $this->insert('{{%context}}', [
             'id'                => 2,
             'title'             => 'Site',   // Название города,
-            'key'               => 'site',      // city, module,
+            'key'               => 'site',   // city, module,
             'slug'              => '/'
         ]);
 
@@ -413,49 +414,15 @@ class m170924_200016_launch extends Migration
 //        'status'            => $this->smallInteger()->defaultValue(true),
 //        'richtext'          => $this->text()
 
-        $this->insert('{{%panel_item}}', [
-            'id'                => 1,
-            'panel_id'          => 3,
-            'sort'              => 1,
-            'title'             => 'Main',
-            'options'           => "['class' => 'header treeview']",
-            'url'               => '#',
-        ]);
+        $this->batchInsert('{{%panel_item}}',
+                ['id',  'panel_id','sort',  'title',            'options',                          'url',                  'icon',                 'visible'],[
+                [1,     3,          1,      'Main',             "['class' => 'header treeview']",   '#',                    'fa fa-home',           null],
+                [2,     3,          1,      'Settings',         "['class' => 'header treeview']",   "#",                    'fa fa-sitemap',        null],
+                [3,     1,          1,      'Меню',             null,                               '/menu/index',          null,                   null],
+                [4,     2,          1,      'Tags',             null,                               '/tag/index',           'fa fa-tags',           null],
+                [5,     2,          1,      'Layout Module',    null,                               '/layout-module/index', 'fa fa-puzzle-piece',   'administrator']
 
-        $this->insert('{{%panel_item}}', [
-            'id'                => 2,
-            'panel_id'          => 3,
-            'sort'              => 2,
-            'title'             => 'Settings',
-            'options'           => "['class' => 'header treeview']",
-            'url'               => '#',
-            'icon'              => '<i class="fa fa-sitemap"></i>'
-        ]);
-
-        $this->insert('{{%panel_item}}', [
-            'panel_id'          => 3,
-            'parent_id'         => 1,
-            'sort'              => 1,
-            'title'             => 'Menu',
-            'url'               => '/menu/index',
-
-        ]);
-
-        $this->insert('{{%panel_item}}', [
-            'panel_id'          => 3,
-            'parent_id'         => 2,
-            'sort'              => 1,
-            'title'             => 'Tags',
-            'url'               => '/tag/index',
-            'icon'              => '<i class="fa fa-tags"></i>'
-        ]);
-
-        $this->insert('{{%panel_item}}', [
-            'title'             => 'Layout Module',
-            'url'               => '/layout-module/index',
-            'icon'              => '<i class="fa fa-puzzle-piece"></i>',
-            'visible'           => 'administrator'
-        ]);
+            ]);
 
                                 /*[
                                     'label' => Yii::t('backend', 'Launch'),

@@ -20,6 +20,7 @@ use common\models\Launch;
         <div class="tab-content">
             <div id="left-resources" class="tab-pane fade in active">
                 <?= TreeWidget::widget(['data' => Launch::find()->orderBy(['position' => SORT_ASC])->all()]) ?>
+                
             </div>
             <div id="left-main" class="tab-pane fade">
                 <?= Menu::widget([

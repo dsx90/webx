@@ -160,6 +160,7 @@ class Tehnic extends \yii\db\ActiveRecord
 
     /**
      * @return bool
+     * @throws \yii\db\Exception
      */
     public function saveRelation()
     {
