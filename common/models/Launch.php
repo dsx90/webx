@@ -33,6 +33,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  * @property integer $template_id
  * @property integer $position
+ * @property Contenttype $contenttype
  *
  * @property integer $children
  * @property boolean is_folder
@@ -185,7 +186,8 @@ class Launch extends \yii\db\ActiveRecord
     public function getModels()
     {
         if (!$this->content_type_id) return null;
-        return $this->hasOne($this->contenttype->model::className(), ['launch_id' => 'id']);
+        $model = $this->contenttype->model;
+        return $this->hasOne($model::className(), ['launch_id' => 'id']);
 
     }
 

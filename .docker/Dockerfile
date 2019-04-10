@@ -1,39 +1,123 @@
-FROM php:7-apache
+FROM holbertonschool/base-ubuntu-1404
 
-# Enable the Apache Headers module:
-RUN ln -s /etc/apache2/mods-available/headers.load \
-  /etc/apache2/mods-enabled/headers.load
+MAINTAINER Maxim Ilchenko <dsx90@yandex.ru>
 
-# Enable the Apache Rewrite module:
-RUN ln -s /etc/apache2/mods-available/rewrite.load \
-  /etc/apache2/mods-enabled/rewrite.load
+ARG DEBIAN_FRONTEND=noninteractive
 
-# Install GD, Imagick and ImageMagick as image conversion options:
-RUN DEBIAN_FRONTEND=noninteractive \
-  apt-get update && apt-get install -y --no-install-recommends \
-    libpng-dev \
-    libjpeg-dev \
-    libmagickwand-dev \
-    imagemagick \
-    mc \
-  && pecl install \
-    imagick \
-  && docker-php-ext-enable \
-    imagick \
-  && docker-php-ext-configure \
-    gd --with-jpeg-dir=/usr/include/ \
-  && docker-php-ext-install \
-    gd \
-  # Uninstall obsolete packages:
-  && apt-get autoremove -y \
-    libpng-dev \
-    libjpeg-dev \
-    libmagickwand-dev \
-  # Remove obsolete files:
-  && apt-get clean \
-  && rm -rf \
-    /tmp/* \
-    /usr/share/doc/* \
-    /var/cache/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/*
+#Установка всех пакетов и зваисимостей
+RUN apt-get update &&\
+	apt-get install -y software-properties-common python-software-properties &&\
+	LC_ALL=C.UTF-8 && \
+	add-apt-repository ppa:ondrej/php && \
+	add-apt-repository ppa:nginx/stable && \
+	apt-get update &&\
+	apt install -y mc aptitude nano nginx git supervisor curl memcached ssmtp
+
+RUN apt-get install -y --force-yes php5.6-bcmath php5.6-bz2 php5.6-cli php5.6-common php5.6-curl php5.6-dba php5.6-fpm php5.6-gd php5.6-gmp php5.6-imap php5.6-intl php5.6-ldap php5.6-mbstring php5.6-mcrypt php5.6-odbc php5.6-pgsql php5.6-recode php5.6-snmp php5.6-soap php5.6-tidy php5.6-xml php5.6-xmlrpc php5.6-xsl php5.6-zip php-gnupg php-imagick
+
+# Установка postgresql
+RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+RUN wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add - 
+RUN apt-get update 
+RUN apt-get install -y --force-yes postgresql postgresql-contrib
+
+# imagemagick graphicsmagick php-streams php-fxsl
+    
+RUN mkdir /tmp/composer/ && \
+    cd /tmp/composer && \
+    curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer && \
+    chmod a+x /usr/local/bin/composer && \
+    cd / && \
+    rm -rf /tmp/composer && \
+    apt-get remove -y python-software-properties software-properties-common && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default && \
+    sed -i -e 's/^user = www-data$/;user = www-data/g' /etc/php/5.6/fpm/pool.d/www.conf && \
+    sed -i -e 's/^group = www-data$/;group = www-data/g' /etc/php/5.6/fpm/pool.d/www.conf && \
+    sed -i -e 's/^listen.owner = www-data$/;listen.owner = www-data/g' /etc/php/5.6/fpm/pool.d/www.conf && \
+    sed -i -e 's/^listen.group = www-data$/;listen.group = www-data/g' /etc/php/5.6/fpm/pool.d/www.conf && \
+    sed -i -e 's/max_execution_time = 30/max_execution_time = 300/g' /etc/php/5.6/fpm/php.ini && \
+    sed -i -e 's/upload_max_filesize = 2M/upload_max_filesize = 256M/g' /etc/php/5.6/fpm/php.ini && \
+    sed -i -e 's/post_max_size = 8M/post_max_size = 512M/g' /etc/php/5.6/fpm/php.ini && \
+    sed -i -e 's/memory_limit = 128M/memory_limit = 512M/g' /etc/php/5.6/fpm/php.ini && \
+    sed -i -e 's/fastcgi_param  SERVER_PORT        $server_port;/fastcgi_param  SERVER_PORT        $http_x_forwarded_port;/g' /etc/nginx/fastcgi.conf && \
+    sed -i -e 's/fastcgi_param  SERVER_PORT        $server_port;/fastcgi_param  SERVER_PORT        $http_x_forwarded_port;/g' /etc/nginx/fastcgi_params && \
+    sed -i -e '/sendfile on;/a\        fastcgi_read_timeout 300\;' /etc/nginx/nginx.conf && \
+    mkdir -p /usr/src/tmp/ioncube && \
+    curl -fSL "http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64_5.1.2.tar.gz" -o /usr/src/tmp/ioncube_loaders_lin_x86-64_5.1.2.tar.gz && \
+    tar xfz /usr/src/tmp/ioncube_loaders_lin_x86-64_5.1.2.tar.gz -C /usr/src/tmp/ioncube && \
+    cp /usr/src/tmp/ioncube/ioncube/ioncube_loader_lin_5.6.so /usr/lib/php/20131226/ && \
+    rm -rf /usr/src/tmp/ && \
+    mkdir --mode 777 /var/run/php
+
+# RUN mkdir hooks && \
+#	chmod 755 /hooks /var/www && \
+#    chmod -R 777 /var/www/html /var/log && \
+#    sed -i -e 's/index index.html/index index.php index.html/g' /etc/nginx/sites-enabled/site.conf && \
+#    chmod 666 /etc/nginx/sites-enabled/site.conf /etc/passwd /etc/group && \
+#    nginx -t && \
+#    mkdir -p /run /var/lib/nginx /var/lib/php && \
+#    chmod -R 777 /run /var/lib/nginx /var/lib/php /etc/php/5.6/fpm/php.ini
+
+# Возможные дополнения
+# supervisor nginx php5.6-fpm git php5.6-mysql php5.6-zip php5.6-json php-apc php5.6-curl php5.6-gd php5.6-intl php5.6-mcrypt php5.6-mbstring php5.6-memcache php5.6-memcached php5.6-sqlite php5.6-tidy php5.6-xmlrpc php5.6-xsl php5.6-pgsql php5.6-mongo php5.6-ldap pwgen php5.6-cli curl memcached ssmtp
+#----------------------------------------------------------------------------------
+
+# Nginx configuration
+#RUN sed -i -e"s/worker_processes  1/worker_processes 5/" /etc/nginx/nginx.conf && \
+#	sed -i -e"s/keepalive_timeout\s*65/keepalive_timeout 2/" /etc/nginx/nginx.conf && \
+#	sed -i -e"s/keepalive_timeout 2/keepalive_timeout 2;\n\tclient_max_body_size 128m;\n\tproxy_buffer_size 256k;\n\tproxy_buffers 4 512k;\n\tproxy_busy_buffers_size 512k/" /etc/nginx/nginx.conf && \
+#	echo "daemon off;" >> /etc/nginx/nginx.conf
+
+#Установка самого проета
+#RUN 
+# ssh-keygen
+# cat ~/.ssh/id_rsa.pub
+# git clone git@git.part-auto.ru:al/part-auto.git /srv/master.part-auto
+# php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+# php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+# php composer-setup.php
+# php -r "unlink('composer-setup.php');"
+
+# ./composer.phar install [0|1] [yes|no]
+# php init
+#
+
+# service nginx start
+## Настраиваем nginx в файле /etc/nginx/sites-available/part-auto.lo
+## Проверяем на ошибки nginx -t
+## Создаем симлинк 
+## cd /etc/nginx/sites-enabled
+## ln -s /etc/nginx/sites-available/part-auto.lo
+## Проверить создался ли симлинк ls -la
+# nano /etc/hosts
+# /etc/init.d/nginx restart
+# /etc/init.d/php5-fpm restart
+
+#? COPY ./config/nginx/nginx.conf /etc/nginx/sites-available/default.conf
+# Supervisor Config
+#? COPY ./config/supervisor/supervisord.conf /etc/supervisord.conf
+# Start Supervisord
+#? COPY ./config/cmd.sh /
+# mount www directory as a workdir
+#? COPY ./srv/ /var/www
+
+#RUN rm -f /etc/nginx/sites-enabled/default && \
+#	ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default && \
+#?	chmod 755 /cmd.sh && \
+#	chown -Rf www-data.www-data /srv && \
+#	touch /var/log/cron.log && \
+#	touch /etc/cron.d/crontasks
+
+#? ADD library /library
+
+#? RUN chmod +x /library/*.sh
+
+#? RUN /library/setup.sh
+
+VOLUME ["/srv/"]
+EXPOSE 80
+#? ENTRYPOINT ["/bin/bash", "/cmd.sh"] #/bin/bash: /cmd.sh: No such file or directory
+#? CMD ["/library/run.sh"]

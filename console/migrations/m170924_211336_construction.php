@@ -36,6 +36,16 @@ class m170924_211336_construction extends Migration
             'controller'    => 'common\modules\construction\controllers\admin\ConstructionController',
             'form'          => '@common/modules/construction/views/admin/construction/_cform',
         ]);
+
+        $this->insert('{{%panel_item}}', [
+            'panel_id'  => 2,
+            'sort'      => 1,
+            'title'     => 'Выполнение работ',
+            'options'   => null,
+            'url'       => '/construction',
+            'icon'      => 'fa fa-product-hunt',
+            'visible'   => null
+        ]);
     }
 
     public function safeDown()

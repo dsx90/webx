@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - 'D:\:/mnt/d'
+    environment: []
+    ports:
+      - '5432:5432'
+  php-server:
+    build: ./
+    volumes:
+      - '..\:/srv/part-auto'
+      - '.\modules\nginx\set:/etc/nginx'
+      - '.\modules\nginx\logs:/var/log/nginx/'
+      - '.\modules\php:/etc/php/'
+    ports:
+      - '80:80'

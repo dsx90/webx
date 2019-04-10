@@ -94,18 +94,19 @@ class Visit extends \yii\db\ActiveRecord
     {
         $ip = $_SERVER["REMOTE_ADDR"];
         // Проверяем наличие просмотров за сегодня с этого IP
-        $model = Visit::find()->where('launch_id=:launch_id && ip=:ip && created_at>=:created_at', [
-            ':launch_id' => $launch_id,
-            ':ip' => $ip,
-            ':created_at' => date('Y-m-d'). ' 00:00:00',
+        $model = Visit::find()->where([
+            'launch_id' => $launch_id,
+            'ip' => $ip,
+            'created_at' => time()
         ])->count();
         // Сохраняем запись
         if (!$model) {
-            $visit = new Visit();
-            $visit->launch_id = $launch_id;
-            $visit->ip = $ip;
-            $visit->user_id = (Yii::$app->user->isGuest) ? null : Yii::$app->user->id;
-            $visit->user_agent = $_SERVER['HTTP_USER_AGENT'];
+            $visit = new Visit([
+                'launch_id' => $launch_id,
+                'ip'        => $ip,
+                'user_id'   => (Yii::$app->user->isGuest) ? null : Yii::$app->user->id,
+                'user_agent'=> $_SERVER['HTTP_USER_AGENT'],
+            ]);
             $visit->save();
             return true;
         } else {

@@ -148,8 +148,9 @@ class LaunchController extends Controller
             $launch->content_type_id = Yii::$app->request->post('content_type_id');
             $launch->save();
         }
-        if(($id) && $launch->module->model::findOne($id) !== null){
-            $model = $launch->module->model::findOne($id);
+        $module = $launch->module->model;
+        if(($id) && $module::findOne($id) !== null){
+            $model = $module::findOne($id);
         } else {
             $model = new $launch->module->model();
         }
@@ -301,8 +302,6 @@ class LaunchController extends Controller
 
     /**
      * Множественное удаление документов
-     * @return bool
-     * @throws NotFoundHttpException
      */
     public function actionMultidelete()
     {
