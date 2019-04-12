@@ -34,8 +34,7 @@ $this->title = $model->title;
 <?=$this->registerJs('
 $(".like").click(function(){
     var id = $(this).attr("id");
-    $.post("/like/"+id, {
-        }, function(data){
+    $.post("/like/"+id, {}, function(data){
             $("#"+id).html("<span class=\'glyphicon glyphicon-thumbs-up\'></span> "+data);
         });
 })
