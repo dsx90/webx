@@ -24,7 +24,7 @@ class m170924_211339_tehnic extends Migration
         $this->createTable('{{%tehnic}}', [
             'launch_id'             => $this->integer()->unique()->notNull(),
             'content'               => $this->text(),
-            'price'                 => $this->integer(),
+            'price'                 => $this->money(),
             'status'                => $this->smallInteger(),
             'views'                 => $this->integer(),
         ], $tableOptions);
@@ -137,10 +137,10 @@ class m170924_211339_tehnic extends Migration
         );
 
         $this->addForeignKey(
-            'fk-tehnic_customer-customer',
+            'fk-tehnic_order',
             '{{%tehnic_customer}}',
             'customer_id',
-            '{{%customer}}',
+            '{{%order}}',
             'id',
             'CASCADE',
             'CASCADE'

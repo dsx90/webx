@@ -13,7 +13,7 @@ use Yii;
  * @property string $description
  * @property string $key
  * @property int $status
- * @property int $sort
+ * @property int $position
  * @property Context $context
  *
  * @property PanelItem[] $panelItems
@@ -34,8 +34,8 @@ class Panel extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['context_id', 'status', 'sort'], 'default', 'value' => null],
-            [['context_id', 'status', 'sort'], 'integer'],
+            [['context_id', 'status', 'position'], 'default', 'value' => null],
+            [['context_id', 'status', 'position'], 'integer'],
             [['title', 'key'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 255],
             [['key'], 'unique'],
@@ -55,7 +55,7 @@ class Panel extends \yii\db\ActiveRecord
             'description' => Yii::t('common', 'Description'),
             'key' => Yii::t('common', 'Key'),
             'status' => Yii::t('common', 'Status'),
-            'sort' => Yii::t('common', 'Sort'),
+            'position' => Yii::t('common', 'Position'),
         ];
     }
 

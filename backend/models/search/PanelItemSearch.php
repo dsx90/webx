@@ -18,7 +18,7 @@ class PanelItemSearch extends PanelItem
     public function rules()
     {
         return [
-            [['id', 'parent_id', 'panel_id', 'sort', 'status'], 'integer'],
+            [['id', 'parent_id', 'panel_id', 'position', 'status'], 'integer'],
             [['visible', 'title', 'description', 'icon', 'url', 'options', 'key', 'slug', 'richtext'], 'safe'],
         ];
     }
@@ -62,7 +62,7 @@ class PanelItemSearch extends PanelItem
             'id' => $this->id,
             'parent_id' => $this->parent_id,
             'panel_id' => $this->panel_id,
-            'sort' => $this->sort,
+            'position' => $this->position,
             'status' => $this->status,
         ]);
 

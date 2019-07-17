@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
                     ]);
                 }
                 ?>
-                <?= Html::a('<i class="glyphicon glyphicon-menu-left"></i> '.Yii::t('document', 'Отмена'), ['index'], [
+                <?= Html::a(Html::tag('i', '', ['class' => 'glyphicon glyphicon-menu-left']).Yii::t('document', 'Отмена'), ['index'], [
                     'class' => 'btn btn-default',
                 ]) ?>
             </p>
@@ -41,7 +41,6 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="col-lg-6">
             <?= $form->field($model, 'display')->dropDownList(\common\models\Template::getDisplayArray()) ?>
-            <?//= $form->field($model, 'path')->dropDownList(\common\models\Template::getFile()) ?>
         </div>
         <div class="col-lg-12">
             <?= $form->field($model, 'description')->textarea() ?>

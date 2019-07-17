@@ -3,9 +3,12 @@
 use backend\models\Log;
 use backend\widgets\Menu;
 use yii\bootstrap\Tabs;
+use common\models\PanelItem;
+use yii\helpers\Json;
 
 use backend\components\tree\TreeWidget;
 use common\models\Launch;
+use yii\helpers\Html;
 
 $a = disk_total_space("/") / 100;
 $freely = disk_free_space("/") / $a;
@@ -13,9 +16,24 @@ $freely = disk_free_space("/") / $a;
 /* @var $this \yii\web\View */
 ?>
 
-
 <aside class="main-sidebar">
     <section class="sidebar">
+        <?php
+        function getItems($items){
+            $result = [];
+            foreach ($items as $item){
+                $result[] = [
+                    'label'     => isset($item['title']) ? Yii::t('backend', $item['title']) : 'label',
+                    'url'       => isset($item['url']) ? $item['url'] : '#',
+                    'icon'      => Html::tag('i', '', ['class' => isset($item['icon']) ? $item['icon'] : 'fa fa-sticky-note-o']),
+                    //'options'   => isset($item['options']) ? $item['options'] : [],
+                    'visible'   => isset($item['visible']) ? Yii::$app->user->can($item['visible']) : null,
+                    'items'     => isset($item['childs']) ? getItems($item['childs']) : null
+                ];
+            };
+            return $result;
+        }
+        ?>
         <?= Tabs::widget([
             'items' => [
                 [
@@ -26,6 +44,10 @@ $freely = disk_free_space("/") / $a;
                 [
                     'label' => 'Основное',
                     'content' => Menu::widget([
+                            'options' => ['class' => 'sidebar-menu'],
+                            'items' => getItems(\common\widget\coreCase\getCase::mapTree(PanelItem::find()->asArray()->indexBy('id')->all()))
+                        ])
+                        /*Menu::widget([
                         'options' => ['class' => 'sidebar-menu'],
                         'items' => [
                             [
@@ -245,7 +267,7 @@ $freely = disk_free_space("/") / $a;
                                 ],
                             ],
                         ],
-                    ]),
+                    ]),*/
                 ],
                 [
                     'label' => 'Виджеты',

@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Panel;
+use common\models\PanelItem;
 use yii\db\Migration;
 
 /**
@@ -41,6 +43,18 @@ class m160101_000013_template extends Migration
             'RESTRICT',
             'RESTRICT'
         );
+
+        $this->insert('{{%panel_item}}', [
+            'parent_id' => PanelItem::findOne(['key' => 'settings'])->id,
+            'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
+            'position'  => 1,
+            'title'     => 'Шаблоны',
+            'key'       => 'template',
+            'options'   => null,
+            'url'       => '/template',
+            'icon'      => 'fa fa-file-text',
+            'visible'   => 'administrator'
+        ]);
     }
 
     /**
@@ -50,5 +64,6 @@ class m160101_000013_template extends Migration
     {
         $this->dropForeignKey('fk_template_group', '{{%group}}');
         $this->dropTable('{{%template}}');
+        $this->delete('{{%panel_item}}', ['key' => 'template']);
     }
 }

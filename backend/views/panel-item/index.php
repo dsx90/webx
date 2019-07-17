@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use common\models\PanelItem;
+
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\search\PanelItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -22,20 +24,29 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+            'parent.title',
+            [
+                'attribute' => 'title',
+                'content' => function(PanelItem $item){
+                    return Html::tag('i', '', ['class' => $item->icon])." $item->title";
+                }
+            ],
             //'id',
             //'key',
-            'parent_id',
             'panel.title',
             'visible',
-            'title',
             //'description',
-            'icon',
             //'url:url',
             //'options',
             //'slug',
-            //'sort',
-            'status',
+            //'position',
+
+            [
+                'attribute' => 'status',
+                'content'   => function(PanelItem $item){
+                    return PanelItem::getStatus()[$item->status];
+                }
+            ],
             //'richtext:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],

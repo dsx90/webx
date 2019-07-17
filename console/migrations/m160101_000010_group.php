@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Class m190410_192741_group
+ * Class m160101_000010_group
  */
 class m160101_000010_group extends Migration
 {
@@ -20,8 +20,17 @@ class m160101_000010_group extends Migration
         //Таблица Категории
         $this->createTable('{{%group}}', [
             'id'                => $this->primaryKey(),
+            'parent_id'         => $this->integer(),
             'title'             => $this->string()->notNull(),
         ] , $tableOptions);
+
+        $this->addForeignKey(
+            'fk_group_parent_group',
+            '{{%group}}',
+            'parent_id',
+            '{{%group}}',
+            'id'
+        );
 
     }
 
@@ -30,23 +39,6 @@ class m160101_000010_group extends Migration
      */
     public function safeDown()
     {
-        echo "m190410_192741_group cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('{{%group}}');
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m190410_192741_group cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

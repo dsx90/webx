@@ -10,7 +10,7 @@ services:
   php-server:
     build: ./
     volumes:
-      - '..\:/srv/part-auto'
+      - '..\:/srv/webx'
       - '.\modules\nginx\set:/etc/nginx'
       - '.\modules\nginx\logs:/var/log/nginx/'
       - '.\modules\php:/etc/php/'

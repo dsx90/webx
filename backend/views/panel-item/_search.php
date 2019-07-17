@@ -40,7 +40,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'slug') ?>
 
-    <?php // echo $form->field($model, 'sort') ?>
+    <?php // echo $form->field($model, 'position') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 

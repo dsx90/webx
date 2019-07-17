@@ -18,7 +18,7 @@ use yii\helpers\Url;
 <div id="jstree_div">
 </div>
 
-<?=$this->registerJs("
+<?=$this->registerJs(<<<JS
 $('#jstree_div').jstree({
     'core' : {
         'check_callback' : function(o, n, p, i, m) {
@@ -64,5 +64,5 @@ $('#jstree_search_input').keyup(function () {
         $('#jstree_div').jstree(true).search(v);
     }, 250);
 });
-");
-?>
+JS
+)?>

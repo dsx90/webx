@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Panel;
+use common\models\PanelItem;
 use yii\db\Migration;
 
 /**
@@ -40,6 +42,18 @@ class m160101_000012_snippet extends Migration
             'RESTRICT'
         );
 
+        $this->insert('{{%panel_item}}', [
+            'parent_id' => PanelItem::findOne(['key' => 'settings'])->id,
+            'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
+            'position'  => 1,
+            'title'     => 'Snippet',
+            'key'       => 'snippet',
+            'options'   => null,
+            'url'       => '/snippet',
+            'icon'      => 'fa fa-code',
+            'visible'   => 'administrator'
+        ]);
+
     }
 
     /**
@@ -49,20 +63,6 @@ class m160101_000012_snippet extends Migration
     {
         $this->dropForeignKey('fk_group_snippet', '{{%snippet}}');
         $this->dropTable('{{%snippet}}');
+        $this->delete('{{%panel_item}}', ['key' => 'snippet']);
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m190410_191631_snippet cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

@@ -91,20 +91,29 @@ $config = [
         'frontendCache' => require Yii::getAlias('@frontend/config/_cache.php'),
     ],
     'modules' => [
+
         'eav' => [
             'class' => 'common\modules\eav\Module',
         ],
         'metrica' => [
             'class' => 'common\modules\metrica\YandexMetricaWidget',
         ],
+
         'construction' => [
             'class' => 'common\modules\construction\Module',
         ],
         'shop' => [
             'class' => 'common\modules\shop\Module',
         ],
+        'order' => [
+            'class' => common\modules\order\Module::class,
+        ],
+        'comment' => [
+            'class' => common\modules\comment\Module::class,
+        ],
+
         'dispatcher' => [
-            'class' => 'common\Module',
+            'class' => common\Module::class,
         ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module'

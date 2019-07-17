@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Panel;
+use common\models\PanelItem;
 use yii\db\Migration;
 
 class m170924_211336_construction extends Migration
@@ -38,9 +40,11 @@ class m170924_211336_construction extends Migration
         ]);
 
         $this->insert('{{%panel_item}}', [
-            'panel_id'  => 2,
-            'sort'      => 1,
+            'parent_id' => PanelItem::findOne(['key' => 'modules'])->id,
+            'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
+            'position'  => 1,
             'title'     => 'Выполнение работ',
+            'key'       => 'construction',
             'options'   => null,
             'url'       => '/construction',
             'icon'      => 'fa fa-product-hunt',
@@ -52,8 +56,7 @@ class m170924_211336_construction extends Migration
     {
         $this->dropTable('{{%construction}}');
 
-        $this->delete('{{%content_type}}', [
-            'title' => 'Construction',
-        ]);
+        $this->delete('{{%content_type}}', ['title' => 'Construction',]);
+        $this->delete('{{%panel_item}}', ['key' => 'construction']);
     }
 }

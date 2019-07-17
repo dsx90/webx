@@ -51,7 +51,7 @@ class Context extends \yii\db\ActiveRecord
             'key' => Yii::t('backend', 'Key'),
             'description' => Yii::t('backend', 'Description'),
             'sort' => Yii::t('backend', 'Sort'),
-            'slug' => Yii::t('backend', 'Slug'),
+            'slug' => Yii::t('backend', 'Slug')
         ];
     }
 

@@ -1,9 +1,11 @@
 <?php
 
+use common\models\Panel;
+use common\models\PanelItem;
 use yii\db\Migration;
 
 /**
- * Class m190410_191619_chunk
+ * Class m160101_000011_chunk
  */
 class m160101_000011_chunk extends Migration
 {
@@ -39,6 +41,19 @@ class m160101_000011_chunk extends Migration
             'RESTRICT',
             'RESTRICT'
         );
+
+        $this->insert('{{%panel_item}}', [
+            'parent_id' => PanelItem::findOne(['key' => 'settings'])->id,
+            'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
+            'position'  => 1,
+            'title'     => 'Chunk',
+            'key'       => 'chunk',
+            'options'   => null,
+            'url'       => '/chunk',
+            'icon'      => 'fa fa-comments',
+            'visible'   => 'administrator'
+        ]);
+
     }
 
     /**
@@ -48,5 +63,6 @@ class m160101_000011_chunk extends Migration
     {
         $this->dropForeignKey('fk_group_chunk', '{{%chunk}}');
         $this->dropTable('{{%chunk}}');
+        $this->delete('{{%panel_item}}', ['key' => 'chunk']);
     }
 }

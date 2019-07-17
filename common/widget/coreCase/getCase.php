@@ -13,10 +13,10 @@ use yii\base\Widget;
 
 class getCase
 {
-    public static function mapTree($data){
+    public static function mapTree($data, $last = false){
         $tree = [];
         foreach ($data as $id => &$node) {
-            if (!$node['parent_id'])
+            if (!isset($node['parent_id']))
                 $tree[$id] = &$node;
             else
                 $data[$node['parent_id']]['childs'][$node['id']] = &$node;

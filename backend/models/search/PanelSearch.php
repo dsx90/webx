@@ -18,7 +18,7 @@ class PanelSearch extends Panel
     public function rules()
     {
         return [
-            [['id', 'context_id', 'status', 'sort'], 'integer'],
+            [['id', 'context_id', 'status', 'position'], 'integer'],
             [['title', 'description', 'key'], 'safe'],
         ];
     }
@@ -62,7 +62,7 @@ class PanelSearch extends Panel
             'id' => $this->id,
             'context_id' => $this->context_id,
             'status' => $this->status,
-            'sort' => $this->sort,
+            'position' => $this->position,
         ]);
 
         $query->andFilterWhere(['ilike', 'title', $this->title])

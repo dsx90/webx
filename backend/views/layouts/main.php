@@ -1,5 +1,6 @@
 <?php
 
+use common\models\PanelItem;
 use yii\bootstrap\Html;
 use backend\assets\AppAsset;
 

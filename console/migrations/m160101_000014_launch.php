@@ -1,6 +1,8 @@
 <?php
 
+use common\models\Panel;
 use yii\db\Migration;
+use common\models\PanelItem;
 
 class m160101_000014_launch extends Migration
 {
@@ -40,26 +42,6 @@ class m160101_000014_launch extends Migration
             'unpub_date'        => $this->integer(),
         ], $tableOptions);
 
-        //Таблица просмотров документов visit
-        $this->createTable('{{%visit}}', [
-            'id'                => $this->primaryKey(),
-            'created_at'        => $this->integer()->notNull(),
-            'launch_id'         => $this->integer()->notNull(),
-            'ip'                => $this->string(20)->notNull(),
-            'user_agent'        => $this->text(),
-            'user_id'           => $this->integer(),
-        ], $tableOptions);
-
-        //Таблица избранных документов like
-        $this->createTable('{{%like}}', [
-            'id'                => $this->primaryKey(),
-            'created_at'        => $this->integer()->notNull(),
-            'launch_id'         => $this->integer()->notNull(),
-            'ip'                => $this->string(20)->notNull(),
-            'user_agent'        => $this->text(),
-            'user_id'           => $this->integer(),
-        ], $tableOptions);
-
         //Таблица модулей
         $this->createTable('{{%content_type}}', [
             'id'                => $this->primaryKey(),
@@ -88,28 +70,6 @@ class m160101_000014_launch extends Migration
             '{{%template}}',
             'id',
             'SET NULL',
-            'CASCADE'
-        );
-
-        //Индексы и ключи таблицы таблицы просмотров документов visit
-        $this->addForeignKey(
-            'fk_launch_visit',
-            '{{%visit}}',
-            'launch_id',
-            '{{%launch}}',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        //Индексы и ключи таблицы таблицы просмотров документов like
-        $this->addForeignKey(
-            'fk_launch_like',
-            '{{%like}}',
-            'launch_id',
-            '{{%launch}}',
-            'id',
-            'CASCADE',
             'CASCADE'
         );
 
@@ -157,7 +117,29 @@ class m160101_000014_launch extends Migration
             'RESTRICT'
         );
 
+        $this->insert('{{%panel_item}}', [
+            'parent_id' => null,
+            'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
+            'position'  => 1,
+            'title'     => 'Ресурсы',
+            'key'       => 'launch',
+            'options'   => null,
+            'url'       => '/launch',
+            'icon'      => 'fa fa-angle-double-right',
+            'visible'   => null
+        ]);
 
+        $this->insert('{{%panel_item}}', [
+            'parent_id' => null,
+            'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
+            'position'  => 1,
+            'title'     => 'Типы ресурсов',
+            'key'       => 'content_type',
+            'options'   => null,
+            'url'       => '/content_type',
+            'icon'      => 'fa fa-angle-double-right',
+            'visible'   => 'administrator'
+        ]);
     }
 
     public function safeDown()
@@ -166,14 +148,13 @@ class m160101_000014_launch extends Migration
         $this->dropForeignKey('fk_launch_parent', '{{%launch}}');
         $this->dropForeignKey('fk_launch_updater', '{{%launch}}');
         $this->dropForeignKey('fk_launch_author', '{{%launch}}');
-        $this->dropForeignKey('fk_launch_like', '{{%launch}}');
-        $this->dropForeignKey('fk_launch_visit', '{{%launch}}');
         $this->dropForeignKey('fk_template_launch', '{{%launch}}');
 
         $this->dropTable('{{%launch}}');
-        $this->dropTable('{{%like}}');
-        $this->dropTable('{{%visit}}');
         $this->dropTable('{{%content_type}}');
+
+        $this->delete('{{%panel_item}}', ['key' => 'launch']);
+        $this->delete('{{%panel_item}}', ['key' => 'content_type']);
     }
 
 }

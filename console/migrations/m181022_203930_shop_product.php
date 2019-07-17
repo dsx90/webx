@@ -21,9 +21,18 @@ class m181022_203930_shop_product extends Migration
         $this->createTable('{{%product}}', [
             'launch_id'             => $this->integer()->unique()->notNull(),
             'content'               => $this->text(),
-            'price'                 => $this->integer(),
+            'price'                 => $this->money(),
             'old_price'             => $this->integer(),
             'status'                => $this->smallInteger(),
+            'amount'                => $this->smallInteger()
+        ], $tableOptions);
+
+        $this->createTable('{{%order_product}}', [
+            'id'                    => $this->primaryKey(),
+            'product_id'            => $this->integer()->notNull(),
+            'price'                 => $this->money(),
+            'status'                => $this->smallInteger(),
+            'amount'                => $this->smallInteger()
         ], $tableOptions);
 
         $this->addForeignKey(
@@ -47,8 +56,9 @@ class m181022_203930_shop_product extends Migration
         ]);
 
         $this->insert('{{%panel_item}}', [
+            'parent_id' => 3,
             'panel_id'  => 2,
-            'sort'      => 1,
+            'position'  => 1,
             'title'     => 'Продукты',
             'options'   => null,
             'url'       => '/product',

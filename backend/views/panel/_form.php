@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status')->textInput() ?>
 
-    <?= $form->field($model, 'sort')->textInput() ?>
+    <?= $form->field($model, 'position')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('backend', 'Save'), ['class' => 'btn btn-success']) ?>

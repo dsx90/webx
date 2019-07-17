@@ -2,7 +2,7 @@ server {
     listen 80;
     index index.php;
 
-    server_name part-auto.lo
+    server_name webx.lo
 
     client_max_body_size 32m;
     client_body_buffer_size 32m;
@@ -14,7 +14,7 @@ server {
 
     rewrite (.+)/$ $1 redirect;
 
-    set $base_root /srv/part-auto;    
+    set $base_root /srv/webx.lo;
     set $base_path frontend;
 
     if ( $host ~ ^be ) {
