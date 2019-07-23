@@ -11,8 +11,7 @@ services:
     build: ./
     volumes:
       - '..\:/srv/webx'
-      - '.\modules\nginx\set:/etc/nginx'
       - '.\modules\nginx\logs:/var/log/nginx/'
-      - '.\modules\php:/etc/php/'
+      - '.\modules\nginx\set:/etc/nginx/'
     ports:
       - '80:80'
