@@ -2,11 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use mirocow\eav\admin\widgets\Fields;
 use vova07\imperavi\Widget;
+use mirocow\eav\widgets\ActiveField;
 use yii\helpers\Url;
+use common\modules\shop\models\Product;
 
 /* @var $this yii\web\View */
-/* @var $model common\modules\construction\models\Construction */
+/* @var $model Product */
 /* @var $launch \common\models\Launch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
@@ -41,40 +44,30 @@ use yii\helpers\Url;
                 <h5><span id="description"><?= $launch->description ? $launch->description : 'Обьявление' ?></span></h5>
             </div>
 
-            <?/*= $form->field($model, 'attachment')->widget(
-                \fbalabanov\filekit\widget\Upload::class,
-                [
-                    'url' => ['/site/upload'],
-                    'targetDir' => 'construction/'.$launch->slug,
-                    'sortable' => true,
-                    'maxFileSize' => 10000000, // 10 MiB
-                    'maxNumberOfFiles' => 10,
-                ]);
-            */?>
             <h1>||</h1>
-            <?= empty($model->launch->parent_id) ?: $model->launch->parent_id ?>
-            <?/*= \mirocow\eav\admin\widgets\Fields::widget([
+
+            <?= Fields::widget([
                 'model' => $model,
-                'categoryId' => $model->launch->parent_id,
+                'categoryId' => $model->launch_id,
                 'entityName' => 'Продукт',
-                'entityModel' => 'common\modules\shop\models\Product',
-            ])*/?>
+                'entityModel' => Product::class,
+            ])?>
 
             <?php
             if(!empty($model->launch->parent_id)){
-                foreach($model->getEavAttributes(['entityId' => 1, 'typeId' => 1])->all() as $attr){
-                    echo $form->field($model, $attr->name, ['class' => '\mirocow\eav\widgets\ActiveField'])->eavInput();
+                foreach($model->eavAttributes->all() as $attr){
+                    echo $form->field($model, $attr->name, ['class' => ActiveField::class])->eavInput();
                 }
             }
             ?>
 
-            <?php /*foreach($model->getEavAttributes()->all() as $attr){
+            <?php foreach($model->getEavAttributes()->all() as $attr){
                 echo $model[$attr->name];
-            }*/
+            }
             ?>
 
 
-            <?/*= $form->field($model, 'content')->widget(Widget::class, [
+            <?= $form->field($model, 'content')->widget(Widget::class, [
                 'settings' => [
                     'minHeight' => 200,
                     'plugins' => [
@@ -90,7 +83,7 @@ use yii\helpers\Url;
                     'imageUpload' => Url::to(['/site/image-upload']),
                     'fileUpload' => Url::to(['/site/file-upload']),
                 ],
-            ]) */?>
+            ]) ?>
 
         </div>
         <div class="col-md-3">

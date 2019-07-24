@@ -148,7 +148,7 @@ class Launch extends \yii\db\ActiveRecord
      * Tип контента
      * @return \yii\db\ActiveQuery
      */
-    public function getContenttype(){
+    public function getContentType(){
         return $this->hasOne(ContentType::class, ['id' => 'content_type_id']);
     }
 
@@ -167,7 +167,7 @@ class Launch extends \yii\db\ActiveRecord
      */
     public function getVisit()
     {
-        return $this->hasOne(Visit::class, ['launch_id' => 'id'])->count();
+        return $this->hasMany(Visit::class, ['launch_id' => 'id']);
     }
 
     /**
@@ -176,7 +176,7 @@ class Launch extends \yii\db\ActiveRecord
      */
     public function getLike()
     {
-        return $this->hasOne(Like::class, ['launch_id' => 'id'])->count();
+        return $this->hasMany(Like::class, ['launch_id' => 'id']);
     }
 
     /**
@@ -269,15 +269,6 @@ class Launch extends \yii\db\ActiveRecord
     public function getChildren()
     {
         return $this->hasMany(self::class, ['parent_id' => 'id'])->orderBy(['position' => SORT_ASC]);
-    }
-
-    /**
-     * Просмотры документа
-     * @return \yii\db\ActiveQuery
-     */
-    public function getVisits()
-    {
-        return $this->hasMany(Visit::class, ['launch_id' => 'id']);
     }
 
     /**

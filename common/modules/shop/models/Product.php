@@ -2,26 +2,34 @@
 
 namespace common\modules\shop\models;
 
+use yii\db\ActiveRecord;
 use common\models\Launch;
+use common\modules\shop\queries\ProductQuery;
+use mirocow\eav\models\EavAttribute;
 use Yii;
+use mirocow\eav\models\EavAttributeValue;
+use mirocow\eav\EavBehavior;
 
 /**
  * This is the model class for table "{{%shop_product}}".
  *
  * @property int $launch_id
+ * @property Launch $launch
  * @property string $content
  * @property int $price
  * @property int $old_price
  * @property int $status
+ * @property EavAttribute $eavAttributes
  */
-class Product extends \yii\db\ActiveRecord
+class Product extends ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%shop_product}}';
+        return '{{%product}}';
     }
 
     /**
@@ -32,9 +40,9 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'eav' => [
-                'class' => \mirocow\eav\EavBehavior::class,
+                'class' => EavBehavior::class,
                 // это модель для таблицы object_attribute_value
-                'valueClass' => \mirocow\eav\models\EavAttributeValue::class,
+                'valueClass' => EavAttributeValue::class,
             ]
         ];
     }
@@ -79,21 +87,19 @@ class Product extends \yii\db\ActiveRecord
      */
     public function getEavAttributes()
     {
-        return \mirocow\eav\models\EavAttribute::find()
+        return EavAttribute::find()
+            ->where(['entityModel' => self::class])
             ->joinWith('entity')
-            ->where([
-                //'{{%eav_attribute}}.categoryId' => $this->launch->parent_id,
-                'entityModel' => $this::className()
-            ])
-            ->orderBy(['order' => SORT_ASC]);
+            ->orderBy(['order' => SORT_ASC])
+            ;
     }
 
     /**
      * {@inheritdoc}
-     * @return \common\modules\shop\queries\ProductQuery the active query used by this AR class.
+     * @return ProductQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\modules\shop\queries\ProductQuery(get_called_class());
+        return new ProductQuery(get_called_class());
     }
 }

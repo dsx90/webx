@@ -93,17 +93,17 @@ $config = [
     'modules' => [
 
         'eav' => [
-            'class' => 'common\modules\eav\Module',
+            'class' =>  'mirocow\eav\Module',
         ],
-        'metrica' => [
-            'class' => 'common\modules\metrica\YandexMetricaWidget',
-        ],
+//        'metrica' => [
+//            'class' => 'common\modules\metrica\YandexMetricaWidget',
+//        ],
 
         'construction' => [
-            'class' => 'common\modules\construction\Module',
+            'class' => \common\modules\construction\Module::class,
         ],
         'shop' => [
-            'class' => 'common\modules\shop\Module',
+            'class' => \common\modules\shop\Module::class,
         ],
         'order' => [
             'class' => common\modules\order\Module::class,

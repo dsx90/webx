@@ -45,7 +45,7 @@ class ProductController extends Controller
                 $launch->save(false);
                 $model->link('launch', $launch);
                 $model->save(false);
-                return $this->redirect(['view', 'id' => $model->launch_id]);
+                return $this->redirect(['update', 'id' => $model->launch_id]);
             }
         }
         return $this->render('create', [
@@ -122,7 +122,7 @@ class ProductController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Product::findOne($id)) !== null) {
+        if (($model = Product::findOne(['launch_id' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
