@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                 </div>
                 <div class="col-md-3">
-                    <?= $form->field($model, 'scale')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'scale')->dropDownList($model::getScale()) ?>
                 </div>
             </div>
 

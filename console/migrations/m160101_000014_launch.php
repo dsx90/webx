@@ -45,13 +45,12 @@ class m160101_000014_launch extends Migration
         //Таблица модулей
         $this->createTable('{{%content_type}}', [
             'id'                => $this->primaryKey(),
-            'title'             => $this->string(),
+            'module'            => $this->string(),
+            'key'               => $this->string(),
             'name'              => $this->string(),
             'icon'              => $this->string(20),
             'status'            => $this->boolean(),
-            'model'             => $this->string(),
-            'controller'        => $this->string(),
-            'form'              => $this->string(),
+            'params'            => $this->string()
         ], $tableOptions);
 
 
@@ -117,7 +116,7 @@ class m160101_000014_launch extends Migration
             'RESTRICT'
         );
 
-        $this->insert('{{%panel_item}}', [
+        $this->insert(PanelItem::tableName(), [
             'parent_id' => null,
             'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
             'position'  => 1,
@@ -129,14 +128,14 @@ class m160101_000014_launch extends Migration
             'visible'   => null
         ]);
 
-        $this->insert('{{%panel_item}}', [
+        $this->insert(PanelItem::tableName(), [
             'parent_id' => null,
             'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
             'position'  => 1,
             'title'     => 'Типы ресурсов',
             'key'       => 'content_type',
             'options'   => null,
-            'url'       => '/content_type',
+            'url'       => '/content-type',
             'icon'      => 'fa fa-angle-double-right',
             'visible'   => 'administrator'
         ]);
@@ -153,8 +152,8 @@ class m160101_000014_launch extends Migration
         $this->dropTable('{{%launch}}');
         $this->dropTable('{{%content_type}}');
 
-        $this->delete('{{%panel_item}}', ['key' => 'launch']);
-        $this->delete('{{%panel_item}}', ['key' => 'content_type']);
+        $this->delete(PanelItem::tableName(), ['key' => 'launch']);
+        $this->delete(PanelItem::tableName(), ['key' => 'content_type']);
     }
 
 }

@@ -63,7 +63,7 @@ class m160101_000008_user_agent_address extends Migration
             'RESTRICT'
         );
 
-        $this->insert('{{%panel_item}}', [
+        $this->insert(PanelItem::tableName(), [
             'parent_id' => PanelItem::findOne(['key' => 'statistic'])->id,
             'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
             'position'  => 1,
@@ -86,6 +86,6 @@ class m160101_000008_user_agent_address extends Migration
 
         $this->dropTable('{{%user_agent}}');
         $this->dropTable('{{%user_ip}}');
-        $this->delete('{{%panel_item}}', ['key' => 'user_active']);
+        $this->delete(PanelItem::tableName(), ['key' => 'user_active']);
     }
 }

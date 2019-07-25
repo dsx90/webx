@@ -96,7 +96,7 @@ $config = [
             'class' =>  'mirocow\eav\Module',
         ],
         'attribute' => [
-            'class' => 'common\modules\attribute\Attribute',
+            'class' => 'common\modules\attribute\Module',
         ],
 //        'metrica' => [
 //            'class' => 'common\modules\metrica\YandexMetricaWidget',
@@ -108,6 +108,7 @@ $config = [
         'shop' => [
             'class' => \common\modules\shop\Module::class,
         ],
+
         'order' => [
             'class' => common\modules\order\Module::class,
         ],

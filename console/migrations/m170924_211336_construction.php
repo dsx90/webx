@@ -3,6 +3,7 @@
 use common\models\Panel;
 use common\models\PanelItem;
 use yii\db\Migration;
+use common\models\ContentType;
 
 class m170924_211336_construction extends Migration
 {
@@ -29,17 +30,15 @@ class m170924_211336_construction extends Migration
           'RESTRICT'
         );
 
-        $this->insert('{{%content_type}}', [
-            'title'         => 'Construction',
+        $this->insert(ContentType::tableName(), [
+            'module'        => 'construction',
+            'key'           => 'construction',
             'name'          => 'Выполнение работ',
             'icon'          => 'fa fa-wrench',
-            'status'        => '1',
-            'model'         => 'common\modules\construction\models\Construction',
-            'controller'    => 'common\modules\construction\controllers\admin\ConstructionController',
-            'form'          => '@common/modules/construction/views/admin/construction/_cform',
+            'status'        => '1'
         ]);
 
-        $this->insert('{{%panel_item}}', [
+        $this->insert(PanelItem::tableName(), [
             'parent_id' => PanelItem::findOne(['key' => 'modules'])->id,
             'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
             'position'  => 1,
@@ -57,6 +56,6 @@ class m170924_211336_construction extends Migration
         $this->dropTable('{{%construction}}');
 
         $this->delete('{{%content_type}}', ['title' => 'Construction',]);
-        $this->delete('{{%panel_item}}', ['key' => 'construction']);
+        $this->delete(PanelItem::tableName(), ['key' => 'construction']);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use common\models\ContentType;
 
 /**
  * Class m181022_203930_product
@@ -45,14 +46,12 @@ class m181022_203930_shop_product extends Migration
             'RESTRICT'
         );
 
-        $this->insert('{{%content_type}}', [
-            'title'         => 'Product',
+        $this->insert(ContentType::tableName(), [
+            'module'         => 'shop',
+            'key'         => 'product',
             'name'          => 'Продукт',
             'icon'          => 'fa fa-wrench',
             'status'        => '1',
-            'model'         => 'common\modules\product\models\Product',
-            'controller'    => 'common\modules\product\controllers\admin\ProductController',
-            'form'          => '@common/modules/product/views/admin/product/_cform',
         ]);
 
         $this->insert('{{%panel_item}}', [

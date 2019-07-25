@@ -18,7 +18,7 @@ class m190724_124803_attribute extends Migration
             'id'                    => $this->primaryKey(),
             'name'                  => $this->string(50)->notNull(),
             'description'           => $this->string(),
-            'scale'                 => $this->string(3)->notNull(),
+            'scale'                 => $this->smallInteger()->notNull(),
             'required'              => $this->boolean(),
             'type'                  => $this->smallInteger(), //Тип поля для валидации
             'max'                   => $this->smallInteger(),
@@ -56,7 +56,7 @@ class m190724_124803_attribute extends Migration
         $this->addForeignKey('fk-attribute_value_launch-attribute', '{{%attribute_value_launch}}', '[[attribute_id]]', '{{%attribute}}', '[[id]]');
         $this->addForeignKey('fk-attribute_value_launch-value', '{{%attribute_value_launch}}', '[[value_id]]', '{{%attribute_value}}', '[[id]]');
 
-        $this->insert('{{%panel_item}}', [
+        $this->insert(PanelItem::tableName(), [
             'parent_id' => PanelItem::findOne(['key' => 'settings'])->id,
             'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
             'position'  => 1,
@@ -87,6 +87,6 @@ class m190724_124803_attribute extends Migration
         $this->dropTable('{{%attribute_link_category}}');
         $this->dropTable('{{%attribute_value}}');
 
-        $this->delete('{{%panel_item}}', ['key' => 'attribute']);
+        $this->delete(PanelItem::tableName(), ['key' => 'attribute']);
     }
 }

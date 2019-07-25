@@ -42,7 +42,7 @@ class m160101_000011_chunk extends Migration
             'RESTRICT'
         );
 
-        $this->insert('{{%panel_item}}', [
+        $this->insert(PanelItem::tableName(), [
             'parent_id' => PanelItem::findOne(['key' => 'settings'])->id,
             'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
             'position'  => 1,
@@ -63,6 +63,6 @@ class m160101_000011_chunk extends Migration
     {
         $this->dropForeignKey('fk_group_chunk', '{{%chunk}}');
         $this->dropTable('{{%chunk}}');
-        $this->delete('{{%panel_item}}', ['key' => 'chunk']);
+        $this->delete(PanelItem::tableName(), ['key' => 'chunk']);
     }
 }
