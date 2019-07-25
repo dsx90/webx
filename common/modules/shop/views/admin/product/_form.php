@@ -7,6 +7,10 @@ use vova07\imperavi\Widget;
 use mirocow\eav\widgets\ActiveField;
 use yii\helpers\Url;
 use common\modules\shop\models\Product;
+use kartik\number\NumberControl;
+
+use kartik\icons\FontAwesomeAsset;
+FontAwesomeAsset::register($this)
 
 /* @var $this yii\web\View */
 /* @var $model Product */
@@ -25,8 +29,40 @@ use common\modules\shop\models\Product;
                     <?= $form->field($launch, 'title')->textInput() ?>
                 </div>
                 <div class="col-sm-2">
-                    <?= $form->field($model, 'price')->textInput() ?>
-                    <?= $form->field($model, 'old_price')->textInput() ?>
+                    <?= $form->field($model, 'price')->widget(NumberControl::class, [
+                        'maskedInputOptions' => [
+                            'prefix' => '$ ',
+                            'suffix' => ' ¢',
+                            'allowMinus' => false
+                        ],
+                        'options' => [
+                            'type' => 'text',
+                            'label'=>'<label>Saved Value: </label>',
+                            'class' => 'kv-saved',
+                            'readonly' => true,
+                            'tabindex' => 1000
+                        ],
+                        'displayOptions' => ['class' => 'form-control kv-monospace'],
+                        'saveInputContainer' => ['class' => 'kv-saved-cont']
+                    ]);
+                    ?>
+                    <?= $form->field($model, 'old_price')->widget(NumberControl::class, [
+                        'maskedInputOptions' => [
+                            'prefix' => '$ ',
+                            'suffix' => ' ¢',
+                            'allowMinus' => false
+                        ],
+                        'options' => [
+                            'type' => 'text',
+                            'label'=>'<label>Saved Value: </label>',
+                            'class' => 'kv-saved',
+                            'readonly' => true,
+                            'tabindex' => 1000
+                        ],
+                        'displayOptions' => ['class' => 'form-control kv-monospace'],
+                        'saveInputContainer' => ['class' => 'kv-saved-cont']
+                    ]);
+                    ?>
                 </div>
             </div>
 
@@ -55,7 +91,7 @@ use common\modules\shop\models\Product;
 
             <?php
             if(!empty($model->launch->parent_id)){
-                foreach($model->eavAttributes->all() as $attr){
+                foreach($model->getEavAttributes()->all() as $attr){
                     echo $form->field($model, $attr->name, ['class' => ActiveField::class])->eavInput();
                 }
             }

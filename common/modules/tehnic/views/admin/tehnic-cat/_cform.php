@@ -3,6 +3,10 @@
 use vova07\imperavi\Widget;
 use yii\helpers\Url;
 use fbalabanov\filekit\widget\Upload;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use common\modules\attribute\models\Attribute;
+use common\models\Launch;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\tehnic\models\TehnicCat */
@@ -36,8 +40,8 @@ use fbalabanov\filekit\widget\Upload;
             'maxFileSize' => 5000000, // 5 MiB
         ]);
     ?>
-    <?= $form->field($model, 'option')->widget(\kartik\select2\Select2::class, [
-        'data' => \yii\helpers\ArrayHelper::map(\common\modules\tehnic\models\TehnicOption::find()->all(),'option','option'),
+    <?= $form->field($model, 'attributesForm')->widget(Select2::class, [
+        'data' => ArrayHelper::map(Attribute::find()->all(),'id','name'),
         'language' => 'ru',
         'options' => ['placeholder' => Yii::t('backend', 'Select a value ...'), 'multiple' => true],
         'pluginOptions' => [
@@ -49,7 +53,7 @@ use fbalabanov\filekit\widget\Upload;
 </div>
 
 
-<?//= $form->field($model, 'category')->checkboxList(Launch::getAll(13), ['prompt' => 'Тип документа:']) ?>
+<?= $form->field($model, 'category')->checkboxList(Launch::getAll($model->launch_id)) ?>
 
 
 <?php

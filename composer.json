@@ -62,7 +62,9 @@
         "yiisoft/yii2-smarty": "^2.0@dev",
         "yii2tech/config": "^1.0@dev",
         "execut/yii2-widget-bootstraptreeview": "dev-master",
-        "mirocow/yii2-eav": "*"
+        "mirocow/yii2-eav": "*",
+        "kartik-v/yii2-number": "dev-master",
+        "kartik-v/yii2-icons": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

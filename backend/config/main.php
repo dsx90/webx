@@ -95,6 +95,9 @@ $config = [
         'eav' => [
             'class' =>  'mirocow\eav\Module',
         ],
+        'attribute' => [
+            'class' => 'common\modules\attribute\Attribute',
+        ],
 //        'metrica' => [
 //            'class' => 'common\modules\metrica\YandexMetricaWidget',
 //        ],

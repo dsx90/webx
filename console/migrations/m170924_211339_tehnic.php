@@ -1,16 +1,13 @@
 <?php
 
-use yii\db\Migration;
+use common\models\Panel;
+use common\models\PanelItem;
+use console\components\Migration;
 
 class m170924_211339_tehnic extends Migration
 {
     public function safeUp()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
-
         //Таблица полей категории техники
         $this->createTable('{{%tehnic_cat}}', [
             'launch_id'             => $this->integer()->unique()->notNull(),
@@ -18,7 +15,7 @@ class m170924_211339_tehnic extends Migration
             'thumbnail'             => $this->string(),
             'thumbnail_base_url'    => $this->string(),
             'thumbnail_path'        => $this->string(),
-        ], $tableOptions);
+        ], $this->tableOptions);
 
         //Таблица полей техники
         $this->createTable('{{%tehnic}}', [
@@ -27,40 +24,17 @@ class m170924_211339_tehnic extends Migration
             'price'                 => $this->money(),
             'status'                => $this->smallInteger(),
             'views'                 => $this->integer(),
-        ], $tableOptions);
+        ], $this->tableOptions);
 
 
         $this->createTable('{{%tehnic_cat_assignment}}', [
             'id'                    => $this->primaryKey(),
             'category'              => $this->integer(),
             'subcategory'           => $this->integer(),
-        ], $tableOptions);
+        ], $this->tableOptions);
 
-        //Таблица свойсв техники
-        // id | Обьем ковша | int | м³
-        $this->createTable('{{%tehnic_option}}', [
-            'option_id'             => $this->primaryKey(),
-            'option'                => $this->string()->notNull(),
-            //'type'                  => $this->smallInteger(), //Тип поля для валидации
-            'scale'                 => $this->string()->notNull(),
-        ], $tableOptions);
 
-        //Таблица множесвенной связи свойсв техники с категорией техники
-        // id | Экскваторы | Обьем ковша
-        $this->createTable('{{%tehnic_option_assignment}}', [
-            'id'                    => $this->primaryKey(),
-            'category_id'           => $this->integer()->notNull(),
-            'option_id'             => $this->integer()->notNull(),
-        ], $tableOptions);
 
-        //Таблица связей значений свойсв техники с техникой
-        // id | К700 | Обьем ковша | 5
-        $this->createTable('{{%tehnic_option_value}}', [
-            'id'                    => $this->primaryKey(),
-            'tehnic_id'             => $this->integer(),
-            'option_id'             => $this->integer(),
-            'value'                 => $this->string()->notNull(),
-        ], $tableOptions);
 
         //Таблица заказов техники
         $this->createTable('{{%tehnic_customer}}', [
@@ -73,7 +47,7 @@ class m170924_211339_tehnic extends Migration
             'order_on_time'         => $this->integer(),
             'value_work'            => $this->integer(),
             'percent'               => $this->integer(),
-        ], $tableOptions);
+        ], $this->tableOptions);
 
         //New Foreign Key Index
         $this->addForeignKey(
@@ -94,46 +68,6 @@ class m170924_211339_tehnic extends Migration
             'id',
             'CASCADE',
             'RESTRICT'
-        );
-
-        $this->addForeignKey(
-            'fk-tehnic_option_assignment-launch',
-            '{{%tehnic_option_assignment}}',
-            'category_id',
-            '{{%launch}}',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        $this->addForeignKey(
-            'fk-tehnic_option_assignment-tehnic_option',
-            '{{%tehnic_option_assignment}}',
-            'option_id',
-            '{{%tehnic_option}}',
-            'option_id',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        $this->addForeignKey(
-            'fk-tehnic_option_value-tehnic',
-            '{{%tehnic_option_value}}',
-            'tehnic_id',
-            '{{%tehnic}}',
-            'launch_id',
-            'CASCADE',
-            'CASCADE'
-        );
-
-        $this->addForeignKey(
-            'fk-tehnic_option_value-tehnic_option',
-            '{{%tehnic_option_value}}',
-            'tehnic_id',
-            '{{%tehnic_option}}',
-            'option_id',
-            'CASCADE',
-            'CASCADE'
         );
 
         $this->addForeignKey(
@@ -191,9 +125,6 @@ class m170924_211339_tehnic extends Migration
 
         $this->dropTable('{{%tehnic_cat}}');
         $this->dropTable('{{%tehnic}}');
-        $this->dropTable('{{%tehnic_option}}');
-        $this->dropTable('{{%tehnic_option_assignment}}');
-        $this->dropTable('{{%tehnic_option_value}}');
         $this->dropTable('{{%tehnic_customer}}');
 
         $this->delete('{{%content_type}}', [

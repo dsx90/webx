@@ -13,6 +13,8 @@ use yii\base\ViewRenderer;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
+
 /**
  * This is the model class for table "{{%launch}}".
  *
@@ -33,9 +35,10 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  * @property integer $template_id
  * @property integer $position
- * @property Contenttype $contenttype
+ * @property ContentType $contentType
+ * @property ActiveQuery $models
  *
- * @property integer $children
+ * @property Launch[] $children
  * @property boolean is_folder
  *
  * @property User $author
@@ -186,7 +189,7 @@ class Launch extends \yii\db\ActiveRecord
     public function getModels()
     {
         if (!$this->content_type_id) return null;
-        $model = $this->contenttype->model;
+        $model = $this->contentType->model;
         return $this->hasOne($model::className(), ['launch_id' => 'id']);
 
     }
@@ -280,10 +283,12 @@ class Launch extends \yii\db\ActiveRecord
     }
 
     /**
-    * Получить список документов массивом
-    * @param null $parent_id - родительский документ
-    * @return array [ID => Название]
-    */
+     * Получить список документов массивом
+     *
+     * @param null $parent_id - родительский документ
+     * @param null $url
+     * @return array [ID => Название]
+     */
     public static function getAll($parent_id = null, $url = null)
     {
         $parent = [];
@@ -313,8 +318,26 @@ class Launch extends \yii\db\ActiveRecord
         return $parent;
     }
 
+    public static function getMenuItems(array $models = null)
+    {
+        $items = [];
+        if ($models === null) {
+            $models = Launch::find()->where(['parent_id' => null])->with('children')->orderBy(['id' => SORT_ASC])->all();
+        }
+        foreach ($models as $model) {
+            $items[] = [
+                'url' => ['tehnic/category', 'slug' => $model->slug],
+                'label' => $model->title,
+                'items' => self::getMenuItems($model->children),
+            ];
+        }
+
+        return $items;
+    }
+
     /**
      * Пометка или снятие документа как папки
+     *
      * @param $id - ID документа
      * @param bool $child_delete - дочерние документы удаляются?
      * @throws \yii\db\Exception
@@ -387,7 +410,7 @@ class Launch extends \yii\db\ActiveRecord
                     ->where(['parent_id' => $this->parent_id])
                     ->orderBy(['position' => SORT_DESC])
                     ->one();
-                $this->position = ($model && $model->position) ? $model->position+1 : 1;
+                $this->position = ($model && $model->position) ? $model->position + 1 : 1;
             }
             return true;
         }

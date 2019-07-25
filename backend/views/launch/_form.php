@@ -2,6 +2,9 @@
 
 use common\models\Template;
 use common\models\ContentType;
+use kartik\datetime\DateTimePicker;
+use yii\helpers\ArrayHelper;
+use common\models\User;
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
@@ -89,9 +92,9 @@ use yii\widgets\Pjax;
                             Yii::t('common', 'Slug')
                     ); ?>
 
-                    <?//= $form->field($model, 'author_id')->dropDownList(\yii\helpers\ArrayHelper::map($model->author, 'username', $model->author_id))?> <!--TODO: Вывести Автора-->
+<!--                    --><?//= $form->field($model, 'author_id')->dropDownList(ArrayHelper::map(User::find()->all(), 'id', 'username'))?><!-- <!--TODO: Вывести Автора-->-->
 
-                    <?//= $form->field($model, 'published_at')->widget(DateTimeWidget::class, ['phpDatetimeFormat' => 'dd.MM.yyyy, HH:mm:ss']) ?>
+<!--                    --><?//= $form->field($model, 'published_at')->widget(\trntv\yii\datetime\DateTimeWidget::class, ['phpDatetimeFormat' => 'dd.MM.yyyy, HH:mm:ss']) ?>
 
                     <?= $form->field($model, 'content_type_id')->dropDownList(ContentType::getAll(),
                         ['prompt' => 'Без типа:']) ?>
@@ -100,7 +103,7 @@ use yii\widgets\Pjax;
                         ['prompt' => 'Пустой шаблон:'])
                         ->label(
                             $model->template_id ?
-                            Yii::t('common', 'Template Id').'  '.Html::a('<i class="fa fa-external-link" aria-hidden="true"></i>', '/template/update?id='.$model->template_id) :
+                            Yii::t('common', 'Template Id').'  '.Html::a(Html::tag('i', '', ['class' => 'fa fa-external-link']), ['template/update', 'id'=>$model->template_id]) :
                             Yii::t('common', 'Template Id')
                         )
                     ?>
@@ -110,10 +113,10 @@ use yii\widgets\Pjax;
 
         <?php Pjax::begin(['linkSelector' => false, 'formSelector' => false, 'id' => 'content_type']) ?>
             <div id="fields" class="forms">
-                <?if ($model->content_type_id) {
-                    echo $this->renderAjax($model->contenttype->form, [
+                <?php if ($model->content_type_id) {
+                    echo $this->renderAjax($model->contentType->form, [
                         'form' => $form,
-                        'model' => $model->models ?: (new $model->contenttype->model)
+                        'model' => $model->models ?: (new $model->contentType->model)
                     ]);
                 }?>
             </div>

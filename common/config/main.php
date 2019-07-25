@@ -32,6 +32,12 @@ $config = [
             'class' => 'yii\web\AssetManager',
             'linkAssets' => env('LINK_ASSETS'),
             'appendTimestamp' => YII_ENV_DEV,
+
+            'bundles' => [
+                'kartik\form\ActiveFormAsset' => [
+                    'bsDependencyEnabled' => false // do not load bootstrap assets for a specific asset bundle
+                ],
+            ],
         ],
         'log' => [
             'traceLevel' => YII_ENV_DEV ? 3 : 0,
