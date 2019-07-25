@@ -105,6 +105,9 @@ $config = [
         'construction' => [
             'class' => \common\modules\construction\Module::class,
         ],
+        'tehnic' => [
+            'class' => \common\modules\tehnic\Module::class,
+        ],
         'shop' => [
             'class' => \common\modules\shop\Module::class,
         ],

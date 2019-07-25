@@ -203,7 +203,7 @@ class LaunchController extends Controller
     protected function save(Launch &$model)
     {
         $result = false;
-        $mod = $model->models;
+        $mod = $model->model;
         if ($model->load(Yii::$app->request->post())) {
 
             try {

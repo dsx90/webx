@@ -18,7 +18,7 @@ class ContentTypeSearch extends ContentType
     {
         return [
             [['id'], 'integer'],
-            [['title', 'name', 'icon', 'model', 'controller', 'form'], 'safe'],
+            [['key', 'name', 'icon', 'controller', 'form'], 'safe'],
             [['status'], 'boolean'],
         ];
     }
@@ -63,13 +63,10 @@ class ContentTypeSearch extends ContentType
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['ilike', 'title', $this->title])
-            ->andFilterWhere(['ilike', 'name', $this->name])
-            ->andFilterWhere(['ilike', 'icon', $this->icon])
-            ->andFilterWhere(['ilike', 'model', $this->model])
-            ->andFilterWhere(['ilike', 'controller', $this->controller])
-            ->andFilterWhere(['ilike', 'form', $this->form]);
-
+        $query
+            ->andFilterWhere(['ilike', 'module', $this->module])
+            ->andFilterWhere(['ilike', 'key', $this->key])
+            ->andFilterWhere(['ilike', 'name', $this->name]);
         return $dataProvider;
     }
 }

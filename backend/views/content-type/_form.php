@@ -20,9 +20,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status')->checkbox() ?>
 
-    <?= print_r(Yii::$app->modules[$model->key]['class']::layout()) ?>
-    <?php foreach ()?>
-
     <div class="form-group">
         <?= Html::submitButton(Yii::t('backend', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>

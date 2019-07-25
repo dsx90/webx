@@ -36,7 +36,7 @@ use yii\db\ActiveQuery;
  * @property integer $template_id
  * @property integer $position
  * @property ContentType $contentType
- * @property ActiveQuery $models
+ * @property ActiveQuery $model
  *
  * @property Launch[] $children
  * @property boolean is_folder
@@ -186,10 +186,10 @@ class Launch extends \yii\db\ActiveRecord
      * Подключение модели выбранного модуля
      * @return null|\yii\db\ActiveQuery
      */
-    public function getModels()
+    public function getModel()
     {
         if (!$this->content_type_id) return null;
-        $model = $this->contentType->model;
+        $model = $this->contentType->getSection('model');
         return $this->hasOne($model::className(), ['launch_id' => 'id']);
 
     }

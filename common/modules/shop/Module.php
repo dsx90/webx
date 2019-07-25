@@ -2,6 +2,8 @@
 
 namespace common\modules\shop;
 
+use common\modules\shop\controllers\admin\ProductController;
+use common\modules\shop\models\Product;
 use Yii;
 use yii\console\Application;
 
@@ -12,7 +14,7 @@ class Module extends \yii\base\Module
 {
     const MODULE_NAME = 'shop';
 
-    public function controllerNamespace()
+    public static function controllerNamespace()
     {
         if (Yii::$app instanceof Application) {
             return 'app\modules\shop\commands';
@@ -20,12 +22,13 @@ class Module extends \yii\base\Module
         return 'common\modules\shop\controllers';
     }
 
-    public function layout()
+    public static function layout()
     {
         return [
             'product' => [
-                'model'         => dirname(dirname(__DIR__)) . '\Product',
-                'controller'    => $this->controllerNamespace.'\ProductController',
+                'name'          => Yii::t('common', 'Product'),
+                'model'         => Product::class,
+                'controller'    => ProductController::class,
                 'form'          => '@common/modules/shop/views/admin/product/_cform'
             ]
         ];

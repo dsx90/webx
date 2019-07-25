@@ -96,7 +96,7 @@ use yii\widgets\Pjax;
 
 <!--                    --><?//= $form->field($model, 'published_at')->widget(\trntv\yii\datetime\DateTimeWidget::class, ['phpDatetimeFormat' => 'dd.MM.yyyy, HH:mm:ss']) ?>
 
-                    <?= $form->field($model, 'content_type_id')->dropDownList(ContentType::getAll(),
+                    <?= $form->field($model, 'content_type_id')->dropDownList(ContentType::getTypes('name'),
                         ['prompt' => 'Без типа:']) ?>
 
                     <?= $form->field($model, 'template_id')->dropDownList(Template::getAll(),
@@ -114,9 +114,10 @@ use yii\widgets\Pjax;
         <?php Pjax::begin(['linkSelector' => false, 'formSelector' => false, 'id' => 'content_type']) ?>
             <div id="fields" class="forms">
                 <?php if ($model->content_type_id) {
-                    echo $this->renderAjax($model->contentType->form, [
+                    $contentType = $model->contentType->section;
+                    echo $this->renderAjax($contentType['form'], [
                         'form' => $form,
-                        'model' => $model->models ?: (new $model->contentType->model)
+                        'model' => $model->model ?: (new $contentType['model'])
                     ]);
                 }?>
             </div>

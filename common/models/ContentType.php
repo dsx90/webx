@@ -1,15 +1,20 @@
 <?php
 namespace common\models;
 
+use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "{{%content_type}}".
  *
  * @property integer $id
- * @property string $title
- * @property string $model
- * @property string $controller
- * @property string $form
+ * @property string $module
+ * @property string $key
+ * @property string $name
+ * @property string $icon
+ * @property string $status
+ * @property string $params
  */
 class ContentType extends ActiveRecord
 {
@@ -31,11 +36,11 @@ class ContentType extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'model', 'controller'], 'required'],
-            ['title', 'unique'],
-            [['name', 'title', 'icon'], 'trim'],
-            ['icon', 'string'],
-            ['status', 'in', 'range' => [0,1]],
+            [['module', 'key'], 'required'],
+            ['key', 'unique'],
+            [['icon'], 'trim'],
+            [['module', 'key', 'name', 'icon'], 'string'],
+            ['status', 'boolean'],
             [['title', 'model', 'controller', 'form'], 'string', 'max' => 255],
         ];
     }
@@ -54,20 +59,24 @@ class ContentType extends ActiveRecord
         ];
     }
 
-    /**
-     * Список шаблонов массивом
-     * @return array
-     */
-    public static function getAll()
-    {
-        $type = [];
-        $model = self::find()->orderBy(['title' => SORT_ASC])->all();
-        if ($model) {
-            foreach ($model as $m) {
-                $type[$m->id] = $m->name;
+    public static function getTypes($el = null){
+        $result = [];
+        $types = self::find()
+            ->where(['status' => true])
+            ->all();
+        ;
+        foreach ($types as $type){
+            foreach (Yii::$app->modules[$type->module]['class']::layout() as $key => $arr){
+
+                $result[$type->id] = $el ? $arr[$el] : $arr;
             }
         }
+        return $result;
+    }
 
-        return $type;
+    public function getSection($key = null)
+    {
+        $result = Yii::$app->modules[$this->module]['class']::layout()[$this->key];
+        return $key ? $result[$key] : $result;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace common\modules\construction;
 
+use common\modules\construction\controllers\admin\ConstructionController;
+use common\modules\construction\models\Construction;
 use yii\console\Application;
 use Yii;
 
@@ -24,8 +26,9 @@ class Module extends \yii\base\Module
     {
         return [
             'construction' => [
-                'model'         => dirname(dirname(__DIR__)) . '\Construction',
-                'controller'    => self::controllerNamespace().'\ConstructionController',
+                'name'          => Yii::t('common', 'Construction'),
+                'model'         => Construction::class,
+                'controller'    => ConstructionController::class,
                 'form'          => '@common/modules/construction/views/admin/construction/_cform'
             ]
         ];
