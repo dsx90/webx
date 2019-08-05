@@ -22,26 +22,68 @@ use Yii;
  */
 class Attribute extends \yii\db\ActiveRecord
 {
-    const TYPE_INTEGER  = 1;
-    const TYPE_STRING   = 2;
+    /** Валидация данных */
+    /** @var int Для хранения чисел */
+    const VALID_INTEGER  = 1;
 
-    const SCALE_WIDTH   = 1;
-    const SCALE_AREA    = 2;
+    /** @var int Для хранения строк */
+    const VALID_STRING   = 2;
 
+    /** @var int Для хранения boolean */
+    const VALID_BOOLEAN  = 3;
+
+    /////
+    /** @var int Для хранения Email */
+    const VALID_EMAIL   = 3;
+
+    /** @var int Для хранения Телефона */
+    const VALID_PHONE   = 4;
+
+    /** @var int Для хранения Кода */
+    const VALID_CODE    = 5;
+
+
+    /** Тип данных */
+    /** @var int Длина */
+    const TYPE_WIDTH   = 1;
+
+    /** @var int Площадь*/
+    const TYPE_AREA    = 2;
+
+    /** @var int Множесвенные значения */
+    const TYPE_ARRAY   = 3;
+
+    /** @var int Множесвенные значения типа MIGX */
+    const TYPE_MULTIPLE   = 3;
+
+
+    /**
+     * @return array
+     */
+    public static function getValidate()
+    {
+        return [
+            self::VALID_INTEGER  => Yii::t('attribute', 'Integer'),
+            self::VALID_STRING   => Yii::t('attribute', 'String'),
+        ];
+    }
+
+    /**
+     * @return array
+     */
     public static function getType()
     {
         return [
-            self::TYPE_INTEGER  => Yii::t('common', 'Integer'),
-            self::TYPE_STRING   => Yii::t('common', 'String')
+            self::TYPE_WIDTH       => Yii::t('attribute', 'Width'),
+            self::TYPE_AREA        => Yii::t('attribute', 'Area'),
+            self::TYPE_ARRAY       => Yii::t('attribute', 'Array'),
+            self::TYPE_MULTIPLE    => Yii::t('attribute', 'Multiple'),
         ];
     }
-    public static function getScale()
-    {
-        return [
-            self::SCALE_WIDTH   => Yii::t('common', 'Width'),
-            self::SCALE_AREA    => Yii::t('common', 'Area')
-        ];
-    }
+
+    /**
+     * @return array
+     */
     public static function getScaleValues()
     {
         return [
@@ -51,12 +93,19 @@ class Attribute extends \yii\db\ActiveRecord
                 'kilometer'
             ],
             self::SCALE_AREA => [
-                'centimetr 2',
-                'metre 2',
-                'kilometer 2'
+                'centimetr²',
+                'metre²',
+                'kilometer²'
+            ],
+            self::SCALE_ARRAY => [
+                'color',
+                'check',
+                'radio',
+                'dropdown',
             ]
         ];
     }
+
     /**
      * {@inheritdoc}
      */
@@ -71,9 +120,9 @@ class Attribute extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'scale'], 'required'],
+            [['name', 'type', 'scale'], 'required'],
             [['required'], 'boolean'],
-            [['type', 'max', 'sort'], 'default', 'value' => null],
+            [['max', 'sort'], 'default', 'value' => null],
             [['type', 'max', 'sort','scale'], 'integer'],
             [['name'], 'string', 'max' => 50],
             [['description'], 'string', 'max' => 255],
@@ -86,14 +135,14 @@ class Attribute extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'scale' => 'Scale',
-            'required' => 'Required',
-            'type' => 'Type',
-            'max' => 'Max',
-            'sort' => 'Sort',
+            'id'            => Yii::t('attribute', 'ID'),
+            'name'          => Yii::t('attribute', 'Name'),
+            'description'   => Yii::t('attribute', 'Description'),
+            'scale'         => Yii::t('attribute', 'Scale'),
+            'required'      => Yii::t('attribute', 'Required'),
+            'type'          => Yii::t('attribute', 'Type'),
+            'max'           => Yii::t('attribute', 'Max'),
+            'sort'          => Yii::t('attribute', 'Sort'),
         ];
     }
 
@@ -102,7 +151,7 @@ class Attribute extends \yii\db\ActiveRecord
      */
     public function getAttributeLinkCategories()
     {
-        return $this->hasMany(AttributeLinkCategory::className(), ['attribute_id' => 'id']);
+        return $this->hasMany(AttributeLinkCategory::class, ['attribute_id' => 'id']);
     }
 
     /**
@@ -110,7 +159,7 @@ class Attribute extends \yii\db\ActiveRecord
      */
     public function getAttributeValues()
     {
-        return $this->hasMany(AttributeValue::className(), ['attribute_id' => 'id']);
+        return $this->hasMany(AttributeValue::class, ['attribute_id' => 'id']);
     }
 
     /**
@@ -118,7 +167,7 @@ class Attribute extends \yii\db\ActiveRecord
      */
     public function getAttributeValueLaunches()
     {
-        return $this->hasMany(AttributeValueLaunch::className(), ['attribute_id' => 'id']);
+        return $this->hasMany(AttributeValueLaunch::class, ['attribute_id' => 'id']);
     }
 
     /**

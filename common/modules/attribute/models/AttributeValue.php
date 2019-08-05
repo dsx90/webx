@@ -33,7 +33,7 @@ class AttributeValue extends \yii\db\ActiveRecord
             [['attribute_id'], 'default', 'value' => null],
             [['attribute_id'], 'integer'],
             [['value'], 'string', 'max' => 255],
-            [['attribute_id'], 'exist', 'skipOnError' => true, 'targetClass' => Attribute::className(), 'targetAttribute' => ['attribute_id' => 'id']],
+            [['attribute_id'], 'exist', 'skipOnError' => true, 'targetClass' => Attribute::class, 'targetAttribute' => ['attribute_id' => 'id']],
         ];
     }
 
@@ -54,7 +54,7 @@ class AttributeValue extends \yii\db\ActiveRecord
      */
     public function getAttribute0()
     {
-        return $this->hasOne(Attribute::className(), ['id' => 'attribute_id']);
+        return $this->hasOne(Attribute::class, ['id' => 'attribute_id']);
     }
 
     /**
@@ -62,7 +62,7 @@ class AttributeValue extends \yii\db\ActiveRecord
      */
     public function getAttributeValueLaunches()
     {
-        return $this->hasMany(AttributeValueLaunch::className(), ['value_id' => 'id']);
+        return $this->hasMany(AttributeValueLaunch::class, ['value_id' => 'id']);
     }
 
     /**
