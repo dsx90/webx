@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                 </div>
                 <div class="col-md-3">
-                    <?= $form->field($model, 'scale')->dropDownList($model::getScale()) ?>
+                    <?= $form->field($model, 'scale')->dropDownList($model::getType()) ?>
                 </div>
             </div>
 
@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
         <div class="col-md-3">
             <?= $form->field($model, 'required')->checkbox() ?>
 
-            <?= $form->field($model, 'type')->dropDownList($model::getType()) ?>
+            <?= $form->field($model, 'type')->dropDownList($model::getValidate()) ?>
 
             <?= $form->field($model, 'max')->textInput() ?>
 
