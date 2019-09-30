@@ -278,6 +278,7 @@ $freely = disk_free_space("/") / $a;
         ?>
 
         <div class="col-sm-12 widget">
+            <p>IP: <?= Yii::$app->request->userIP?></p>
             <!-- Progress bars -->
             <div class="clearfix" style="color:#fff">
                 <span class="pull-left">Места на диске:</span>

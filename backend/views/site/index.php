@@ -7,6 +7,7 @@ $this->title = 'Dashboard';
 use common\Module;
 
 ?>
+
 <div class="site-index connectedSortable ui-sortable">
 
     <?php if (isset($modules[Module::POSITION_HEADER])) { ?>

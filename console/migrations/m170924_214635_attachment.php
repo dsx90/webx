@@ -13,7 +13,8 @@ class m170924_214635_attachment extends Migration
 
         $this->createTable('{{%attachment}}',[
             'id'            => $this->primaryKey(),
-            'launch_id'     => $this->integer(),
+            'table'         => $this->string(),
+            'link_id'       => $this->integer(),
             'path'          => $this->string(),
             'base_url'      => $this->string(),
             'type'          => $this->string(),
@@ -21,17 +22,6 @@ class m170924_214635_attachment extends Migration
             'name'          => $this->string(),
             'create_at'     => $this->integer()
         ], $tableOptions);
-
-        $this->addForeignKey(
-            'fk-attachment-launch_id',
-            '{{%attachment}}',
-            'launch_id',
-            '{{%launch}}',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
-
     }
 
     public function safeDown()

@@ -53,6 +53,10 @@ class m160101_000014_launch extends Migration
             'params'            => $this->string()
         ], $tableOptions);
 
+        $this->createTable('{{%city}}', [
+            'id' => $this->primaryKey(),
+            'name' => $this->string(80)
+        ]);
 
         //Индексы родителей
         $this->createIndex('idx-launch-parent_id', '{{%launch}}', 'parent_id');
@@ -139,6 +143,18 @@ class m160101_000014_launch extends Migration
             'icon'      => 'fa fa-angle-double-right',
             'visible'   => 'administrator'
         ]);
+
+        $this->insert(PanelItem::tableName(), [
+            'parent_id' => null,
+            'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
+            'position'  => 1,
+            'title'     => 'Города',
+            'key'       => 'city',
+            'options'   => null,
+            'url'       => '/city',
+            'icon'      => 'fa fa-map-signs',
+            'visible'   => null
+        ]);
     }
 
     public function safeDown()
@@ -151,6 +167,7 @@ class m160101_000014_launch extends Migration
 
         $this->dropTable('{{%launch}}');
         $this->dropTable('{{%content_type}}');
+        $this->dropTable('{{%city}}');
 
         $this->delete(PanelItem::tableName(), ['key' => 'launch']);
         $this->delete(PanelItem::tableName(), ['key' => 'content_type']);

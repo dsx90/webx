@@ -9,10 +9,7 @@ class m170924_211339_tehnic extends Migration
         //Таблица полей категории техники
         $this->createTable('{{%tehnic_cat}}', [
             'launch_id'             => $this->integer()->unique()->notNull(),
-            'content'               => $this->text(),
-            'thumbnail'             => $this->string(),
-            'thumbnail_base_url'    => $this->string(),
-            'thumbnail_path'        => $this->string(),
+            'content'               => $this->text()
         ], $this->tableOptions());
 
         //Таблица полей техники

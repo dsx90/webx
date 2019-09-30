@@ -26,6 +26,13 @@ class m160101_000014_order extends Migration
             'update_at'             => $this->integer(),
         ], $tableOptions);
 
+        /** Предложение */
+        $this->createTable('{{%offer}}', [
+            'id'            => $this->primaryKey(),
+            'price'         => $this->money(),
+            'create_at'     => $this->integer(),
+        ], $tableOptions);
+
         $this->createIndex('idx-order-table', '{{%order}}', '[[table]]');
         $this->createIndex('idx-order-status', '{{%order}}', '[[status]]');
 
@@ -73,6 +80,18 @@ class m160101_000014_order extends Migration
             'visible'   => null
         ]);
 
+        $this->insert('{{%panel_item}}', [
+            'parent_id' => null,
+            'panel_id'  => Panel::findOne(['key' => 'navbar-static-top'])->id,
+            'position'  => 1,
+            'title'     => 'Предложения',
+            'key'       => 'offer',
+            'options'   => null,
+            'url'       => '/offer',
+            'icon'      => 'fa fa-shopping-cart',
+            'visible'   => null
+        ]);
+
     }
 
     public function safeDown()
@@ -83,6 +102,7 @@ class m160101_000014_order extends Migration
         $this->dropForeignKey('fk-order-user_ip', '{{%order}}');
 
         $this->dropTable('{{%order}}');
+        $this->dropTable('{{%offer}}');
 
         $this->delete('{{%panel_item}}', ['key' => 'order']);
     }

@@ -28,10 +28,9 @@ class m181022_203930_shop_product extends Migration
             'amount'                => $this->smallInteger()
         ], $tableOptions);
 
-        $this->createTable('{{%order_product}}', [
-            'id'                    => $this->primaryKey(),
+        $this->createTable('{{%offer_product}}', [
+            'offer_id'              => $this->primaryKey(),
             'product_id'            => $this->integer()->notNull(),
-            'price'                 => $this->money(),
             'status'                => $this->smallInteger(),
             'amount'                => $this->smallInteger()
         ], $tableOptions);
@@ -47,8 +46,8 @@ class m181022_203930_shop_product extends Migration
         );
 
         $this->insert(ContentType::tableName(), [
-            'module'         => 'shop',
-            'key'         => 'product',
+            'module'        => 'shop',
+            'key'           => 'product',
             'name'          => 'Продукт',
             'icon'          => 'fa fa-wrench',
             'status'        => '1',
@@ -73,5 +72,6 @@ class m181022_203930_shop_product extends Migration
     public function safeDown()
     {
         $this->dropTable('{{%shop_product}}');
+        $this->dropTable('{{%offer_product}}');
     }
 }
