@@ -64,7 +64,9 @@
         "execut/yii2-widget-bootstraptreeview": "dev-master",
         "mirocow/yii2-eav": "*",
         "kartik-v/yii2-number": "dev-master",
-        "kartik-v/yii2-icons": "@dev"
+        "kartik-v/yii2-icons": "@dev",
+        "delikates-nsk/yii2-shadowed-tabs": "@dev",
+        "delikates-nsk/yii2-tree-dropdown": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

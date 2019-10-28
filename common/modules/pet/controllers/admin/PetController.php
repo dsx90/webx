@@ -50,7 +50,7 @@ class PetController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($launch_id)
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -82,7 +82,7 @@ class PetController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($launch_id)
     {
         $model = $this->findModel($id);
 

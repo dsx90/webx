@@ -53,9 +53,6 @@ use common\models\Launch;
 </div>
 
 
-<?= $form->field($model, 'category')->checkboxList(Launch::getAll($model->launch_id)) ?>
-
-
 <?php
 $js = <<< JS
 $('#tehnic_cat-right').prependTo( $('#launch-right') );

@@ -18,22 +18,18 @@ class m190924_184053_pets extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-//        /** Класс */
-//        $this->createTable('{{%breed}}', [
-//            'launch_id' => $this->integer(),
-//            'pets_id' => $this->integer(),
-//        ]);
+        /** Класс */
+        $this->createTable('{{%breed}}', [
+            'launch_id' => $this->integer(),
+        ]);
 
         /** Животные */
         $this->createTable('{{%pet}}', [
-            'id'            => $this->primaryKey(),
-            'category_id'   => $this->integer()->comment('Порода'),
+            'launch_id'     => $this->integer()->comment('Порода'),
             'ties_id'       => $this->integer()->comment('Связь родителей'),
-            'name'          => $this->string(80)->comment('Кличка'),
-            'description'   => $this->string(255)->comment('Описание'),
             'sex'           => $this->boolean()->comment('Пол'),
             'birth_date'    => $this->integer()->comment('Дата рождения'),
-            'status'        => $this->integer()
+            'status'        => $this->smallInteger()->comment('Статус')
         ], $tableOptions);
 
         /**  Связь */
@@ -50,13 +46,13 @@ class m190924_184053_pets extends Migration
             'status'         => $this->smallInteger(), //Продажа, Бронь, Продан, Снят, Сведение
         ], $tableOptions);
 
-        $this->addForeignKey('fk-ties_pets-pet_male', '{{%ties_pets}}', '[[male]]', '{{%pet}}', '[[id]]');
-        $this->addForeignKey('fk-ties_pets-pet_female', '{{%ties_pets}}', '[[female]]', '{{%pet}}', '[[id]]');
+//        $this->addForeignKey('fk-ties_pets-pet_male', '{{%ties_pets}}', '[[male]]', '{{%pet}}', '[[launch_id]]');
+//        $this->addForeignKey('fk-ties_pets-pet_female', '{{%ties_pets}}', '[[female]]', '{{%pet}}', '[[launch_id]]');
 
         $this->addForeignKey('fk-pet_ties_pets', '{{%pet}}', '[[ties_id]]', '{{%ties_pets}}', '[[id]]');
 
         $this->addForeignKey('fk-offer_pet-offer', '{{%offer_pet}}', '[[offer_id]]', '{{%offer}}', '[[id]]');
-        $this->addForeignKey('fk-offer_pet-pet', '{{%offer_pet}}', '[[pet_id]]', '{{%pet}}', '[[id]]');
+//        $this->addForeignKey('fk-offer_pet-pet', '{{%offer_pet}}', '[[pet_id]]', '{{%pet}}', '[[launch_id]]');
 
         $this->insert('{{%panel_item}}', [
             'parent_id' => null,
@@ -82,6 +78,21 @@ class m190924_184053_pets extends Migration
             'visible'   => null
         ]);
 
+        $this->insert('{{%content_type}}', [
+            'module'        => 'pet',
+            'key'           => 'pet',
+            'name'          => 'Животные',
+            'icon'          => 'fa fa-paw',
+            'status'        => '1'
+        ]);
+
+        $this->insert('{{%content_type}}', [
+            'module'        => 'pet',
+            'key'           => 'breed',
+            'name'          => 'Порода',
+            'icon'          => 'fa fa-paw',
+            'status'        => '1'
+        ]);
     }
 
     /**
@@ -89,17 +100,21 @@ class m190924_184053_pets extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk-offer_pet-pet', '{{%offer_pet}}');
+//        $this->dropForeignKey('fk-offer_pet-pet', '{{%offer_pet}}');
         $this->dropForeignKey('fk-offer_pet-offer', '{{%offer_pet}}');
         $this->dropForeignKey('fk-pet_ties_pets', '{{%pet}}');
-        $this->dropForeignKey('fk-ties_pets-pet_female', '{{%ties_pets}}');
-        $this->dropForeignKey('fk-ties_pets-pet_male', '{{%ties_pets}}');
+//        $this->dropForeignKey('fk-ties_pets-pet_female', '{{%ties_pets}}');
+//        $this->dropForeignKey('fk-ties_pets-pet_male', '{{%ties_pets}}');
 
+        $this->dropTable('{{%breed}}');
         $this->dropTable('{{%pet}}');
         $this->dropTable('{{%ties_pets}}');
         $this->dropTable('{{%offer_pet}}');
 
         $this->delete('{{%panel_item}}', ['key' => 'pet']);
-        $this->delete('{{%panel_item}}', ['key' => 'ties-pets']);
+        $this->delete('{{%panel_item}}', ['key' => 'ties_pets']);
+
+        $this->delete('{{%content_type}}', ['key' => 'pet']);
+        $this->delete('{{%content_type}}', ['key' => 'breed']);
     }
 }

@@ -2,16 +2,14 @@
 
 namespace common\modules\pet\models;
 
+use common\components\LaunchActiveRecord;
+use common\models\Launch;
 use Yii;
 
 /**
  * This is the model class for table "{{%pet}}".
  *
- * @property int $id
- * @property int $category_id Порода
  * @property int $ties_id Связь родителей
- * @property string $name Кличка
- * @property string $description Описание
  * @property bool $sex Пол
  * @property int $birth_date Дата рождения
  * @property int $status
@@ -21,7 +19,7 @@ use Yii;
  * @property TiesPets[] $tiesPets
  * @property TiesPets[] $tiesPets0
  */
-class Pet extends \yii\db\ActiveRecord
+class Pet extends LaunchActiveRecord
 {
     const SEX_FIMALE = 0;
     const SEX_MALE = 1;
@@ -29,8 +27,8 @@ class Pet extends \yii\db\ActiveRecord
     public static function sexTitle()
     {
         return [
-            self::SEX_FIMALE => 'Fimale',
-            self::SEX_MALE => 'Male'
+            self::SEX_FIMALE    => 'Fimale',
+            self::SEX_MALE      => 'Male'
         ];
     }
 
@@ -48,12 +46,13 @@ class Pet extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category_id', 'ties_id', 'birth_date', 'status'], 'default', 'value' => null],
-            [['category_id', 'ties_id', 'birth_date', 'status'], 'integer'],
+            [['ties_id', 'birth_date', 'status'], 'default', 'value' => null],
+            [['ties_id', 'status'], 'integer'],
             [['sex'], 'boolean'],
             [['name'], 'string', 'max' => 80],
             [['description'], 'string', 'max' => 255],
-            [['ties_id'], 'exist', 'skipOnError' => true, 'targetClass' => TiesPets::className(), 'targetAttribute' => ['ties_id' => 'id']],
+            [['ties_id'], 'exist', 'skipOnError' => true, 'targetClass' => TiesPets::class, 'targetAttribute' => ['ties_id' => 'id']],
+            [['birth_date', 'launch_id'], 'safe']
         ];
     }
 
@@ -63,14 +62,12 @@ class Pet extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'category_id' => Yii::t('app', 'Category ID'),
-            'ties_id' => Yii::t('app', 'Ties ID'),
-            'name' => Yii::t('app', 'Name'),
-            'description' => Yii::t('app', 'Description'),
-            'sex' => Yii::t('app', 'Sex'),
-            'birth_date' => Yii::t('app', 'Birth Date'),
-            'status' => Yii::t('app', 'Status'),
+            'ties_id'       => Yii::t('app', 'Ties ID'),
+            'name'          => Yii::t('app', 'Name'),
+            'description'   => Yii::t('app', 'Description'),
+            'sex'           => Yii::t('app', 'Sex'),
+            'birth_date'    => Yii::t('app', 'Birth Date'),
+            'status'        => Yii::t('app', 'Status'),
         ];
     }
 
@@ -79,7 +76,7 @@ class Pet extends \yii\db\ActiveRecord
      */
     public function getOfferPets()
     {
-        return $this->hasMany(OfferPet::className(), ['pet_id' => 'id']);
+        return $this->hasMany(OfferPet::class, ['pet_id' => 'id']);
     }
 
     /**
@@ -87,7 +84,7 @@ class Pet extends \yii\db\ActiveRecord
      */
     public function getTies()
     {
-        return $this->hasOne(TiesPets::className(), ['id' => 'ties_id']);
+        return $this->hasOne(TiesPets::class, ['id' => 'ties_id']);
     }
 
     /**
@@ -95,7 +92,7 @@ class Pet extends \yii\db\ActiveRecord
      */
     public function getTiesPets()
     {
-        return $this->hasMany(TiesPets::className(), ['male' => 'id']);
+        return $this->hasMany(TiesPets::class, ['male' => 'id']);
     }
 
     /**
@@ -103,6 +100,16 @@ class Pet extends \yii\db\ActiveRecord
      */
     public function getTiesPets0()
     {
-        return $this->hasMany(TiesPets::className(), ['female' => 'id']);
+        return $this->hasMany(TiesPets::class, ['female' => 'id']);
     }
+
+//    /**
+//     * @return \yii\db\ActiveQuery
+//     */
+//    public function getBreed()
+//    {
+//        return $this->hasOne(Launch::class, ['id' => 'category_id'])
+//            ->where([''])
+//            ;
+//    }
 }

@@ -3,16 +3,33 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $this yii\web\View */
-/* @var $model \common\models\Launch */
-/* @var $composit \backend\controllers\LaunchController : update  */
+/**
+ * @var $this yii\web\View
+ * @var $model \common\models\Launch
+ * @var $composit \backend\controllers\LaunchController : update
+ * @var $template \common\models\Template;
+ */
 
-$this->title = Yii::t('backend', 'Update {modelClass}: ', [
-    'modelClass' => 'ресурс',
-]) . $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Launches'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('common', 'Update');
+$crumbs = [];
+if ($parent = $model->parent){
+    $crumbs[] = ['label' => $parent->title, 'url' => ['update', 'id' => $parent->id]];
+    while ($parent = $parent->parent) {
+        $crumbs[] = ['label' => $parent->title, 'url' => ['update', 'id' => $parent->id]];
+    }
+    $this->params['breadcrumbs'] = array_reverse($crumbs);
+
+    $this->params['category'] = $model->parent;
+};
+
+$this->params['breadcrumbs'][] = $model->title;
+
+
+//$this->title = Yii::t('backend', 'Update {modelClass}: ', [
+//    'modelClass' => 'ресурс',
+//]) . $model->title;
+//$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Launches'), 'url' => ['index']];
+//$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
+//$this->params['breadcrumbs'][] = Yii::t('common', 'Update');
 ?>
 <div class="launch-update">
     <?php $form = ActiveForm::begin(); ?>
@@ -37,7 +54,7 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'Update');
                             'method' => 'post',
                         ],
                     ])." ";
-                echo Html::a('<i class="glyphicon glyphicon-level-up"></i> '.Yii::t('backend', 'Create child'), ['create', 'parent_id' => $model->parent_id], [
+                echo Html::a('<i class="glyphicon glyphicon-level-up"></i> '.Yii::t('backend', 'Create child'), ['create', 'parent_id' => $model->id], [
                         'class' => 'btn btn-default',
                     ])." ";
             }
@@ -61,8 +78,13 @@ $this->params['breadcrumbs'][] = Yii::t('common', 'Update');
             ],
             [
                 'label' => 'Таблица полей',
-                'content' => $this->render('_form', ['model' => $model])
+                'content' => $this->render('_form', compact('model'))
 
+            ],
+            [
+                'label' => 'Потомки',
+                'content' => $this->render('index', compact('searchModel', 'dataProvider')),
+                'visible' => !empty($model->module['hideChildTable']) ? !$model->module['hideChildTable'] : true
             ],
 
         ]

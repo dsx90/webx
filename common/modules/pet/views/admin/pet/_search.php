@@ -18,15 +18,7 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
-
-    <?= $form->field($model, 'category_id') ?>
-
     <?= $form->field($model, 'ties_id') ?>
-
-    <?= $form->field($model, 'name') ?>
-
-    <?= $form->field($model, 'description') ?>
 
     <?php // echo $form->field($model, 'sex')->checkbox() ?>
 

@@ -17,8 +17,7 @@ class PetSearch extends Pet
     public function rules()
     {
         return [
-            [['id', 'category_id', 'ties_id', 'birth_date', 'status'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['launch_id', 'ties_id', 'birth_date', 'status'], 'integer'],
             [['sex'], 'boolean'],
         ];
     }
@@ -59,16 +58,12 @@ class PetSearch extends Pet
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'category_id' => $this->category_id,
+            'launch_id' => $this->launch_id,
             'ties_id' => $this->ties_id,
             'sex' => $this->sex,
             'birth_date' => $this->birth_date,
             'status' => $this->status,
         ]);
-
-        $query->andFilterWhere(['ilike', 'name', $this->name])
-            ->andFilterWhere(['ilike', 'description', $this->description]);
 
         return $dataProvider;
     }

@@ -11,9 +11,9 @@ class AdminLte extends AssetBundle
         'css/AdminLTE.min.css',
         'css/skins/_all-skins.min.css',
     ];
-    public $js = [
-        'js/app.min.js',
-    ];
+//    public $js = [
+//        'js/app.min.js',
+//    ];
     public $depends = [
         'yii\web\JqueryAsset',
         'yii\jui\JuiAsset',

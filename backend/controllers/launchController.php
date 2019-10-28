@@ -9,6 +9,8 @@ use common\models\Like;
 
 use backend\models\search\LaunchSearch;
 
+use yii\db\ActiveRecord;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -160,6 +162,41 @@ class LaunchController extends Controller
         ]);
     }
 
+    //Обработка события `распахивания` узла
+    public function actionGetchilds() {
+
+        $node_id = \Yii::$app->request->post('node_id');
+
+        if ( !is_numeric( $node_id ) ) {
+            $model =  Launch::find()
+                ->andWhere(['is', 'parent_id', NULL])
+                ->orderBy(['parent_id' => SORT_ASC, 'title' => SORT_ASC])->all();
+        } else {
+            $model =  Launch::find()
+                ->where(['parent_id' => $node_id ])
+                ->orderBy(['parent_id' => SORT_ASC, 'title' => SORT_ASC])->all();
+        }
+        $childsList = [];
+        if ( $model !== null && is_array( $model ) && count( $model ) > 0 ) {
+            foreach( $model as $item ) {
+                $arr = [
+                    'id' => $item->id,
+                    'label' => $item->title
+                ];
+                if($item->children){
+                    $arr['items'] = [];
+                }
+                $childsList[] = $arr;
+            }
+        }
+        return Json::encode( $childsList );
+    }
+
+    //Обработка события `сворачивания` узла
+    public function actionSetchilds($collapsed_node_id) {
+        return Json::encode( [ 'id' => $collapsed_node_id ] );
+    }
+
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -176,6 +213,7 @@ class LaunchController extends Controller
         if ($model->template){
             $template = Template::find()->where(['id' => $model->template_id])->one();
             if ($template->load(Yii::$app->request->post()) && $template->save()) {
+
                 if ($request->isPost && $this->save($model)) {
                     Yii::$app->getSession()->setFlash('success', Yii::t('backend', 'Document edited.'));
                 }
@@ -205,11 +243,15 @@ class LaunchController extends Controller
         $result = false;
         $mod = $model->model;
         if ($model->load(Yii::$app->request->post())) {
-
             try {
+
                 $transaction = $model::getDb()->beginTransaction();
                 $module_old = $model->getOldAttribute('content_type_id');
-                $model->save();
+                if($model->save()) {
+                    Yii::$app->getSession()->setFlash('success', Yii::t('backend', 'Launch сохранен'));
+                } else {
+                    Yii::$app->getSession()->setFlash('success', Yii::t('backend', 'Launch не сохранен'));
+                };
 
                 if ($mod && $module_old != $model->content_type_id) {
                     $mod->delete();
@@ -218,14 +260,22 @@ class LaunchController extends Controller
                 $model->refresh();
 
                 if ($model->content_type_id && !$mod) {
-                    $mod = new $model->module->model;
+                    $module = Yii::$app->modules[$model->contentType->module]['class'];
+                    $m = $module::layout()[$model->contentType->key]['model'];
+                    $mod = new $m;
                 }
-
+                /** @var ActiveRecord $mod */
                 if ($mod && $mod->load(Yii::$app->request->post())) {
-                    if ($mod->isNewRecord)
+
+                    if ($mod->isNewRecord){
+                        echo '<pre>';
+                        print_r($mod->launch_id);
+                        echo '</pre>';
                         $mod->link('launch', $model);
-                    else
+                    } else {
+
                         $mod->save();
+                    }
                 }
 
                 $result = true;

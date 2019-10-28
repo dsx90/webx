@@ -31,8 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             //'parent_id',
             [
-                'attribute' => 'parent_id',
-                'value' => 'parent.title'
+                'attribute' => 'addCategories',
+                'value' => 'parent.title',
+                'content' => function(Launch $launch){
+                    $str = '';
+                    if($launch->addCategories){
+                        $cat = [];
+                        foreach ($launch->addCategories as $item){
+                            $cat[] = Html::tag('p', $item->path);
+                        }
+                        $str .=  Html::tag('small', implode('', $cat));
+                    }
+                    return $str;
+                }
+
             ],
             [
                 'attribute' => 'title',

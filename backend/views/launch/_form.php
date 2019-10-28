@@ -1,10 +1,12 @@
 <?php
 
+use common\models\Launch;
 use common\models\Template;
 use common\models\ContentType;
-use kartik\datetime\DateTimePicker;
+use trntv\yii\datetime\DateTimeWidget;
 use yii\helpers\ArrayHelper;
 use common\models\User;
+use execut\widget\TreeView;
 
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
@@ -45,7 +47,7 @@ use yii\widgets\Pjax;
                     </div>
                 </div>
                 <div id="launch-right" class="col-md-3">
-                    <?= $form->field($model, 'parent_id')->dropDownList(\common\models\Launch::getAll(),
+                    <?= $form->field($model, 'parent_id')->dropDownList(Launch::getAll(),
                         ['prompt' => 'Нет'])
                         ->label(
                             $model->template_id ?
@@ -53,6 +55,58 @@ use yii\widgets\Pjax;
                                 Yii::t('common', 'Parent ID')
                         )
                     ?>
+
+                    <?php if ($model->addCategories):?>
+                    <?php print_r($model->categories)?>
+                        <?= \delikatesnsk\treedropdown\DropdownTreeWidget::widget([
+                            //'id' => 'organizationsList',
+                            'form' => $form,
+                            'model' => $model,
+                            'attribute' => 'categories',
+                            'label' => \Yii::t('app', 'Parents'),
+                            'multiSelect' => true,
+//                            'searchPanel' => [
+//                                'visible' => true,
+//                                'label' => \Yii::t('app', 'Choose Organization'),
+//                                'placeholder' => '',
+//                                'searchCaseSensivity' => false
+//                            ],
+//                            'rootNode' => [
+//                                'visible' => true,
+//                                'label' => \Yii::t('app', 'Root Node')
+//                            ],
+                            'expand' => false,
+                            'items' => [],
+                            'ajax' => [
+                                //в момент когда узел распахнется будет отправлен ajax-запрос с указанными ниже параметрами
+                                //обратите внимание, возвращаемые данные должны быть в формате json как параметр `items` из примера выше
+                                'onNodeExpand' => [
+                                    'url' => 'getchilds', //Тут укажите URL куда будет отправлен ajax-запрос
+                                    'method' => 'post', //Метод (POST или GET), по-умолчанию POST
+                                    //отправляемые параметры
+                                    'params' => [
+//                                        'param1' => 'value1',  // <-- Ваши дополнительные параметры (если нужно)
+//                                        'param2' => 'value1',
+//                                        'param3' => 'value1',
+                                        'node_id' => '%nodeId' // <-- алиас %nodeId будет заменен на ID узла
+                                        // вы можете изменить ключ 'node_id' на любой другой, по-умолчанию ключ всегда 'id'
+                                    ]
+                                ],
+                                //в момент когда узел свернется будет отправлен ajax-запрос с указанными ниже параметрами
+                                //обратите внимание, возвращаемые данные никак не обрабатываются, по сути это отправка данных в одну сторону
+                                'onNodeCollapse' => [
+                                    'url' => 'setchilds', //Тут укажите URL куда будет отправлен ajax-запрос
+                                    'method' => 'get', //Метод (POST или GET), по-умолчанию POST
+                                    'params' => [
+//                                        'param1' => 'value1',  // // <-- Ваши дополнительные параметры (если нужно)
+                                        'collapsed_node_id' => '%nodeId' // <-- алиас %nodeId будет заменен на ID узла
+                                        // вы можете изменить ключ 'node_id' на любой другой, по-умолчанию ключ всегда 'id'
+                                    ]
+                                ]
+                            ],
+
+                        ]);?>
+                    <?php endif;?>
 
                     <?= $form->field($model, 'menutitle', [
                         'addon' => [
@@ -88,16 +142,15 @@ use yii\widgets\Pjax;
                         ]
                     ])->label(
                         $model->template_id ?
-                            Yii::t('common', 'Slug').'  '.Html::a('<i class="fa fa-external-link" aria-hidden="true"></i>', Yii::$app->urlManager->createUrl(['launch/view', 'id'=>$model->id])) :
+                            Yii::t('common', 'Slug').'  '.Html::a(Html::tag('i', '', ['class' => 'fa fa-external-link']), ['launch/view', 'id'=>$model->id]) :
                             Yii::t('common', 'Slug')
                     ); ?>
 
-<!--                    --><?//= $form->field($model, 'author_id')->dropDownList(ArrayHelper::map(User::find()->all(), 'id', 'username'))?><!-- <!--TODO: Вывести Автора-->-->
+                    <?= $form->field($model, 'author_id')->dropDownList(ArrayHelper::map(User::find()->all(), 'id', 'username'))?> <!--TODO: Вывести Автора-->
 
-<!--                    --><?//= $form->field($model, 'published_at')->widget(\trntv\yii\datetime\DateTimeWidget::class, ['phpDatetimeFormat' => 'dd.MM.yyyy, HH:mm:ss']) ?>
+<!--                    --><?//= $form->field($model, 'published_at')->widget(DateTimeWidget::class, ['phpDatetimeFormat' => 'dd.MM.yyyy, HH:mm:ss']) ?>
 
-                    <?= $form->field($model, 'content_type_id')->dropDownList(ContentType::getTypes('name'),
-                        ['prompt' => 'Без типа:']) ?>
+                    <?= $form->field($model, 'content_type_id')->dropDownList(ContentType::getTypes('name'), ['prompt' => 'Без типа:']) ?>
 
                     <?= $form->field($model, 'template_id')->dropDownList(Template::getAll(),
                         ['prompt' => 'Пустой шаблон:'])
@@ -124,7 +177,6 @@ use yii\widgets\Pjax;
         <?php Pjax::end() ?>
 
     <?php ActiveForm::end()?>
-
 
 </div>
 

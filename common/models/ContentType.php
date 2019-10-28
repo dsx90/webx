@@ -66,10 +66,13 @@ class ContentType extends ActiveRecord
             ->all();
         ;
         foreach ($types as $type){
-            foreach (Yii::$app->modules[$type->module]['class']::layout() as $key => $arr){
+//            foreach (Yii::$app->modules[$type->module]['class']::layout() as $key => $arr){
+//                if($key == $type->key){
+//                    print_r($arr);
+                    $result[$type->id] = $type->name /*$el ? $arr[$el] : $arr*/;
+//                }
 
-                $result[$type->id] = $el ? $arr[$el] : $arr;
-            }
+//            }
         }
         return $result;
     }
