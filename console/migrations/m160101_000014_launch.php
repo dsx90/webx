@@ -12,28 +12,42 @@ class m160101_000014_launch extends Migration
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
-        //Основная связующая таблица
-        $this->createTable('{{%launch}}',[
+
+        $this->createTable('{{%language}}', [
             'id'                => $this->primaryKey(),
+            'key'               => $this->string(3)
+        ]);
+
+        $this->createTable('{{%meta}}', [
+            'launch_id'         => $this->integer(),
+            'key'               => $this->string(3),
+            'lang_id'           => $this->integer(),
             'title'             => $this->string(70)            ->comment('Заголовок'),
             'long_title'        => $this->string(70)            ->comment('Краткое описание'),
             'description'       => $this->string(150)           ->comment('Описание'),
             'keywords'          => $this->string(255)           ->comment('Ключевые слова'),
             'menutitle'         => $this->string(20)            ->comment('Заголовок меню'),
             'slug'              => $this->string(80)->unique()  ->comment('URL адрес'),
+        ]);
+        //Индекс алиасов
+        $this->createIndex('idx-launch-slug', '{{%meta}}', 'slug');
+
+        //Основная связующая таблица
+        $this->createTable('{{%launch}}',[
+            'id'                => $this->primaryKey(),
+            'icon'              => $this->string(50),
             'status'            => $this->smallInteger()->notNull()    ->comment('Статус публикации'),
             'deleted'           => $this->boolean(),
             'hidemenu'          => $this->boolean(),
-            'link_attributes'   => $this->string(255),
             'searchable'        => $this->boolean(),
             'richtext'          => $this->boolean(),
             'cacheable'         => $this->boolean(),
-            'icon'              => $this->string(50),
             'is_folder'         => $this->smallInteger(),
             'position'          => $this->integer(11),
             'content_type_id'   => $this->integer(11),
             'parent_id'         => $this->integer(11),
             'template_id'       => $this->integer(11),
+            'child_template_id' => $this->integer(11),
             'author_id'         => $this->integer(11),
             'updater_id'        => $this->integer(11),
             'published_at'      => $this->integer(),
@@ -62,8 +76,28 @@ class m160101_000014_launch extends Migration
         $this->createIndex('idx-launch-parent_id', '{{%launch}}', 'parent_id');
         //Индекс статуса публикации файла
         $this->createIndex('idx-launch-status', '{{%launch}}', 'status');
-        //Индекс алиасов
-        $this->createIndex('idx-launch-slug', '{{%launch}}', 'slug');
+
+        // Связь мета с языком
+        $this->addForeignKey(
+            'fk_meta_language',
+            '{{%meta}}',
+            'lang_id',
+            '{{%language}}',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+
+        // Связь мета с языком
+        $this->addForeignKey(
+            'fk_launch_meta',
+            '{{%meta}}',
+            'launch_id',
+            '{{%launch}}',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
 
         // Связь документа с темами
         $this->addForeignKey(

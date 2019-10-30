@@ -10,18 +10,18 @@ use yii\widgets\ActiveForm;
  * @var $template \common\models\Template;
  */
 
-$crumbs = [];
-if ($parent = $model->parent){
-    $crumbs[] = ['label' => $parent->title, 'url' => ['update', 'id' => $parent->id]];
-    while ($parent = $parent->parent) {
-        $crumbs[] = ['label' => $parent->title, 'url' => ['update', 'id' => $parent->id]];
-    }
-    $this->params['breadcrumbs'] = array_reverse($crumbs);
-
-    $this->params['category'] = $model->parent;
-};
-
-$this->params['breadcrumbs'][] = $model->title;
+//$crumbs = [];
+//if ($parent = $model->parent){
+//    $crumbs[] = ['label' => $meta->title, 'url' => ['update', 'id' => $parent->id]];
+//    while ($parent = $parent->parent) {
+//        $crumbs[] = ['label' => $meta->title, 'url' => ['update', 'id' => $parent->id]];
+//    }
+//    $this->params['breadcrumbs'] = array_reverse($crumbs);
+//
+//    $this->params['category'] = $model->parent;
+//};
+//
+//$this->params['breadcrumbs'][] = $meta->title;
 
 
 //$this->title = Yii::t('backend', 'Update {modelClass}: ', [
@@ -43,22 +43,21 @@ $this->params['breadcrumbs'][] = $model->title;
                 'inlineLabel' => false
             ])->label(false);?>
             <?= Html::submitButton('<i class="glyphicon glyphicon-floppy-disk"></i> '.Yii::t('backend', 'Save'), ['class' => 'btn btn-primary']) ?>
-            <?php if (!$model->isNewRecord) {
-                echo Html::a('<i class="glyphicon glyphicon-eye-open"></i> '.Yii::t('backend', 'View'), ['view', 'id' => $model->id], [
-                        'class' => 'btn btn-success',
-                    ])." ";
-                echo Html::a('<i class="glyphicon glyphicon-trash"></i> '.Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
-                        'class' => 'btn btn-danger',
-                        'data' => [
-                            'confirm' => Yii::t('backend', 'Are you sure you want to delete the resources?'),
-                            'method' => 'post',
-                        ],
-                    ])." ";
-                echo Html::a('<i class="glyphicon glyphicon-level-up"></i> '.Yii::t('backend', 'Create child'), ['create', 'parent_id' => $model->id], [
-                        'class' => 'btn btn-default',
-                    ])." ";
-            }
-            ?>
+            <?php if (!$model->isNewRecord) : ?>
+                <?= Html::a('<i class="glyphicon glyphicon-eye-open"></i> '.Yii::t('backend', 'View'), ['view', 'id' => $model->id], [
+                    'class' => 'btn btn-success',
+                ]) ?>
+                <?= Html::a('<i class="glyphicon glyphicon-trash"></i> '.Yii::t('backend', 'Delete'), ['delete', 'id' => $model->id], [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => Yii::t('backend', 'Are you sure you want to delete the resources?'),
+                        'method' => 'post',
+                    ],
+                ]) ?>
+                <?= Html::a('<i class="glyphicon glyphicon-level-up"></i> '.Yii::t('backend', 'Create child'), ['create', 'parent_id' => $model->id], [
+                    'class' => 'btn btn-default',
+                ]) ?>
+            <?php endif;?>
             <?= Html::a('<i class="fa fa-chevron-left"></i>',['update', 'id' => $model->getPrev()], ['class' => 'btn btn-default',]) ?>
             <?= Html::a('<i class="fa fa-arrow-up"></i>',['index'], ['class' => 'btn btn-default',]) ?>
             <?= Html::a('<i class="fa fa-chevron-right"></i>',['update', 'id' => $model->getNext()], ['class' => 'btn btn-default',]) ?>
@@ -78,7 +77,7 @@ $this->params['breadcrumbs'][] = $model->title;
             ],
             [
                 'label' => 'Таблица полей',
-                'content' => $this->render('_form', compact('model'))
+                'content' => $this->render('_form', compact('model', 'meta'))
 
             ],
             [

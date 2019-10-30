@@ -57,7 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Таблица полей',
-                'content' => $this->render('_form', ['model' => $model])
+                'content' => $this->render('_form', [
+                    'model' => $model,
+                    'meta'  => $meta
+                ])
 
             ],
 

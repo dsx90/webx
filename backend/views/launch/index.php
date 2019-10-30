@@ -30,31 +30,31 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => \yii\grid\CheckboxColumn::class],
             //'id',
             //'parent_id',
-            [
-                'attribute' => 'addCategories',
-                'value' => 'parent.title',
-                'content' => function(Launch $launch){
-                    $str = '';
-                    if($launch->addCategories){
-                        $cat = [];
-                        foreach ($launch->addCategories as $item){
-                            $cat[] = Html::tag('p', $item->path);
-                        }
-                        $str .=  Html::tag('small', implode('', $cat));
-                    }
-                    return $str;
-                }
-
-            ],
-            [
-                'attribute' => 'title',
-                'format' => 'html',
-                'value' => function ($model) {
-                    return  '<h5><b>'.$model->title.'</b></h5>'.
-                            '<h5>'.$model->long_title.'</h5>'.
-                            '<h6>'.$model->description.'</h6>';
-                },
-            ],
+//            [
+//                'attribute' => 'addCategories',
+//                'value' => 'parent.meta.title',
+//                'content' => function(Launch $launch){
+//                    $str = '';
+//                    if($launch->addCategories){
+//                        $cat = [];
+//                        foreach ($launch->addCategories as $item){
+//                            $cat[] = Html::tag('p', $item->path);
+//                        }
+//                        $str .=  Html::tag('small', implode('', $cat));
+//                    }
+//                    return $str;
+//                }
+//
+//            ],
+//            [
+//                'attribute' => 'meta.title',
+//                'format' => 'html',
+//                'value' => function (Launch $model) {
+//                    return  '<h5><b>'.$model->meta->title.'</b></h5>'.
+//                            '<h5>'.$model->meta->long_title.'</h5>'.
+//                            '<h6>'.$model->meta->description.'</h6>';
+//                },
+//            ],
             //'long_title',
             //'description',
             // 'keywords',
@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'author_id',
                 'format' => 'html',
-                'value' => function ($model) {
+                'value' => function (Launch $model) {
                     return  '<p><b>Создал:&nbsp;</b>'.$model->author->username.'</p>
                              <p><b>Опуб-л:&nbsp;</b>'.$model->author->username.'</p>';
                 },
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'created_at',
                 'format' => 'html',
-                'value' => function ($model) {
+                'value' => function (Launch $model) {
                     return  '<p>'.Yii::$app->formatter->asDate($model->created_at).'</p>
                              <p>'.Yii::$app->formatter->asDate($model->updated_at).'</p>';
                 },
@@ -94,7 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'status',
                 'format' => 'html',
                 'options' => ['style' => 'width: 65px'],
-                'value' => function ($model) {
+                'value' => function (Launch $model) {
                     return $model->status ? '<span class="glyphicon glyphicon-ok text-success"></span>' : '<span class="glyphicon glyphicon-remove text-danger"></span>';
                 },
                 'filter' => [

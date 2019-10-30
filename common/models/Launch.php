@@ -5,30 +5,20 @@ namespace common\models;
 use backend\models\Chunk;
 use backend\models\Snippet;
 use common\models\query\LaunchQuery;
-use common\widget\coreCase\getCase;
-use hiqdev\composer\config\configs\Params;
 use Yii;
-use yii\base\View;
-use yii\base\ViewEvent;
-use yii\base\ViewRenderer;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+
 
 /**
  * This is the model class for table "{{%launch}}".
  *
  * @property integer $id
  * @property integer $parent_id
- * @property string $title
- * @property string $long_title
- * @property string $description
- * @property string $keywords
- * @property string $menutitle
- * @property string $slug
  * @property integer $status
  * @property string $content_type_id
  * @property integer $author_id
@@ -42,13 +32,15 @@ use yii\helpers\Html;
  * @property ContentType $contentType
  * @property ActiveQuery $model
  * @property Launch[] $addCategories
+ * @property Meta $meta
+ * @property array $module
  *
  * @property-read Launch $parent
  * @property-read Template $template
  * @property-read ContentType $contentType
  *
  * @property Launch[] $children
- * @property boolean is_folder
+ * @property boolean $is_folder
  *
  * @property User $author
  * @property User $updater
@@ -86,12 +78,12 @@ class Launch extends \yii\db\ActiveRecord
                 'createdByAttribute' => 'author_id',
                 'updatedByAttribute' => 'updater_id',
             ],
-            [
-                'class' => SluggableBehavior::class,
-                'attribute' => 'title',
-                'ensureUnique' => true,
-                'immutable' => true,
-            ],
+//            [
+//                'class' => SluggableBehavior::class,
+//                'attribute' => 'meta.title',
+//                'ensureUnique' => true,
+//                'immutable' => true,
+//            ],
         ];
     }
 
@@ -109,26 +101,19 @@ class Launch extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
-            ['slug', 'unique'],
             [['parent_id', 'is_folder', 'position', 'status', 'author_id', 'updater_id', 'published_at', 'created_at', 'updated_at', 'content_type_id'], 'integer'],
             ['published_at', 'default', 'value' => time()],
 
-            ['title', 'string', 'max' => 35],
-            ['long_title', 'string', 'max' => 81],
-            ['description', 'string', 'max' => 150],
-            ['keywords', 'string', 'max' => 255],
-            ['menutitle', 'string', 'max' => 20],
-            ['slug', 'string', 'max' => 80],
-
-            [['title', 'long_title', 'description', 'keywords', 'slug'], 'filter', 'filter' => 'trim'],  // Обрезаем строки по краям
-            [['long_title', 'description', 'keywords', 'parent_id', 'template_id', 'position'], 'default', 'value' => null], // По умолчанию = null
+            [['parent_id', 'template_id', 'position'], 'default', 'value' => null], // По умолчанию = null
             ['status', 'in', 'range' => array_keys(self::getStatusArray())],    // Статус должен быть из списка статусов
             [['is_folder'], 'default', 'value' => 0],                           // По умолчанию не папка, а документ
             [['status'], 'default', 'value' => self::STATUS_DRAFT],             // По умолчанию статус "Опубликован"
 
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass'   => self::class, 'targetAttribute' => ['parent_id' => 'id']],
+
             [['template_id'], 'exist', 'skipOnError' => true, 'targetClass' => Template::class, 'targetAttribute' => ['template_id' => 'id']],
+            [['child_template_id'], 'exist', 'skipOnError' => true, 'targetClass' => Template::class, 'targetAttribute' => ['child_template_id' => 'id']],
+
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass'   => User::class, 'targetAttribute' => ['author_id' => 'id']],
             [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass'  => User::class, 'targetAttribute' => ['updater_id' => 'id']],
         ];
@@ -142,12 +127,6 @@ class Launch extends \yii\db\ActiveRecord
         return [
             'id'                => Yii::t('common', 'ID'),
             'parent_id'         => Yii::t('common', 'Parent ID'),
-            'title'             => Yii::t('common', 'Title'),
-            'long_title'        => Yii::t('common', 'Long title'),
-            'description'       => Yii::t('common', 'Description'),
-            'keywords'          => Yii::t('common', 'Keywords'),
-            'menutitle'         => Yii::t('common', 'Menutitle'),
-            'slug'              => Yii::t('common', 'Slug'),
             'status'            => Yii::t('common', 'Status'),
             'content_type_id'   => Yii::t('common', 'Content type'),
             'author_id'         => Yii::t('common', 'Author ID'),
@@ -156,6 +135,7 @@ class Launch extends \yii\db\ActiveRecord
             'created_at'        => Yii::t('common', 'Created At'),
             'updated_at'        => Yii::t('common', 'Updated At'),
             'template_id'       => Yii::t('common', 'Template Id'),
+            'child_template_id' => Yii::t('common', 'Child template Id'),
         ];
     }
 
@@ -172,6 +152,14 @@ class Launch extends \yii\db\ActiveRecord
 //        }
 //
         $this->categories = ArrayHelper::getColumn($this->addCategories,'id');
+
+    }
+
+    public function getMeta()
+    {
+        return $this->hasMany(Meta::class, ['launch_id' => 'id'])
+            ->andWhere(['key' => 'ru'])
+            ;
     }
 
     public function getModule()
@@ -275,6 +263,7 @@ class Launch extends \yii\db\ActiveRecord
     public function getModel()
     {
         if (!$this->content_type_id) return null;
+        /** @var ActiveRecord $model */
         $model = $this->contentType->getSection('model');
         return $this->hasOne($model::className(), ['launch_id' => 'id']);
 
@@ -353,9 +342,9 @@ class Launch extends \yii\db\ActiveRecord
     public function getPath()
     {
         if (null === $this->parent_id) {
-            return  $this->title;
+            return  $this->meta->title;
         } else {
-            return "{$this->parent->path}/{$this->title}";
+            return "{$this->parent->path}/{$this->meta->title}";
         }
     }
 
@@ -409,37 +398,37 @@ class Launch extends \yii\db\ActiveRecord
      * @param null $not_id
      * @return array
      */
-    public static function getAll($parent_id = null,  $url = null, $not_id = null)
-    {
-        $parent = [];
-        $query = self::find();
-        if ($parent_id) {
-            $query = $query->andWhere(['parent_id' => $parent_id]);
-        }
-        if($not_id){
-            $query = $query->andWhere(['!=', 'id', $not_id]);
-        }
-        if ($url) {
-            $query = $query->with('childs');
-        }
-
-        if ($models = $query->all()) {
-            if (isset($url)){
-                foreach ($models as $m) {
-                    $items[$m->id] = [
-                        'url' => [$url, 'slug' => $m->slug],
-                        'label' => $m->title,
-                        'items' => self::getMenuItems($m->childs),
-                    ];
-                }
-            } else{
-                foreach ($models as $m) {
-                    $parent[$m->id] = $m->title;
-                }
-            }
-        }
-        return $parent;
-    }
+//    public static function getAll($parent_id = null,  $url = null, $not_id = null)
+//    {
+//        $parent = [];
+//        $query = self::find();
+//        if ($parent_id) {
+//            $query = $query->andWhere(['parent_id' => $parent_id]);
+//        }
+//        if($not_id){
+//            $query = $query->andWhere(['!=', 'id', $not_id]);
+//        }
+//        if ($url) {
+//            $query = $query->with('childs');
+//        }
+//
+//        if ($models = $query->all()) {
+//            if (isset($url)){
+//                foreach ($models as $m) {
+//                    $items[$m->id] = [
+//                        'url' => [$url, 'slug' => $m->meta->slug],
+//                        'label' => $m->meta->title,
+//                        'items' => self::getMenuItems($m->childs),
+//                    ];
+//                }
+//            } else{
+//                foreach ($models as $m) {
+//                    $parent[$m->id] = $m->meta->title;
+//                }
+//            }
+//        }
+//        return $parent;
+//    }
 
 //    public function getParents()
 //    {

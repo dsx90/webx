@@ -1,6 +1,8 @@
 <?php
 namespace backend\controllers;
 
+use common\models\ContentType;
+use common\models\Meta;
 use common\models\Template;
 use Yii;
 use common\models\Launch;
@@ -128,17 +130,24 @@ class LaunchController extends Controller
     public function actionCreate()
     {
         $model = new Launch();
+        $meta = new Meta();
 
         // Устанавливаем родительский документ если пришло значение из $_GET
         $model->parent_id = Yii::$app->request->get('parent_id');
 
+        if($model->parent->module){
+            $model->content_type_id = ContentType::findOne(['key' => $model->parent->module['child']])->id;
+        }
+
         // Заполняем необходимые для заполнения поля
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save() && $meta->save()) {
+            $model->link('meta', $meta);
             Yii::$app->getSession()->setFlash('success', Yii::t('bakend', 'A new document is created.'));
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'meta' => $meta,
             ]);
         }
     }
@@ -146,6 +155,7 @@ class LaunchController extends Controller
     public function actionAjax($id)
     {
         $launch = $this->findModel($id);
+        $meta   = Meta::findOne(['launch_id' => $id]);
         if( Yii::$app->request->isAjax){
             $launch->content_type_id = Yii::$app->request->post('content_type_id');
             $launch->save();
@@ -159,6 +169,7 @@ class LaunchController extends Controller
         $render = $launch->module->form;
         return $this->renderAjax($render, [
             'model' => $model,
+            'meta'  => $meta
         ]);
     }
 
@@ -200,6 +211,7 @@ class LaunchController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $meta   = Meta::findOne(['launch_id' => $id]);
 
         $request = Yii::$app->request;
         if ($request->isPjax && ($module = $request->get('module')) !== null) {
@@ -220,6 +232,7 @@ class LaunchController extends Controller
             }
             return $this->render('update', [
                 'model' => $model,
+                'meta'  => $meta,
                 'template' => $template,
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
@@ -232,6 +245,7 @@ class LaunchController extends Controller
 
             return $this->render('update', [
                 'model' => $model,
+                'meta' => $meta,
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);

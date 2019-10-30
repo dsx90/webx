@@ -14,6 +14,7 @@ use yii\bootstrap\ButtonDropdown;
 use yii\widgets\Pjax;
 
 /* @var $model \common\models\Launch */
+/* @var $meta \common\models\Meta */
 /* @var $composit \backend\controllers\LaunchController : update  */
 /* @var $form yii\widgets\ActiveForm */
 ?>
@@ -25,36 +26,39 @@ use yii\widgets\Pjax;
         <div class="row">
             <div id="launch-row">
                 <div id="launch-left" class="col-md-9">
+                    <?php if (true): ?>
                     <div class="border-field">
 
-                        <?= $form->field($model, 'title')->textInput(['maxlength' => true])->hint('Длинна пароля должна быть не более 35 символов.') ?>
+                        <?= $form->field($meta, 'title')->textInput(['maxlength' => true])->hint('Длинна пароля должна быть не более 35 символов.') ?>
 
-                        <?= $form->field($model, 'long_title')->textInput(['maxlength' => true])->hint('Длинна пароля должна быть не более 81 символов.') ?>
+                        <?= $form->field($meta, 'long_title')->textInput(['maxlength' => true])->hint('Длинна пароля должна быть не более 81 символов.') ?>
 
-                        <?= $form->field($model, 'description')->textarea(['rows' => 5]) ?>
+                        <?= $form->field($meta, 'description')->textarea(['rows' => 5]) ?>
 
-                        <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($meta, 'keywords')->textInput(['maxlength' => true]) ?>
 
                     </div>
 
                     <div class="adver-view">
                         <i>Видимость в поисковиках</i>
                         <a href="<?= env('FRONTEND_URL').Yii::$app->urlManager->createUrl(['launch/view', 'id'=>$model->id])?>" >
-                            <h2><span id="adver-title"><?= $model->title ? $model->title : 'Титул' ?></span>: <span id="adver-long_title"><?= $model->long_title ?: 'Краткое описание' ?></span></h2>
-                            <h4><?= env('FRONTEND_URL')?>›<span id="url"><?= Yii::$app->urlManager->createUrl(['launch/view', 'id'=>$model->id]) /*$model->slug ?: 'url ссылка'*/ ?></span></h4>
+                            <h2><span id="adver-title"><?= $meta->title ? $meta->title : 'Титул' ?></span>: <span id="adver-long_title"><?= $meta->long_title ?: 'Краткое описание' ?></span></h2>
+                            <h4><?= env('FRONTEND_URL')?>›<span id="url"><?= Yii::$app->urlManager->createUrl(['launch/view', 'id' => $model->id]) /*$model->slug ?: 'url ссылка'*/ ?></span></h4>
                         </a>
-                        <h5><span id="adver-description"><?= $model->description ?: 'Обьявление' ?></span></h5>
+                        <h5><span id="adver-description"><?= $meta->description ?: 'Обьявление' ?></span></h5>
                     </div>
+                    <?php endif; ?>
                 </div>
                 <div id="launch-right" class="col-md-3">
-                    <?= $form->field($model, 'parent_id')->dropDownList(Launch::getAll(),
-                        ['prompt' => 'Нет'])
-                        ->label(
-                            $model->template_id ?
-                                Yii::t('common', 'Parent ID').'  '.Html::a('<i class="fa fa-external-link" aria-hidden="true"></i>', '/launch/update?id='.$model->template_id) :
-                                Yii::t('common', 'Parent ID')
-                        )
-                    ?>
+
+<!--                    --><?//= $form->field($model, 'parent_id')->dropDownList(Launch::getAll(),
+//                        ['prompt' => 'Нет'])
+//                        ->label(
+//                            $model->template_id ?
+//                                Yii::t('common', 'Parent ID').'  '.Html::a('<i class="fa fa-external-link" aria-hidden="true"></i>', '/launch/update?id='.$model->template_id) :
+//                                Yii::t('common', 'Parent ID')
+//                        )
+//                    ?>
 
                     <?php if ($model->addCategories):?>
                     <?php print_r($model->categories)?>
@@ -106,7 +110,7 @@ use yii\widgets\Pjax;
                             ],
 
                         ]);?>
-                    <?php endif;?>
+
 
                     <?= $form->field($model, 'menutitle', [
                         'addon' => [
@@ -146,9 +150,12 @@ use yii\widgets\Pjax;
                             Yii::t('common', 'Slug')
                     ); ?>
 
+                    <?php endif;?>
+
                     <?= $form->field($model, 'author_id')->dropDownList(ArrayHelper::map(User::find()->all(), 'id', 'username'))?> <!--TODO: Вывести Автора-->
 
 <!--                    --><?//= $form->field($model, 'published_at')->widget(DateTimeWidget::class, ['phpDatetimeFormat' => 'dd.MM.yyyy, HH:mm:ss']) ?>
+
 
                     <?= $form->field($model, 'content_type_id')->dropDownList(ContentType::getTypes('name'), ['prompt' => 'Без типа:']) ?>
 
@@ -160,6 +167,17 @@ use yii\widgets\Pjax;
                             Yii::t('common', 'Template Id')
                         )
                     ?>
+
+                    <?php if(!isset($model->module['finish'])): ?>
+                    <?= $form->field($model, 'child_template_id')->dropDownList(Template::getAll(),
+                        ['prompt' => 'Пустой шаблон:'])
+                        ->label(
+                            $model->template_id ?
+                                Yii::t('common', $model->attributeLabels()['child_template_id']).'  '.Html::a(Html::tag('i', '', ['class' => 'fa fa-external-link']), ['template/update', 'id'=>$model->template_id]) :
+                                Yii::t('common', $model->attributeLabels()['child_template_id'])
+                        )
+                    ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

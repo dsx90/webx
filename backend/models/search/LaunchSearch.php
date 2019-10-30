@@ -2,7 +2,6 @@
 
 namespace backend\models\search;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -19,8 +18,7 @@ class LaunchSearch extends Launch
     public function rules()
     {
         return [
-            [['id', 'parent_id', 'status', 'author_id', 'updater_id', 'published_at', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'long_title', 'description', 'keywords', 'menutitle', 'slug', 'content_type_id'], 'safe'],
+            [['id', 'parent_id', 'status', 'author_id', 'updater_id', 'published_at', 'created_at', 'updated_at', 'content_type_id'], 'integer'],
         ];
     }
 
@@ -68,15 +66,16 @@ class LaunchSearch extends Launch
             'published_at' => $this->published_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'content_type_id' => $this->content_type_id
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'long_title', $this->long_title])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'keywords', $this->keywords])
-            ->andFilterWhere(['like', 'menutitle', $this->menutitle])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'content_type_id', $this->content_type_id]);
+//        $query
+//            ->andFilterWhere(['like', 'meta.title', $this->meta->title])
+//            ->andFilterWhere(['like', 'meta.long_title', $this->meta->long_title])
+//            ->andFilterWhere(['like', 'meta.description', $this->meta->description])
+//            ->andFilterWhere(['like', 'meta.keywords', $this->meta->keywords])
+//            ->andFilterWhere(['like', 'meta.menutitle', $this->meta->menutitle])
+//            ->andFilterWhere(['like', 'meta.slug', $this->meta->slug]);
 
         return $dataProvider;
     }

@@ -34,13 +34,15 @@ class Module extends \yii\base\Module
                 'model'         => Pet::class,
                 'controller'    => PetController::class,
                 'form'          => '@common/modules/pet/views/admin/pet/_cform',
-                'hideChildTable'=> true
+                'hideChildTable'=> true,
+                'finish'        => true,
             ],
             'breed' => [
                 'name'          => Yii::t('common', 'Breed'),
                 'model'         => Breed::class,
                 'controller'    => '',
                 'form'          => '@common/modules/pet/views/admin/breed/_cform',
+                'child'         => 'pet'
             ]
         ];
     }
